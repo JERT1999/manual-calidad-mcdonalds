@@ -1,0 +1,1675 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manual de Calidad — Capítulo 4 — McDonald's Veracruz</title>
+<style>
+  :root{
+    --rojo:#c8102e;
+    --rojo-oscuro:#8f0b20;
+    --amarillo:#ffc72c;
+    --amarillo-suave:#fff3d1;
+    --gris-oscuro:#2b2a27;
+    --gris-medio:#5a5852;
+    --gris-claro:#eeece6;
+    --gris-borde:#dcd8cd;
+    --blanco:#ffffff;
+    --verde:#1f7a3f;
+    --verde-suave:#e5f4e9;
+    --rojo-suave:#fbe4e4;
+    --amb-suave:#fff0d6;
+    --sombra: 0 2px 10px rgba(43,42,39,0.08);
+    --radio: 6px;
+    --serif: Georgia, 'Times New Roman', serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:var(--sans);
+    background:var(--gris-claro);
+    color:var(--gris-oscuro);
+    line-height:1.5;
+  }
+  /* ===== HEADER ===== */
+  header.app-header{
+    background:linear-gradient(135deg,var(--gris-oscuro) 0%,#1a1916 100%);
+    color:var(--blanco);
+    padding:24px 28px 20px;
+    border-bottom:5px solid var(--amarillo);
+  }
+  .header-top{
+    display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;
+  }
+  .brand{
+    display:flex;align-items:center;gap:14px;
+  }
+  .brand-mark{
+    width:46px;height:46px;border-radius:10px;
+    background:var(--amarillo);
+    color:var(--rojo-oscuro);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--serif);
+    font-weight:bold;font-size:22px;
+    flex-shrink:0;
+  }
+  .brand h1{
+    margin:0;font-size:1.05rem;letter-spacing:.03em;color:var(--amarillo);
+    font-family:var(--sans);font-weight:700;
+  }
+  .brand h2{
+    margin:2px 0 0;font-size:1.5rem;font-family:var(--serif);font-weight:normal;color:var(--blanco);
+  }
+  .brand p{margin:6px 0 0;color:#cfcdc6;font-size:.92rem;}
+  .doc-badge{
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.15);
+    border-radius:var(--radio);
+    padding:10px 14px;font-size:.82rem;color:#e7e5df;
+    min-width:230px;
+  }
+  .doc-badge div{display:flex;justify-content:space-between;padding:2px 0;gap:10px;}
+  .doc-badge span:first-child{color:#a9a79f;}
+
+  .meta-form{
+    margin-top:18px;
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;
+    background:rgba(255,255,255,0.05);
+    padding:14px;border-radius:var(--radio);
+  }
+  .meta-form label{display:block;font-size:.72rem;color:#c8c6bf;margin-bottom:3px;text-transform:none;}
+  .meta-form input{
+    width:100%;padding:7px 9px;border-radius:4px;border:1px solid #4a4842;
+    background:#3a3833;color:var(--blanco);font-size:.85rem;
+  }
+  .meta-form input:focus{outline:2px solid var(--amarillo);}
+
+  /* ===== NAV ===== */
+  nav.tabs{
+    display:flex;flex-wrap:wrap;background:var(--blanco);
+    border-bottom:1px solid var(--gris-borde);
+    position:sticky;top:0;z-index:50;
+    box-shadow:var(--sombra);
+  }
+  nav.tabs button{
+    flex:1 1 auto;min-width:120px;
+    background:none;border:none;border-bottom:3px solid transparent;
+    padding:13px 10px;font-size:.85rem;font-weight:600;color:var(--gris-medio);
+    cursor:pointer;transition:background .15s, color .15s, border-color .15s;
+  }
+  nav.tabs button:hover{background:var(--gris-claro);color:var(--gris-oscuro);}
+  nav.tabs button.active{color:var(--rojo);border-bottom-color:var(--rojo);background:var(--rojo-suave);}
+
+  main{max-width:1180px;margin:0 auto;padding:26px 20px 70px;}
+  section.panel{display:none;animation:fadein .18s ease;}
+  section.panel.active{display:block;}
+  @keyframes fadein{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+
+  h3.section-title{
+    font-family:var(--serif);font-size:1.4rem;margin:0 0 4px;color:var(--gris-oscuro);
+    border-left:5px solid var(--rojo);padding-left:12px;
+  }
+  p.section-desc{color:var(--gris-medio);margin:6px 0 18px 17px;font-size:.92rem;max-width:760px;}
+
+  .iso-box{
+    background:var(--amb-suave);border:1px solid #ecd8a3;border-left:4px solid var(--amarillo);
+    border-radius:var(--radio);padding:12px 16px;margin:0 0 20px;font-size:.87rem;color:#5c4a12;
+  }
+  .iso-box strong{display:block;color:var(--rojo-oscuro);font-family:var(--serif);margin-bottom:3px;font-size:.95rem;}
+
+  .example-tag{
+    display:inline-block;background:var(--rojo);color:var(--blanco);font-size:.68rem;
+    padding:2px 8px;border-radius:10px;font-weight:600;letter-spacing:.02em;margin-left:8px;vertical-align:middle;
+  }
+  .example-banner{
+    background:var(--rojo-suave);border:1px dashed var(--rojo);color:var(--rojo-oscuro);
+    padding:10px 14px;border-radius:var(--radio);font-size:.85rem;margin-bottom:16px;
+  }
+
+  .card{
+    background:var(--blanco);border:1px solid var(--gris-borde);border-radius:var(--radio);
+    padding:18px;box-shadow:var(--sombra);margin-bottom:20px;
+  }
+  .card-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px;}
+  .card-head h4{margin:0;font-size:1.05rem;font-family:var(--serif);}
+
+  button.btn{
+    background:var(--rojo);color:var(--blanco);border:none;border-radius:5px;
+    padding:9px 16px;font-size:.85rem;font-weight:600;cursor:pointer;transition:background .15s, transform .1s;
+  }
+  button.btn:hover{background:var(--rojo-oscuro);}
+  button.btn:active{transform:scale(.98);}
+  button.btn.secondary{background:var(--blanco);color:var(--gris-oscuro);border:1px solid var(--gris-borde);}
+  button.btn.secondary:hover{background:var(--gris-claro);}
+  button.btn.yellow{background:var(--amarillo);color:var(--gris-oscuro);}
+  button.btn.yellow:hover{background:#e8b21f;}
+  button.btn.small{padding:5px 10px;font-size:.76rem;}
+  button.btn.danger-outline{background:var(--blanco);color:var(--rojo);border:1px solid var(--rojo);}
+  button.btn.danger-outline:hover{background:var(--rojo-suave);}
+  button.icon-btn{
+    background:none;border:1px solid var(--gris-borde);border-radius:4px;padding:4px 8px;cursor:pointer;font-size:.8rem;margin-left:4px;
+  }
+  button.icon-btn:hover{background:var(--gris-claro);}
+
+  table.data-table{width:100%;border-collapse:collapse;font-size:.85rem;}
+  table.data-table th{
+    text-align:left;background:var(--gris-oscuro);color:var(--blanco);padding:9px 10px;font-weight:600;font-size:.78rem;
+  }
+  table.data-table td{padding:9px 10px;border-bottom:1px solid var(--gris-borde);vertical-align:top;}
+  table.data-table tr:hover td{background:#faf9f6;}
+  table.data-table td.actions{white-space:nowrap;}
+  .empty-row td{text-align:center;color:var(--gris-medio);font-style:italic;padding:20px;}
+
+  .badge{display:inline-block;padding:2px 9px;border-radius:10px;font-size:.72rem;font-weight:600;}
+  .badge.alta{background:var(--rojo-suave);color:var(--rojo-oscuro);}
+  .badge.media{background:var(--amb-suave);color:#8a6a00;}
+  .badge.baja{background:var(--verde-suave);color:var(--verde);}
+
+  /* FODA */
+  .foda-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media(max-width:760px){.foda-grid{grid-template-columns:1fr;}}
+  .foda-quad{border-radius:var(--radio);padding:14px;min-height:180px;box-shadow:var(--sombra);}
+  .foda-quad.F{background:#eaf6ee;border:1px solid #bfe3cb;}
+  .foda-quad.O{background:#eaf1fb;border:1px solid #bdd4f0;}
+  .foda-quad.D{background:#fdeeea;border:1px solid #f3c8bb;}
+  .foda-quad.A{background:#f7e9ef;border:1px solid #e9bdd0;}
+  .foda-quad h4{margin:0 0 4px;font-family:var(--serif);font-size:1.1rem;}
+  .foda-quad .count{font-size:.75rem;color:var(--gris-medio);margin-bottom:10px;}
+  .foda-item{
+    background:var(--blanco);border-radius:5px;padding:8px 10px;margin-bottom:8px;font-size:.83rem;
+    border:1px solid rgba(0,0,0,0.06);
+  }
+  .foda-item .top-row{display:flex;justify-content:space-between;align-items:flex-start;gap:6px;}
+  .foda-item strong{display:block;}
+  .foda-item .meta{color:var(--gris-medio);font-size:.75rem;margin-top:3px;}
+  .foda-item .btns{margin-top:6px;text-align:right;}
+
+  /* Dashboard */
+  .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:22px;}
+  .stat-card{background:var(--blanco);border:1px solid var(--gris-borde);border-radius:var(--radio);padding:16px;text-align:center;box-shadow:var(--sombra);}
+  .stat-card .num{font-family:var(--serif);font-size:2rem;color:var(--rojo);}
+  .stat-card .label{font-size:.78rem;color:var(--gris-medio);margin-top:2px;}
+  .progress-wrap{background:var(--gris-claro);border-radius:10px;height:10px;overflow:hidden;margin-top:8px;}
+  .progress-bar{height:100%;background:linear-gradient(90deg,var(--amarillo),var(--rojo));}
+
+  .estado-pill{display:inline-block;padding:6px 16px;border-radius:20px;font-weight:700;font-size:.9rem;}
+  .estado-pill.pendiente{background:var(--rojo-suave);color:var(--rojo-oscuro);}
+  .estado-pill.progreso{background:var(--amb-suave);color:#8a6a00;}
+  .estado-pill.completo{background:var(--verde-suave);color:var(--verde);}
+
+  /* Forms */
+  .form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;}
+  .form-field label{display:block;font-size:.78rem;font-weight:600;color:var(--gris-oscuro);margin-bottom:4px;}
+  .form-field input, .form-field select, .form-field textarea{
+    width:100%;padding:8px 10px;border:1px solid var(--gris-borde);border-radius:5px;font-size:.85rem;font-family:var(--sans);
+    background:var(--blanco);
+  }
+  .form-field textarea{resize:vertical;min-height:60px;}
+  .form-field input:focus, .form-field select:focus, .form-field textarea:focus{outline:2px solid var(--amarillo);border-color:var(--amarillo);}
+  .form-actions{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;}
+
+  .save-indicator{
+    display:none;align-items:center;gap:6px;color:var(--verde);font-size:.82rem;font-weight:600;margin-left:10px;
+  }
+  .save-indicator.show{display:inline-flex;}
+
+  /* Modal */
+  .modal-overlay{
+    display:none;position:fixed;inset:0;background:rgba(30,28,24,0.55);z-index:200;
+    align-items:center;justify-content:center;padding:16px;
+  }
+  .modal-overlay.show{display:flex;}
+  .modal-box{
+    background:var(--blanco);border-radius:8px;max-width:560px;width:100%;max-height:88vh;overflow-y:auto;
+    padding:22px 24px;box-shadow:0 10px 40px rgba(0,0,0,0.25);
+  }
+  .modal-box h4{margin-top:0;font-family:var(--serif);color:var(--gris-oscuro);border-bottom:2px solid var(--amarillo);padding-bottom:8px;}
+  .modal-box .form-field{margin-bottom:12px;}
+
+  /* Toast */
+  #toast{
+    position:fixed;bottom:20px;right:20px;background:var(--gris-oscuro);color:var(--blanco);
+    padding:12px 18px;border-radius:6px;font-size:.85rem;box-shadow:0 4px 16px rgba(0,0,0,0.25);
+    z-index:300;opacity:0;transform:translateY(10px);transition:opacity .25s, transform .25s;
+    max-width:320px;
+  }
+  #toast.show{opacity:1;transform:translateY(0);}
+  #toast.error{background:var(--rojo-oscuro);}
+
+  /* Procesos */
+  .proceso-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  @media(max-width:820px){.proceso-cols{grid-template-columns:1fr;}}
+  .proceso-col h4{
+    text-align:center;font-family:var(--serif);padding:8px;border-radius:5px 5px 0 0;color:var(--blanco);margin:0;
+  }
+  .proceso-col.estrategico h4{background:var(--rojo-oscuro);}
+  .proceso-col.operativo h4{background:var(--rojo);}
+  .proceso-col.apoyo h4{background:var(--gris-medio);}
+  .proceso-col{border:1px solid var(--gris-borde);border-radius:5px;overflow:hidden;background:var(--blanco);}
+  .proceso-list{padding:10px;}
+  .proceso-chip{
+    display:block;width:100%;text-align:left;background:var(--gris-claro);border:1px solid var(--gris-borde);
+    border-radius:5px;padding:9px 10px;margin-bottom:8px;font-size:.83rem;cursor:pointer;transition:background .15s;
+  }
+  .proceso-chip:hover{background:var(--amarillo-suave);border-color:var(--amarillo);}
+  .proceso-detail{margin-top:16px;}
+  .proceso-detail dl{display:grid;grid-template-columns:140px 1fr;gap:6px 12px;font-size:.85rem;}
+  .proceso-detail dt{font-weight:700;color:var(--gris-oscuro);}
+  .proceso-detail dd{margin:0;color:var(--gris-medio);}
+
+  .filters-bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;}
+  .filters-bar select, .filters-bar input{padding:7px 10px;border:1px solid var(--gris-borde);border-radius:5px;font-size:.83rem;}
+
+  .alcance-preview{
+    background:#fbfaf7;border:1px solid var(--gris-borde);border-radius:var(--radio);padding:16px;
+    font-family:var(--serif);font-size:.95rem;line-height:1.7;color:var(--gris-oscuro);white-space:pre-wrap;
+  }
+  .warning-box{
+    background:var(--rojo-suave);border-left:4px solid var(--rojo);border-radius:var(--radio);padding:10px 14px;
+    font-size:.85rem;color:var(--rojo-oscuro);margin-top:14px;
+  }
+
+
+  /* ===== DIAGRAMA DE FLUJO ===== */
+  .flow-card{
+    margin-top:20px;
+  }
+  .flowchart{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:8px;
+    padding:8px 4px 4px;
+  }
+  .flow-step{
+    width:min(520px,100%);
+    background:var(--blanco);
+    border:2px solid var(--rojo);
+    border-radius:8px;
+    padding:11px 14px;
+    text-align:center;
+    font-weight:600;
+    font-size:.86rem;
+    box-shadow:var(--sombra);
+  }
+  .flow-step.start,
+  .flow-step.end{
+    background:var(--rojo);
+    color:var(--blanco);
+    border-color:var(--rojo-oscuro);
+    border-radius:24px;
+  }
+  .flow-arrow{
+    font-size:1.25rem;
+    color:var(--rojo-oscuro);
+    line-height:1;
+    font-weight:700;
+  }
+  .flow-decision{
+    width:min(360px,85%);
+    background:var(--amarillo-suave);
+    border:2px solid #d4a91f;
+    transform:rotate(0deg);
+    padding:11px 14px;
+    text-align:center;
+    font-weight:700;
+    border-radius:6px;
+  }
+  .flow-branches{
+    width:min(760px,100%);
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    align-items:start;
+  }
+  .flow-branch{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:8px;
+  }
+  .flow-branch-label{
+    font-size:.76rem;
+    font-weight:700;
+    color:var(--gris-medio);
+    text-transform:uppercase;
+    letter-spacing:.04em;
+  }
+  .flow-note{
+    margin-top:12px;
+    font-size:.78rem;
+    color:var(--gris-medio);
+    text-align:center;
+  }
+  @media(max-width:650px){
+    .flow-branches{grid-template-columns:1fr;}
+  }
+
+  footer.print-footer{display:none;}
+
+  @media print{
+    nav.tabs, header.app-header .meta-form, .no-print, button, #toast{display:none !important;}
+    header.app-header{background:none !important;color:var(--gris-oscuro) !important;border-bottom:2px solid var(--gris-oscuro);}
+    .brand h1, .brand h2, .brand p{color:var(--gris-oscuro) !important;}
+    section.panel{display:block !important;page-break-after:always;}
+    body{background:var(--blanco);}
+    .card{box-shadow:none;border:1px solid #ccc;}
+  }
+  .visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);}
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="header-top">
+    <div class="brand">
+      <div class="brand-mark">M</div>
+      <div>
+        <h1>MANUAL DE CALIDAD</h1>
+        <h2>Capítulo 4 — Contexto de la organización</h2>
+        <p>Sistema de Gestión de la Calidad — McDonald's Veracruz</p>
+      </div>
+    </div>
+    <div class="doc-badge" id="docBadge">
+      <div><span>Código</span><span id="badgeCodigo">—</span></div>
+      <div><span>Versión</span><span id="badgeVersion">—</span></div>
+      <div><span>Elaboración</span><span id="badgeFechaElab">—</span></div>
+      <div><span>Revisión</span><span id="badgeFechaRev">—</span></div>
+    </div>
+  </div>
+
+  <div class="meta-form no-print">
+    <div><label>Nombre de la sucursal</label><input id="metaSucursal" type="text" placeholder="Ej. McDonald's Veracruz Centro"></div>
+    <div><label>Ubicación</label><input id="metaUbicacion" type="text" placeholder="Dirección de la sucursal"></div>
+    <div><label>Responsable del documento</label><input id="metaResponsable" type="text" placeholder="Nombre del responsable"></div>
+    <div><label>Código del documento</label><input id="metaCodigo" type="text" placeholder="MC-CAP4-001"></div>
+    <div><label>Versión</label><input id="metaVersion" type="text" placeholder="1.0"></div>
+    <div><label>Fecha de elaboración</label><input id="metaFechaElab" type="date"></div>
+    <div><label>Fecha de revisión</label><input id="metaFechaRev" type="date"></div>
+  </div>
+</header>
+
+<nav class="tabs no-print">
+  <button class="tab-btn active" data-tab="tab-info">Información General</button>
+  <button class="tab-btn" data-tab="tab-contexto">Contexto</button>
+  <button class="tab-btn" data-tab="tab-foda">FODA</button>
+  <button class="tab-btn" data-tab="tab-partes">Partes Interesadas</button>
+  <button class="tab-btn" data-tab="tab-alcance">Alcance</button>
+  <button class="tab-btn" data-tab="tab-legales">Requisitos legales</button>
+  <button class="tab-btn" data-tab="tab-procesos">Procesos</button>
+  <button class="tab-btn" data-tab="tab-resumen">Resumen</button>
+  <button class="tab-btn" data-tab="tab-exportar">Exportar / Imprimir</button>
+</nav>
+
+<main>
+
+<!-- =============== TAB 1: INFORMACIÓN GENERAL =============== -->
+<section id="tab-info" class="panel active">
+  <h3 class="section-title">Información general</h3>
+  <p class="section-desc">Datos generales de identificación del documento y de la sucursal. Esta información se utiliza en el encabezado del manual y en la declaración de alcance.</p>
+
+  <div class="card">
+    <div class="card-head"><h4>Datos de la organización</h4><span class="save-indicator" id="infoSaveIndicator">✓ Datos guardados localmente</span></div>
+    <div class="form-grid">
+      <div class="form-field"><label>Nombre de la organización / sucursal</label><input id="infOrganizacion" type="text"></div>
+      <div class="form-field"><label>Nombre comercial</label><input id="infComercial" type="text" value="McDonald's"></div>
+      <div class="form-field"><label>Ubicación (dirección completa)</label><input id="infUbicacion" type="text"></div>
+      <div class="form-field"><label>Ciudad</label><input id="infCiudad" type="text" value="Veracruz"></div>
+      <div class="form-field"><label>Estado</label><input id="infEstado" type="text" value="Veracruz"></div>
+      <div class="form-field"><label>Responsable del SGC</label><input id="infResponsable" type="text"></div>
+      <div class="form-field"><label>Fecha</label><input id="infFecha" type="date"></div>
+      <div class="form-field"><label>Código del manual</label><input id="infCodigo" type="text"></div>
+      <div class="form-field"><label>Versión</label><input id="infVersion" type="text"></div>
+      <div class="form-field"><label>Periodo de vigencia</label><input id="infVigencia" type="text" placeholder="Ej. 2026 - 2027"></div>
+    </div>
+    <div class="form-actions">
+      <button class="btn" onclick="guardarInfoGeneral()">Guardar información</button>
+      <button class="btn secondary" onclick="restaurarInfoGeneral()">Restaurar datos guardados</button>
+      <button class="btn danger-outline" onclick="limpiarInfoGeneral()">Limpiar formulario</button>
+    </div>
+  </div>
+</section>
+
+<!-- =============== TAB 2: CONTEXTO 4.1 =============== -->
+<section id="tab-contexto" class="panel">
+  <h3 class="section-title">4.1 Comprensión de la organización y de su contexto</h3>
+  <p class="section-desc">Identificación de las cuestiones internas y externas pertinentes para el propósito y la dirección estratégica de la sucursal.</p>
+
+  <div class="iso-box">
+    <strong>ISO 9001:2015 — 4.1</strong>
+    Este apartado permite identificar las cuestiones internas y externas pertinentes para el propósito y dirección estratégica de la organización y que pueden afectar la capacidad del SGC para lograr sus resultados previstos.
+  </div>
+
+  <div class="example-banner">DATOS DE EJEMPLO — Sustituir por información real de la organización.</div>
+
+  <div class="card">
+    <div class="card-head">
+      <h4>Cuestiones internas</h4>
+      <button class="btn no-print" onclick="abrirModalCuestion('interna')">+ Agregar cuestión interna</button>
+    </div>
+    <div style="overflow-x:auto;">
+    <table class="data-table">
+      <thead><tr><th>Cuestión</th><th>Descripción</th><th>Impacto en la calidad</th><th>Importancia</th><th>Acción / consideración</th><th class="no-print">Acciones</th></tr></thead>
+      <tbody id="tablaInternas"></tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <h4>Cuestiones externas</h4>
+      <button class="btn no-print" onclick="abrirModalCuestion('externa')">+ Agregar cuestión externa</button>
+    </div>
+    <div style="overflow-x:auto;">
+    <table class="data-table">
+      <thead><tr><th>Cuestión</th><th>Descripción</th><th>Impacto en la calidad</th><th>Importancia</th><th>Acción / consideración</th><th class="no-print">Acciones</th></tr></thead>
+      <tbody id="tablaExternas"></tbody>
+    </table>
+    </div>
+  </div>
+</section>
+
+<!-- =============== TAB 3: FODA =============== -->
+<section id="tab-foda" class="panel">
+  <h3 class="section-title">Análisis FODA</h3>
+  <p class="section-desc">Herramienta complementaria para apoyar la comprensión del contexto (numeral 4.1), identificando fortalezas, oportunidades, debilidades y amenazas de la sucursal.</p>
+
+  <div class="example-banner">DATOS DE EJEMPLO — Sustituir por información real de la organización.</div>
+
+  <div class="foda-grid">
+    <div class="foda-quad F">
+      <h4>Fortalezas</h4>
+      <div class="count" id="countF">0 elementos</div>
+      <div id="listaF"></div>
+      <button class="btn small no-print" onclick="abrirModalFoda('F')">+ Agregar fortaleza</button>
+    </div>
+    <div class="foda-quad O">
+      <h4>Oportunidades</h4>
+      <div class="count" id="countO">0 elementos</div>
+      <div id="listaO"></div>
+      <button class="btn small no-print" onclick="abrirModalFoda('O')">+ Agregar oportunidad</button>
+    </div>
+    <div class="foda-quad D">
+      <h4>Debilidades</h4>
+      <div class="count" id="countD">0 elementos</div>
+      <div id="listaD"></div>
+      <button class="btn small no-print" onclick="abrirModalFoda('D')">+ Agregar debilidad</button>
+    </div>
+    <div class="foda-quad A">
+      <h4>Amenazas</h4>
+      <div class="count" id="countA">0 elementos</div>
+      <div id="listaA"></div>
+      <button class="btn small no-print" onclick="abrirModalFoda('A')">+ Agregar amenaza</button>
+    </div>
+  </div>
+</section>
+
+<!-- =============== TAB 4: PARTES INTERESADAS 4.2 =============== -->
+<section id="tab-partes" class="panel">
+  <h3 class="section-title">4.2 Partes interesadas</h3>
+  <p class="section-desc">Determinación de las partes interesadas pertinentes para el SGC y sus requisitos relevantes.</p>
+
+  <div class="iso-box">
+    <strong>ISO 9001:2015 — 4.2</strong>
+    Este apartado considera las partes interesadas pertinentes para el SGC y sus requisitos relevantes.
+  </div>
+
+  <div class="example-banner">DATOS DE EJEMPLO — Sustituir por información real de la organización.</div>
+
+  <div class="card">
+    <div class="card-head">
+      <h4>Matriz de partes interesadas</h4>
+      <button class="btn no-print" onclick="abrirModalParte()">+ Agregar parte interesada</button>
+    </div>
+    <div class="filters-bar no-print">
+      <select id="filtroTipo" onchange="renderPartes()">
+        <option value="">Todos los tipos</option>
+        <option>Clientes</option><option>Empleados</option><option>Gerencia</option>
+        <option>Proveedores</option><option>Autoridades</option><option>Franquiciatario</option>
+        <option>Comunidad</option><option>Servicios de entrega</option><option>Propietarios / corporativo</option>
+      </select>
+      <select id="filtroInfluencia" onchange="renderPartes()">
+        <option value="">Toda influencia</option><option>Alta</option><option>Media</option><option>Baja</option>
+      </select>
+      <select id="filtroImpacto" onchange="renderPartes()">
+        <option value="">Todo impacto</option><option>Alto</option><option>Medio</option><option>Bajo</option>
+      </select>
+      <select id="ordenParte" onchange="renderPartes()">
+        <option value="">Ordenar por...</option>
+        <option value="nombre">Nombre</option>
+        <option value="influencia">Influencia</option>
+        <option value="impacto">Impacto</option>
+      </select>
+    </div>
+    <div style="overflow-x:auto;">
+    <table class="data-table">
+      <thead><tr>
+        <th>Parte interesada</th><th>Tipo</th><th>Necesidades</th><th>Expectativas</th><th>Requisitos</th>
+        <th>Influencia</th><th>Impacto</th><th>Seguimiento</th><th>Responsable</th><th>Frecuencia</th><th class="no-print">Acciones</th>
+      </tr></thead>
+      <tbody id="tablaPartes"></tbody>
+    </table>
+    </div>
+  </div>
+</section>
+
+<!-- =============== TAB 5: ALCANCE 4.3 =============== -->
+<section id="tab-alcance" class="panel">
+  <h3 class="section-title">4.3 Determinación del alcance del SGC</h3>
+  <p class="section-desc">Definición de los límites y la aplicabilidad del Sistema de Gestión de la Calidad de la sucursal.</p>
+
+  <div class="iso-box">
+    <strong>ISO 9001:2015 — 4.3</strong>
+    Este apartado determina los límites y la aplicabilidad del SGC para establecer su alcance.
+  </div>
+
+  <div class="card">
+    <div class="card-head"><h4>Datos para la declaración de alcance</h4></div>
+    <div class="form-grid">
+      <div class="form-field"><label>Nombre de la organización</label><input id="alcOrganizacion" type="text"></div>
+      <div class="form-field"><label>Ubicación</label><input id="alcUbicacion" type="text"></div>
+      <div class="form-field" style="grid-column:1/-1;"><label>Productos y servicios</label><textarea id="alcProductos"></textarea></div>
+      <div class="form-field" style="grid-column:1/-1;"><label>Procesos incluidos</label><textarea id="alcProcesos"></textarea></div>
+      <div class="form-field"><label>Instalaciones incluidas</label><input id="alcInstalaciones" type="text"></div>
+      <div class="form-field"><label>Personal involucrado</label><input id="alcPersonal" type="text"></div>
+      <div class="form-field" style="grid-column:1/-1;"><label>Requisitos aplicables</label><textarea id="alcRequisitos"></textarea></div>
+      <div class="form-field" style="grid-column:1/-1;"><label>Límites del SGC</label><textarea id="alcLimites"></textarea></div>
+      <div class="form-field" style="grid-column:1/-1;"><label>Exclusiones, si existen</label><textarea id="alcExclusiones"></textarea></div>
+      <div class="form-field" style="grid-column:1/-1;"><label>Justificación de las exclusiones</label><textarea id="alcJustificacion"></textarea></div>
+    </div>
+    <div class="form-actions">
+      <button class="btn" onclick="guardarDatosAlcance()">Guardar datos</button>
+      <button class="btn yellow" onclick="generarDeclaracion()">Generar declaración del alcance</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><h4>Declaración formal del alcance (editable)</h4></div>
+    <textarea id="alcDeclaracion" class="alcance-preview" style="width:100%;min-height:150px;border:1px solid var(--gris-borde);border-radius:6px;padding:14px;"></textarea>
+    <div class="form-actions">
+      <button class="btn secondary" onclick="guardarDeclaracion()">Guardar declaración editada</button>
+    </div>
+    <div class="warning-box">El alcance debe ser específico para la sucursal y validado por los responsables de la organización antes de utilizarse como documento oficial.</div>
+  </div>
+</section>
+
+
+<!-- =============== TAB 6: REQUISITOS LEGALES =============== -->
+<section id="tab-legales" class="panel">
+  <h3 class="section-title">Requisitos legales y reglamentarios aplicables</h3>
+  <p class="section-desc">Matriz de referencia de requisitos legales considerados para la sucursal y su relación con el Sistema de Gestión de la Calidad.</p>
+
+  <div class="iso-box">
+    <strong>ISO 9001:2015 — 4.2 y 4.4</strong>
+    La organización debe determinar los requisitos pertinentes de las partes interesadas y mantener los procesos necesarios para asegurar el cumplimiento aplicable.
+  </div>
+
+  <div class="example-banner">
+    MATRIZ ACADÉMICA — La aplicabilidad concreta, permisos, avisos y evidencias deben validarse con la documentación vigente de la sucursal.
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <h4>Matriz de requisitos legales</h4>
+    </div>
+    <div style="overflow-x:auto;">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Requisito</th>
+            <th>Aplicación en la sucursal</th>
+            <th>Evidencia sugerida</th>
+            <th>Responsable</th>
+            <th>Fuente oficial</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Ley General de Salud</strong> y disposiciones sanitarias aplicables</td>
+            <td>Marco sanitario para la operación y manejo de alimentos.</td>
+            <td>Avisos/autorizaciones aplicables, actas o constancias de inspección y registros sanitarios.</td>
+            <td>Gerente</td>
+            <td><a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LGS.pdf" target="_blank" rel="noopener">Texto vigente</a></td>
+          </tr>
+          <tr>
+            <td><strong>NOM-251-SSA1-2009</strong></td>
+            <td>Prácticas de higiene para el proceso de alimentos, bebidas o suplementos alimenticios.</td>
+            <td>POE, bitácoras de limpieza y temperaturas, capacitación y verificaciones.</td>
+            <td>Líder de cocina / Supervisor</td>
+            <td><a href="https://dof.gob.mx/nota_detalle.php?codigo=5133449&fecha=01/03/2010" target="_blank" rel="noopener">DOF</a></td>
+          </tr>
+          <tr>
+            <td><strong>NOM-127-SSA1-2021</strong></td>
+            <td>Calidad del agua para uso y consumo humano cuando resulte aplicable a la operación.</td>
+            <td>Registros de agua, controles del proveedor o resultados de verificación aplicables.</td>
+            <td>Gerente</td>
+            <td><a href="https://sidof.segob.gob.mx/notas/5650705" target="_blank" rel="noopener">DOF</a></td>
+          </tr>
+          <tr>
+            <td><strong>NOM-051-SCFI/SSA1-2010</strong></td>
+            <td>Etiquetado de alimentos y bebidas no alcohólicas preenvasados que se comercialicen o utilicen, cuando aplique.</td>
+            <td>Etiquetas y fichas de producto de productos preenvasados.</td>
+            <td>Encargado de almacén</td>
+            <td><a href="https://sidof.segob.gob.mx/notas/5137518" target="_blank" rel="noopener">DOF</a></td>
+          </tr>
+          <tr>
+            <td><strong>Ley Federal de Protección al Consumidor</strong></td>
+            <td>Información clara al consumidor, precios, promociones, calidad y atención de quejas.</td>
+            <td>Listas de precios, promociones y bitácora de quejas.</td>
+            <td>Gerente</td>
+            <td><a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LFPC.pdf" target="_blank" rel="noopener">Texto vigente</a></td>
+          </tr>
+          <tr>
+            <td><strong>Ley Federal del Trabajo</strong></td>
+            <td>Relaciones laborales, condiciones de trabajo, capacitación y obligaciones del empleador.</td>
+            <td>Contratos, registros de capacitación, nómina y documentación laboral aplicable.</td>
+            <td>Gerente / RH</td>
+            <td><a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LFT.pdf" target="_blank" rel="noopener">Texto vigente</a></td>
+          </tr>
+          <tr>
+            <td><strong>Ley del Seguro Social</strong></td>
+            <td>Obligaciones de seguridad social de las personas trabajadoras.</td>
+            <td>Altas y movimientos ante IMSS y documentación correspondiente.</td>
+            <td>Gerente / RH</td>
+            <td><a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LSS.pdf" target="_blank" rel="noopener">Texto vigente</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><h4>Control y seguimiento</h4></div>
+    <p style="font-size:.87rem;color:var(--gris-medio);margin:0;">
+      La matriz debe revisarse periódicamente y actualizarse cuando cambien las disposiciones aplicables. Las ligas anteriores son fuentes oficiales de consulta; la sucursal debe conservar las evidencias que correspondan a su situación real.
+    </p>
+  </div>
+</section>
+
+<!-- =============== TAB 6: PROCESOS 4.4 =============== -->
+<section id="tab-procesos" class="panel">
+  <h3 class="section-title">4.4 Sistema de gestión de la calidad y sus procesos</h3>
+  <p class="section-desc">Mapa general de los procesos estratégicos, operativos y de apoyo identificados para la sucursal.</p>
+
+  <div class="iso-box">
+    <strong>ISO 9001:2015 — 4.4</strong>
+    Este apartado hace referencia a la necesidad de que la organización determine los procesos necesarios para el SGC y su aplicación, así como sus interacciones. El detalle completo de esta cláusula se desarrolla con mayor profundidad en un capítulo posterior del manual; aquí se presenta un mapa general de referencia.
+  </div>
+
+  <div class="example-banner">DATOS DE EJEMPLO — Sustituir por información real de la organización.</div>
+
+  <div class="proceso-cols">
+    <div class="proceso-col estrategico">
+      <h4>Procesos estratégicos</h4>
+      <div class="proceso-list" id="colEstrategico"></div>
+    </div>
+    <div class="proceso-col operativo">
+      <h4>Procesos operativos</h4>
+      <div class="proceso-list" id="colOperativo"></div>
+    </div>
+    <div class="proceso-col apoyo">
+      <h4>Procesos de apoyo</h4>
+      <div class="proceso-list" id="colApoyo"></div>
+    </div>
+  </div>
+
+  <div class="card proceso-detail" id="procesoDetalleCard" style="display:none;">
+    <div class="card-head"><h4 id="procesoDetalleNombre">Proceso</h4>
+      <button class="btn small no-print" onclick="editarProcesoActual()">Editar proceso</button>
+    </div>
+    <dl>
+      <dt>Responsable</dt><dd id="pdResponsable"></dd>
+      <dt>Entradas</dt><dd id="pdEntradas"></dd>
+      <dt>Actividades</dt><dd id="pdActividades"></dd>
+      <dt>Salidas</dt><dd id="pdSalidas"></dd>
+      <dt>Indicadores</dt><dd id="pdIndicadores"></dd>
+      <dt>Riesgos relacionados</dt><dd id="pdRiesgos"></dd>
+    </dl>
+  </div>
+
+  <div class="card flow-card">
+    <div class="card-head">
+      <h4>Diagrama de flujo — Proceso de compras</h4>
+    </div>
+    <p style="font-size:.86rem;color:var(--gris-medio);margin-top:0;">
+      Representación del proceso de compras de la sucursal, desde la identificación de la necesidad hasta la recepción y almacenamiento de los insumos.
+    </p>
+
+    <div class="flowchart">
+      <div class="flow-step start">Inicio</div>
+      <div class="flow-arrow">↓</div>
+
+      <div class="flow-step">1. Identificar necesidad de insumos</div>
+      <div class="flow-arrow">↓</div>
+
+      <div class="flow-step">2. Revisar inventario y niveles de existencia</div>
+      <div class="flow-arrow">↓</div>
+
+      <div class="flow-step">3. Generar solicitud de compra</div>
+      <div class="flow-arrow">↓</div>
+
+      <div class="flow-step">4. Solicitar cotización y seleccionar proveedor</div>
+      <div class="flow-arrow">↓</div>
+
+      <div class="flow-step">5. Emitir pedido al proveedor</div>
+      <div class="flow-arrow">↓</div>
+
+      <div class="flow-step">6. Recibir los insumos</div>
+      <div class="flow-arrow">↓</div>
+
+      <div class="flow-decision">¿Los insumos cumplen con las especificaciones?</div>
+
+      <div class="flow-branches">
+        <div class="flow-branch">
+          <div class="flow-branch-label">Sí</div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-step">7. Registrar recepción y almacenar los insumos</div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-step end">Fin</div>
+        </div>
+
+        <div class="flow-branch">
+          <div class="flow-branch-label">No</div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-step">Registrar no conformidad, rechazar o devolver el insumo y notificar al proveedor</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="flow-note">
+      Responsable general: Área de compras · Indicador: porcentaje de pedidos entregados completos y a tiempo.
+    </p>
+  </div>
+
+</section>
+
+<!-- =============== TAB 7: RESUMEN =============== -->
+<section id="tab-resumen" class="panel">
+  <h3 class="section-title">Resumen del capítulo</h3>
+  <p class="section-desc">Panorama general del avance de documentación del Capítulo 4.</p>
+
+  <div class="stat-grid">
+    <div class="stat-card"><div class="num" id="rsInternas">0</div><div class="label">Cuestiones internas</div></div>
+    <div class="stat-card"><div class="num" id="rsExternas">0</div><div class="label">Cuestiones externas</div></div>
+    <div class="stat-card"><div class="num" id="rsF">0</div><div class="label">Fortalezas</div></div>
+    <div class="stat-card"><div class="num" id="rsO">0</div><div class="label">Oportunidades</div></div>
+    <div class="stat-card"><div class="num" id="rsD">0</div><div class="label">Debilidades</div></div>
+    <div class="stat-card"><div class="num" id="rsA">0</div><div class="label">Amenazas</div></div>
+    <div class="stat-card"><div class="num" id="rsPartes">0</div><div class="label">Partes interesadas</div></div>
+    <div class="stat-card"><div class="num" id="rsProcesos">0</div><div class="label">Procesos registrados</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><h4>Estado del alcance del SGC</h4></div>
+    <p id="rsAlcanceEstado" style="font-size:.9rem;color:var(--gris-medio);"></p>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><h4>Estado de documentación</h4></div>
+    <p><span class="estado-pill" id="estadoPill">Pendiente</span></p>
+    <div class="progress-wrap"><div class="progress-bar" id="estadoBar" style="width:0%;"></div></div>
+    <p style="font-size:.8rem;color:var(--gris-medio);margin-top:8px;">El estado se calcula automáticamente conforme se completan las secciones del capítulo (información general, contexto, FODA, partes interesadas, alcance y procesos).</p>
+  </div>
+</section>
+
+<!-- =============== TAB 8: EXPORTAR =============== -->
+<section id="tab-exportar" class="panel">
+  <h3 class="section-title">Exportar / Imprimir manual</h3>
+  <p class="section-desc">Genera una versión impresa del capítulo o respalda la información capturada.</p>
+
+  <div class="card">
+    <div class="card-head"><h4>Impresión</h4></div>
+    <p style="font-size:.87rem;color:var(--gris-medio);">Al imprimir se ocultan los menús y botones para generar un documento limpio.</p>
+    <button class="btn" onclick="window.print()">Imprimir capítulo</button>
+    <button class="btn secondary" onclick="window.print()">Guardar como PDF (usar impresión del navegador)</button>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><h4>Respaldo de datos</h4></div>
+    <div class="form-actions">
+      <button class="btn yellow" onclick="exportarJSON()">Exportar datos a JSON</button>
+      <label class="btn secondary" style="cursor:pointer;">Importar datos desde JSON
+        <input type="file" accept=".json" id="importFile" style="display:none;" onchange="importarJSON(event)">
+      </label>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ===== MODAL CUESTIÓN (interna/externa) ===== -->
+<div class="modal-overlay" id="modalCuestion">
+  <div class="modal-box">
+    <h4 id="modalCuestionTitulo">Agregar cuestión</h4>
+    <div class="form-field"><label>Cuestión</label><input id="mcNombre" type="text"></div>
+    <div class="form-field"><label>Descripción</label><textarea id="mcDescripcion"></textarea></div>
+    <div class="form-field"><label>Impacto en la calidad</label><textarea id="mcImpacto"></textarea></div>
+    <div class="form-field"><label>Nivel de importancia</label>
+      <select id="mcImportancia"><option>Alta</option><option>Media</option><option>Baja</option></select>
+    </div>
+    <div class="form-field"><label>Acción o consideración</label><textarea id="mcAccion"></textarea></div>
+    <div class="form-actions">
+      <button class="btn" onclick="guardarCuestion()">Guardar</button>
+      <button class="btn secondary" onclick="cerrarModal('modalCuestion')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL FODA ===== -->
+<div class="modal-overlay" id="modalFoda">
+  <div class="modal-box">
+    <h4 id="modalFodaTitulo">Agregar elemento</h4>
+    <div class="form-field"><label>Situación identificada</label><input id="mfSituacion" type="text"></div>
+    <div class="form-field"><label>Descripción</label><textarea id="mfDescripcion"></textarea></div>
+    <div class="form-field"><label>Impacto</label><textarea id="mfImpacto"></textarea></div>
+    <div class="form-field"><label>Prioridad</label>
+      <select id="mfPrioridad"><option>Alta</option><option>Media</option><option>Baja</option></select>
+    </div>
+    <div class="form-field"><label>Acción propuesta</label><textarea id="mfAccion"></textarea></div>
+    <div class="form-actions">
+      <button class="btn" onclick="guardarFoda()">Guardar</button>
+      <button class="btn secondary" onclick="cerrarModal('modalFoda')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL PARTE INTERESADA ===== -->
+<div class="modal-overlay" id="modalParte">
+  <div class="modal-box">
+    <h4 id="modalParteTitulo">Agregar parte interesada</h4>
+    <div class="form-field"><label>Parte interesada</label><input id="mpNombre" type="text"></div>
+    <div class="form-field"><label>Tipo</label>
+      <select id="mpTipo">
+        <option>Clientes</option><option>Empleados</option><option>Gerencia</option>
+        <option>Proveedores</option><option>Autoridades</option><option>Franquiciatario</option>
+        <option>Comunidad</option><option>Servicios de entrega</option><option>Propietarios / corporativo</option>
+      </select>
+    </div>
+    <div class="form-field"><label>Necesidades</label><textarea id="mpNecesidades"></textarea></div>
+    <div class="form-field"><label>Expectativas</label><textarea id="mpExpectativas"></textarea></div>
+    <div class="form-field"><label>Requisitos pertinentes</label><textarea id="mpRequisitos"></textarea></div>
+    <div class="form-field"><label>Influencia</label>
+      <select id="mpInfluencia"><option>Alta</option><option>Media</option><option>Baja</option></select>
+    </div>
+    <div class="form-field"><label>Impacto</label>
+      <select id="mpImpactoLvl"><option>Alto</option><option>Medio</option><option>Bajo</option></select>
+    </div>
+    <div class="form-field"><label>Método de seguimiento</label><input id="mpSeguimiento" type="text"></div>
+    <div class="form-field"><label>Responsable</label><input id="mpResponsable" type="text"></div>
+    <div class="form-field"><label>Frecuencia de revisión</label><input id="mpFrecuencia" type="text"></div>
+    <div class="form-actions">
+      <button class="btn" onclick="guardarParte()">Guardar</button>
+      <button class="btn secondary" onclick="cerrarModal('modalParte')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL PROCESO ===== -->
+<div class="modal-overlay" id="modalProceso">
+  <div class="modal-box">
+    <h4>Editar proceso</h4>
+    <div class="form-field"><label>Nombre del proceso</label><input id="mprNombre" type="text" disabled></div>
+    <div class="form-field"><label>Responsable</label><input id="mprResponsable" type="text"></div>
+    <div class="form-field"><label>Entradas</label><textarea id="mprEntradas"></textarea></div>
+    <div class="form-field"><label>Actividades</label><textarea id="mprActividades"></textarea></div>
+    <div class="form-field"><label>Salidas</label><textarea id="mprSalidas"></textarea></div>
+    <div class="form-field"><label>Indicadores</label><textarea id="mprIndicadores"></textarea></div>
+    <div class="form-field"><label>Riesgos relacionados</label><textarea id="mprRiesgos"></textarea></div>
+    <div class="form-actions">
+      <button class="btn" onclick="guardarProceso()">Guardar</button>
+      <button class="btn secondary" onclick="cerrarModal('modalProceso')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL CONFIRMAR ELIMINAR ===== -->
+<div class="modal-overlay" id="modalConfirm">
+  <div class="modal-box" style="max-width:400px;">
+    <h4>Confirmar eliminación</h4>
+    <p style="font-size:.88rem;color:var(--gris-medio);">¿Deseas eliminar este registro? Esta acción no se puede deshacer.</p>
+    <div class="form-actions">
+      <button class="btn" id="confirmDeleteBtn">Eliminar</button>
+      <button class="btn secondary" onclick="cerrarModal('modalConfirm')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+/* =========================================================
+   ESTADO Y PERSISTENCIA
+========================================================= */
+const STORAGE_KEY = 'mcdCap4Data_v1';
+
+function datosPorDefecto(){
+  return {
+    meta: {sucursal:'', ubicacion:'Bv. Adolfo Ruíz Cortines S/N, Jardines del Virginia, 94294 Veracruz, Ver.', responsable:'', codigo:'MC-CAP4-001', version:'1.0', fechaElab:'', fechaRev:''},
+    info: {organizacion:'', comercial:'McDonald\'s', ubicacion:'', ciudad:'Veracruz', estado:'Veracruz', responsable:'', fecha:'', codigo:'MC-CAP4-001', version:'1.0', vigencia:''},
+    internas: [
+      {id:cid(), nombre:'Capacitación del personal', descripcion:'Programas de inducción y capacitación continua al personal operativo.', impacto:'Afecta directamente la calidad del servicio y la estandarización de procesos.', importancia:'Alta', accion:'Reforzar el plan anual de capacitación.'},
+      {id:cid(), nombre:'Rotación de empleados', descripcion:'Nivel de rotación de personal en la sucursal.', impacto:'Puede generar variabilidad en la calidad del servicio.', importancia:'Media', accion:'Fortalecer estrategias de retención.'},
+      {id:cid(), nombre:'Cumplimiento de procedimientos operativos', descripcion:'Apego a los procedimientos estandarizados de operación.', impacto:'Determina la consistencia del producto y servicio.', importancia:'Alta', accion:'Auditorías internas periódicas.'},
+      {id:cid(), nombre:'Disponibilidad de equipos', descripcion:'Estado y funcionamiento del equipo de cocina y servicio.', impacto:'Impacta tiempos de preparación y entrega.', importancia:'Media', accion:'Mantenimiento preventivo programado.'},
+      {id:cid(), nombre:'Tiempos de preparación', descripcion:'Tiempo utilizado para preparar los productos.', impacto:'Afecta la satisfacción del cliente.', importancia:'Media', accion:'Monitoreo de indicadores de tiempo.'},
+      {id:cid(), nombre:'Comunicación interna', descripcion:'Flujo de información entre turnos y áreas.', impacto:'Incide en la coordinación operativa.', importancia:'Baja', accion:'Reuniones breves de cambio de turno.'}
+    ],
+    externas: [
+      {id:cid(), nombre:'Expectativas de los clientes', descripcion:'Nivel de exigencia de los clientes respecto al servicio y producto.', impacto:'Define los estándares de satisfacción a alcanzar.', importancia:'Alta', accion:'Encuestas de satisfacción periódicas.'},
+      {id:cid(), nombre:'Competencia local', descripcion:'Presencia de otras cadenas y negocios de comida rápida.', impacto:'Presiona la mejora continua del servicio.', importancia:'Media', accion:'Monitoreo de mercado.'},
+      {id:cid(), nombre:'Regulaciones sanitarias', descripcion:'Normativa de salud e higiene aplicable a alimentos.', impacto:'Condición indispensable para operar.', importancia:'Alta', accion:'Verificación periódica de cumplimiento.'},
+      {id:cid(), nombre:'Situación económica', descripcion:'Contexto económico regional y nacional.', impacto:'Influye en el poder adquisitivo de los clientes.', importancia:'Media', accion:'Ajuste de estrategias comerciales.'},
+      {id:cid(), nombre:'Proveedores', descripcion:'Disponibilidad y calidad de insumos de proveedores.', impacto:'Afecta la calidad de la materia prima.', importancia:'Alta', accion:'Evaluación periódica de proveedores.'},
+      {id:cid(), nombre:'Cambios en hábitos de consumo', descripcion:'Tendencias hacia pedidos digitales y entrega a domicilio.', impacto:'Modifica la demanda de canales de servicio.', importancia:'Media', accion:'Adaptación de canales digitales.'}
+    ],
+    foda: {
+      F:[
+        {id:cid(), situacion:'Marca reconocida', descripcion:'Posicionamiento y reconocimiento de la marca a nivel mundial.', impacto:'Genera confianza inmediata en el cliente.', prioridad:'Alta', accion:'Mantener consistencia de marca.'},
+        {id:cid(), situacion:'Procedimientos estandarizados', descripcion:'Procesos operativos definidos por la franquicia.', impacto:'Asegura consistencia del producto.', prioridad:'Alta', accion:'Reforzar cumplimiento diario.'},
+        {id:cid(), situacion:'Capacitación del personal', descripcion:'Programas de formación estructurados.', impacto:'Mejora el desempeño operativo.', prioridad:'Media', accion:'Actualizar contenidos periódicamente.'},
+        {id:cid(), situacion:'Variedad de productos', descripcion:'Amplio menú para distintos gustos.', impacto:'Atrae diversidad de clientes.', prioridad:'Media', accion:'Evaluar rotación de menú.'},
+        {id:cid(), situacion:'Sistemas de control operativo', descripcion:'Herramientas de control de calidad y tiempos.', impacto:'Facilita la detección de desviaciones.', prioridad:'Media', accion:'Digitalizar reportes de control.'}
+      ],
+      O:[
+        {id:cid(), situacion:'Crecimiento de pedidos digitales', descripcion:'Incremento en pedidos vía app y plataformas.', impacto:'Nuevas fuentes de ingreso.', prioridad:'Alta', accion:'Optimizar tiempos de preparación para digital.'},
+        {id:cid(), situacion:'Servicios de entrega', descripcion:'Alianzas con plataformas de entrega a domicilio.', impacto:'Amplía el alcance de clientes.', prioridad:'Alta', accion:'Fortalecer coordinación con repartidores.'},
+        {id:cid(), situacion:'Nuevos hábitos de consumo', descripcion:'Cambios en preferencias alimenticias y de compra.', impacto:'Oportunidad de innovación en el menú.', prioridad:'Media', accion:'Analizar tendencias de consumo local.'},
+        {id:cid(), situacion:'Promociones dirigidas', descripcion:'Estrategias de marketing segmentado.', impacto:'Incrementa el ticket promedio.', prioridad:'Media', accion:'Diseñar campañas locales.'},
+        {id:cid(), situacion:'Uso de tecnología', descripcion:'Kioscos de autoservicio y pago digital.', impacto:'Mejora la experiencia del cliente.', prioridad:'Media', accion:'Evaluar inversión en nuevas tecnologías.'}
+      ],
+      D:[
+        {id:cid(), situacion:'Rotación de personal', descripcion:'Alta rotación en puestos operativos.', impacto:'Afecta la curva de aprendizaje y calidad.', prioridad:'Alta', accion:'Mejorar condiciones y retención.'},
+        {id:cid(), situacion:'Tiempos de espera en horas pico', descripcion:'Saturación del servicio en horarios de mayor demanda.', impacto:'Reduce la satisfacción del cliente.', prioridad:'Alta', accion:'Reforzar personal en horas pico.'},
+        {id:cid(), situacion:'Dependencia de determinados proveedores', descripcion:'Pocas alternativas de abastecimiento para ciertos insumos.', impacto:'Riesgo de desabasto.', prioridad:'Media', accion:'Diversificar proveedores clave.'},
+        {id:cid(), situacion:'Errores operativos', descripcion:'Fallas ocasionales en la preparación o entrega.', impacto:'Genera quejas y reprocesos.', prioridad:'Media', accion:'Reforzar supervisión de calidad.'},
+        {id:cid(), situacion:'Necesidades de capacitación', descripcion:'Brechas de conocimiento en personal nuevo.', impacto:'Afecta consistencia del servicio.', prioridad:'Media', accion:'Programas de inducción más robustos.'}
+      ],
+      A:[
+        {id:cid(), situacion:'Competencia local', descripcion:'Otras cadenas de comida rápida en la zona.', impacto:'Presión sobre la participación de mercado.', prioridad:'Media', accion:'Diferenciación en servicio.'},
+        {id:cid(), situacion:'Incremento de costos', descripcion:'Aumento en costos de insumos y operación.', impacto:'Reduce márgenes de utilidad.', prioridad:'Alta', accion:'Optimizar control de costos.'},
+        {id:cid(), situacion:'Cambios regulatorios', descripcion:'Modificaciones en normativa sanitaria o laboral.', impacto:'Requiere adaptación operativa.', prioridad:'Media', accion:'Monitoreo normativo constante.'},
+        {id:cid(), situacion:'Variación en precios de insumos', descripcion:'Fluctuación de precios de materia prima.', impacto:'Afecta la planeación de costos.', prioridad:'Media', accion:'Contratos con proveedores a plazo.'},
+        {id:cid(), situacion:'Cambios en preferencias de consumidores', descripcion:'Tendencias hacia alimentación más saludable.', impacto:'Puede reducir demanda de ciertos productos.', prioridad:'Baja', accion:'Explorar opciones de menú saludable.'}
+      ]
+    },
+    partes: [
+      {id:cid(), nombre:'Clientes', tipo:'Clientes', necesidades:'Alimentos de calidad, servicio rápido.', expectativas:'Consistencia y buena atención.', requisitos:'Cumplimiento de estándares de calidad e higiene.', influencia:'Alta', impacto:'Alto', seguimiento:'Encuestas de satisfacción', responsable:'Gerente de sucursal', frecuencia:'Mensual'},
+      {id:cid(), nombre:'Empleados', tipo:'Empleados', necesidades:'Condiciones laborales adecuadas.', expectativas:'Capacitación y desarrollo.', requisitos:'Cumplimiento de normativa laboral.', influencia:'Media', impacto:'Alto', seguimiento:'Reuniones de retroalimentación', responsable:'Recursos Humanos', frecuencia:'Trimestral'},
+      {id:cid(), nombre:'Gerencia', tipo:'Gerencia', necesidades:'Cumplimiento de metas operativas.', expectativas:'Rentabilidad y control de calidad.', requisitos:'Reportes de desempeño.', influencia:'Alta', impacto:'Alto', seguimiento:'Revisión de indicadores', responsable:'Gerencia general', frecuencia:'Mensual'},
+      {id:cid(), nombre:'Proveedores', tipo:'Proveedores', necesidades:'Pagos oportunos, pedidos claros.', expectativas:'Relación comercial estable.', requisitos:'Cumplimiento de especificaciones de compra.', influencia:'Media', impacto:'Medio', seguimiento:'Evaluación de proveedores', responsable:'Área de compras', frecuencia:'Semestral'},
+      {id:cid(), nombre:'Autoridades sanitarias', tipo:'Autoridades', necesidades:'Cumplimiento normativo.', expectativas:'Operación conforme a la ley.', requisitos:'Normativa sanitaria vigente.', influencia:'Alta', impacto:'Alto', seguimiento:'Inspecciones', responsable:'Gerente de sucursal', frecuencia:'Anual'},
+      {id:cid(), nombre:'Franquiciatario', tipo:'Franquiciatario', necesidades:'Cumplimiento de estándares de marca.', expectativas:'Rentabilidad y reputación de marca.', requisitos:'Lineamientos corporativos.', influencia:'Alta', impacto:'Alto', seguimiento:'Auditorías de marca', responsable:'Franquiciatario', frecuencia:'Semestral'}
+    ],
+    alcanceForm: {organizacion:'', ubicacion:'', productos:'recepción de materias primas, almacenamiento, preparación y entrega de alimentos y bebidas, atención al cliente, servicio en restaurante, servicio para llevar y/o entrega a domicilio', procesos:'', instalaciones:'', personal:'', requisitos:'', limites:'', exclusiones:'', justificacion:''},
+    alcanceDeclaracion: '',
+    procesos: {
+      estrategico: [
+        {id:'dir', nombre:'Dirección', responsable:'Gerente general', entradas:'Objetivos corporativos', actividades:'Definición de metas y políticas de la sucursal', salidas:'Directrices operativas', indicadores:'Cumplimiento de metas', riesgos:'Desalineación con objetivos corporativos'},
+        {id:'plan', nombre:'Planeación', responsable:'Gerente de sucursal', entradas:'Datos históricos de venta', actividades:'Planeación de turnos, inventarios y demanda', salidas:'Planes operativos', indicadores:'Cumplimiento del plan', riesgos:'Errores de pronóstico de demanda'},
+        {id:'gc', nombre:'Gestión de la calidad', responsable:'Responsable de calidad', entradas:'Requisitos ISO 9001', actividades:'Supervisión del SGC y mejora continua', salidas:'Manual de calidad actualizado', indicadores:'No conformidades detectadas', riesgos:'Falta de actualización documental'}
+      ],
+      operativo: [
+        {id:'rp', nombre:'Recepción de pedidos', responsable:'Cajero / personal de mostrador', entradas:'Solicitud del cliente', actividades:'Toma y registro del pedido', salidas:'Orden de producción', indicadores:'Tiempo de toma de pedido', riesgos:'Errores en el pedido'},
+        {id:'pa', nombre:'Preparación de alimentos', responsable:'Personal de cocina', entradas:'Materias primas, orden de producción', actividades:'Cocción y ensamblado de productos', salidas:'Producto terminado', indicadores:'Tiempo de preparación, mermas', riesgos:'Contaminación cruzada'},
+        {id:'cmp', nombre:'Control de materias primas', responsable:'Encargado de almacén', entradas:'Insumos de proveedores', actividades:'Recepción, inspección y almacenamiento', salidas:'Insumos aptos para uso', indicadores:'Insumos rechazados', riesgos:'Recepción de insumos no conformes'},
+        {id:'ep', nombre:'Entrega del producto', responsable:'Personal de mostrador / repartidor', entradas:'Producto terminado', actividades:'Empaque y entrega al cliente', salidas:'Producto entregado', indicadores:'Tiempo de entrega', riesgos:'Retrasos o entregas incorrectas'},
+        {id:'ac', nombre:'Atención al cliente', responsable:'Personal de servicio', entradas:'Cliente presente o en línea', actividades:'Atención, cobro y resolución de dudas', salidas:'Cliente atendido', indicadores:'Quejas registradas', riesgos:'Insatisfacción del cliente'},
+        {id:'ls', nombre:'Limpieza y sanitización', responsable:'Personal de limpieza', entradas:'Áreas y equipos de trabajo', actividades:'Limpieza y desinfección periódica', salidas:'Áreas sanitizadas', indicadores:'Cumplimiento de checklist de limpieza', riesgos:'Contaminación por falta de higiene'}
+      ],
+      apoyo: [
+        {id:'rh', nombre:'Recursos humanos', responsable:'Encargado de RH', entradas:'Necesidades de personal', actividades:'Reclutamiento, contratación y gestión de personal', salidas:'Personal contratado', indicadores:'Rotación de personal', riesgos:'Falta de personal calificado'},
+        {id:'cap', nombre:'Capacitación', responsable:'Encargado de RH / gerente', entradas:'Plan de capacitación', actividades:'Formación inicial y continua', salidas:'Personal capacitado', indicadores:'Horas de capacitación', riesgos:'Personal sin capacitación adecuada'},
+        {id:'man', nombre:'Mantenimiento', responsable:'Encargado de mantenimiento', entradas:'Equipos e instalaciones', actividades:'Mantenimiento preventivo y correctivo', salidas:'Equipos operativos', indicadores:'Fallas de equipo', riesgos:'Paro de operaciones por fallas'},
+        {id:'com', nombre:'Compras', responsable:'Área de compras', entradas:'Requerimientos de insumos', actividades:'Gestión de pedidos a proveedores', salidas:'Insumos disponibles', indicadores:'Cumplimiento de pedidos', riesgos:'Desabasto de insumos'},
+        {id:'gp', nombre:'Gestión de proveedores', responsable:'Área de compras', entradas:'Catálogo de proveedores', actividades:'Evaluación y seguimiento de proveedores', salidas:'Proveedores calificados', indicadores:'Evaluaciones de desempeño', riesgos:'Proveedores no conformes'},
+        {id:'tec', nombre:'Tecnología', responsable:'Soporte técnico', entradas:'Sistemas y equipos digitales', actividades:'Mantenimiento de sistemas de punto de venta y pedidos digitales', salidas:'Sistemas operativos', indicadores:'Tiempo de inactividad', riesgos:'Fallas en sistemas digitales'}
+      ]
+    }
+  };
+}
+
+function cid(){ return 'id' + Date.now() + Math.floor(Math.random()*100000); }
+
+let DATA = null;
+
+function cargarDatos(){
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if(raw){
+    try{ DATA = JSON.parse(raw); }
+    catch(e){ DATA = datosPorDefecto(); }
+  } else {
+    DATA = datosPorDefecto();
+  }
+  // asegurar estructura completa si falta algo (compatibilidad hacia adelante)
+  const def = datosPorDefecto();
+  for(const k in def){ if(!(k in DATA)) DATA[k] = def[k]; }
+}
+
+function guardarDatos(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(DATA));
+}
+
+/* =========================================================
+   UTILIDADES UI
+========================================================= */
+function mostrarToast(msg, esError){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = esError ? 'show error' : 'show';
+  setTimeout(()=>{ t.className = t.className.replace('show',''); }, 2600);
+}
+function abrirModal(id){ document.getElementById(id).classList.add('show'); }
+function cerrarModal(id){ document.getElementById(id).classList.remove('show'); }
+function escapeHtml(str){
+  if(str===undefined || str===null) return '';
+  return String(str).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function badgeClass(nivel){
+  const n = (nivel||'').toLowerCase();
+  if(n==='alta'||n==='alto') return 'alta';
+  if(n==='media'||n==='medio') return 'media';
+  return 'baja';
+}
+
+/* =========================================================
+   TABS
+========================================================= */
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+    if(btn.dataset.tab === 'tab-resumen') actualizarResumen();
+  });
+});
+
+/* =========================================================
+   ENCABEZADO / META
+========================================================= */
+function cargarMetaEnHeader(){
+  document.getElementById('metaSucursal').value = DATA.meta.sucursal;
+  document.getElementById('metaUbicacion').value = DATA.meta.ubicacion;
+  document.getElementById('metaResponsable').value = DATA.meta.responsable;
+  document.getElementById('metaCodigo').value = DATA.meta.codigo;
+  document.getElementById('metaVersion').value = DATA.meta.version;
+  document.getElementById('metaFechaElab').value = DATA.meta.fechaElab;
+  document.getElementById('metaFechaRev').value = DATA.meta.fechaRev;
+  actualizarBadge();
+}
+function actualizarBadge(){
+  document.getElementById('badgeCodigo').textContent = DATA.meta.codigo || '—';
+  document.getElementById('badgeVersion').textContent = DATA.meta.version || '—';
+  document.getElementById('badgeFechaElab').textContent = DATA.meta.fechaElab || '—';
+  document.getElementById('badgeFechaRev').textContent = DATA.meta.fechaRev || '—';
+}
+['metaSucursal','metaUbicacion','metaResponsable','metaCodigo','metaVersion','metaFechaElab','metaFechaRev'].forEach(id=>{
+  document.addEventListener('DOMContentLoaded', ()=>{
+    document.getElementById(id).addEventListener('change', ()=>{
+      const map = {metaSucursal:'sucursal', metaUbicacion:'ubicacion', metaResponsable:'responsable', metaCodigo:'codigo', metaVersion:'version', metaFechaElab:'fechaElab', metaFechaRev:'fechaRev'};
+      DATA.meta[map[id]] = document.getElementById(id).value;
+      guardarDatos();
+      actualizarBadge();
+      mostrarToast('✓ Datos guardados localmente');
+    });
+  });
+});
+
+/* =========================================================
+   SECCIÓN 1: INFORMACIÓN GENERAL
+========================================================= */
+function cargarInfoGeneralUI(){
+  const i = DATA.info;
+  document.getElementById('infOrganizacion').value = i.organizacion;
+  document.getElementById('infComercial').value = i.comercial;
+  document.getElementById('infUbicacion').value = i.ubicacion;
+  document.getElementById('infCiudad').value = i.ciudad;
+  document.getElementById('infEstado').value = i.estado;
+  document.getElementById('infResponsable').value = i.responsable;
+  document.getElementById('infFecha').value = i.fecha;
+  document.getElementById('infCodigo').value = i.codigo;
+  document.getElementById('infVersion').value = i.version;
+  document.getElementById('infVigencia').value = i.vigencia;
+}
+function guardarInfoGeneral(){
+  DATA.info = {
+    organizacion: document.getElementById('infOrganizacion').value.trim(),
+    comercial: document.getElementById('infComercial').value.trim(),
+    ubicacion: document.getElementById('infUbicacion').value.trim(),
+    ciudad: document.getElementById('infCiudad').value.trim(),
+    estado: document.getElementById('infEstado').value.trim(),
+    responsable: document.getElementById('infResponsable').value.trim(),
+    fecha: document.getElementById('infFecha').value,
+    codigo: document.getElementById('infCodigo').value.trim(),
+    version: document.getElementById('infVersion').value.trim(),
+    vigencia: document.getElementById('infVigencia').value.trim()
+  };
+  guardarDatos();
+  const ind = document.getElementById('infoSaveIndicator');
+  ind.classList.add('show');
+  setTimeout(()=>ind.classList.remove('show'), 2500);
+  mostrarToast('✓ Datos guardados localmente');
+}
+function restaurarInfoGeneral(){
+  cargarDatos();
+  cargarInfoGeneralUI();
+  mostrarToast('Datos restaurados desde el último guardado.');
+}
+function limpiarInfoGeneral(){
+  abrirConfirm(()=>{
+    ['infOrganizacion','infUbicacion','infResponsable','infFecha','infCodigo','infVersion','infVigencia'].forEach(id=>document.getElementById(id).value='');
+    mostrarToast('Formulario limpiado.');
+  });
+}
+
+/* =========================================================
+   SECCIÓN 2: CONTEXTO — CUESTIONES INTERNAS / EXTERNAS
+========================================================= */
+let cuestionModoActual = 'interna';
+let cuestionEditId = null;
+
+function abrirModalCuestion(tipo, editId){
+  cuestionModoActual = tipo;
+  cuestionEditId = editId || null;
+  document.getElementById('modalCuestionTitulo').textContent = editId
+    ? 'Editar cuestión ' + (tipo==='interna'?'interna':'externa')
+    : 'Agregar cuestión ' + (tipo==='interna'?'interna':'externa');
+
+  if(editId){
+    const lista = tipo==='interna' ? DATA.internas : DATA.externas;
+    const item = lista.find(x=>x.id===editId);
+    document.getElementById('mcNombre').value = item.nombre;
+    document.getElementById('mcDescripcion').value = item.descripcion;
+    document.getElementById('mcImpacto').value = item.impacto;
+    document.getElementById('mcImportancia').value = item.importancia;
+    document.getElementById('mcAccion').value = item.accion;
+  } else {
+    document.getElementById('mcNombre').value = '';
+    document.getElementById('mcDescripcion').value = '';
+    document.getElementById('mcImpacto').value = '';
+    document.getElementById('mcImportancia').value = 'Alta';
+    document.getElementById('mcAccion').value = '';
+  }
+  abrirModal('modalCuestion');
+}
+
+function guardarCuestion(){
+  const nombre = document.getElementById('mcNombre').value.trim();
+  if(!nombre){ mostrarToast('El campo "Cuestión" es obligatorio.', true); return; }
+  const registro = {
+    id: cuestionEditId || cid(),
+    nombre,
+    descripcion: document.getElementById('mcDescripcion').value.trim(),
+    impacto: document.getElementById('mcImpacto').value.trim(),
+    importancia: document.getElementById('mcImportancia').value,
+    accion: document.getElementById('mcAccion').value.trim()
+  };
+  const lista = cuestionModoActual==='interna' ? DATA.internas : DATA.externas;
+  if(cuestionEditId){
+    const idx = lista.findIndex(x=>x.id===cuestionEditId);
+    lista[idx] = registro;
+  } else {
+    lista.push(registro);
+  }
+  guardarDatos();
+  renderContexto();
+  cerrarModal('modalCuestion');
+  mostrarToast('✓ Datos guardados localmente');
+}
+
+function eliminarCuestion(tipo, id){
+  abrirConfirm(()=>{
+    const lista = tipo==='interna' ? DATA.internas : DATA.externas;
+    const idx = lista.findIndex(x=>x.id===id);
+    if(idx>-1) lista.splice(idx,1);
+    guardarDatos();
+    renderContexto();
+    mostrarToast('Registro eliminado.');
+  });
+}
+
+function renderContexto(){
+  const tInt = document.getElementById('tablaInternas');
+  const tExt = document.getElementById('tablaExternas');
+  const render = (lista, tipo) => {
+    if(lista.length===0) return '<tr class="empty-row"><td colspan="6">No hay registros. Agrega uno con el botón superior.</td></tr>';
+    return lista.map(item=>`
+      <tr>
+        <td>${escapeHtml(item.nombre)}</td>
+        <td>${escapeHtml(item.descripcion)}</td>
+        <td>${escapeHtml(item.impacto)}</td>
+        <td><span class="badge ${badgeClass(item.importancia)}">${escapeHtml(item.importancia)}</span></td>
+        <td>${escapeHtml(item.accion)}</td>
+        <td class="actions no-print">
+          <button class="icon-btn" onclick="abrirModalCuestion('${tipo}','${item.id}')">Editar</button>
+          <button class="icon-btn" onclick="eliminarCuestion('${tipo}','${item.id}')">Eliminar</button>
+        </td>
+      </tr>`).join('');
+  };
+  tInt.innerHTML = render(DATA.internas, 'interna');
+  tExt.innerHTML = render(DATA.externas, 'externa');
+}
+
+/* =========================================================
+   SECCIÓN 3: FODA
+========================================================= */
+let fodaCategoriaActual = 'F';
+let fodaEditId = null;
+const fodaNombres = {F:'fortaleza', O:'oportunidad', D:'debilidad', A:'amenaza'};
+
+function abrirModalFoda(cat, editId){
+  fodaCategoriaActual = cat;
+  fodaEditId = editId || null;
+  document.getElementById('modalFodaTitulo').textContent = editId ? 'Editar ' + fodaNombres[cat] : 'Agregar ' + fodaNombres[cat];
+  if(editId){
+    const item = DATA.foda[cat].find(x=>x.id===editId);
+    document.getElementById('mfSituacion').value = item.situacion;
+    document.getElementById('mfDescripcion').value = item.descripcion;
+    document.getElementById('mfImpacto').value = item.impacto;
+    document.getElementById('mfPrioridad').value = item.prioridad;
+    document.getElementById('mfAccion').value = item.accion;
+  } else {
+    document.getElementById('mfSituacion').value = '';
+    document.getElementById('mfDescripcion').value = '';
+    document.getElementById('mfImpacto').value = '';
+    document.getElementById('mfPrioridad').value = 'Media';
+    document.getElementById('mfAccion').value = '';
+  }
+  abrirModal('modalFoda');
+}
+
+function guardarFoda(){
+  const situacion = document.getElementById('mfSituacion').value.trim();
+  if(!situacion){ mostrarToast('El campo "Situación identificada" es obligatorio.', true); return; }
+  const registro = {
+    id: fodaEditId || cid(),
+    situacion,
+    descripcion: document.getElementById('mfDescripcion').value.trim(),
+    impacto: document.getElementById('mfImpacto').value.trim(),
+    prioridad: document.getElementById('mfPrioridad').value,
+    accion: document.getElementById('mfAccion').value.trim()
+  };
+  const lista = DATA.foda[fodaCategoriaActual];
+  if(fodaEditId){
+    const idx = lista.findIndex(x=>x.id===fodaEditId);
+    lista[idx] = registro;
+  } else {
+    lista.push(registro);
+  }
+  guardarDatos();
+  renderFoda();
+  cerrarModal('modalFoda');
+  mostrarToast('✓ Datos guardados localmente');
+}
+
+function eliminarFoda(cat, id){
+  abrirConfirm(()=>{
+    const lista = DATA.foda[cat];
+    const idx = lista.findIndex(x=>x.id===id);
+    if(idx>-1) lista.splice(idx,1);
+    guardarDatos();
+    renderFoda();
+    mostrarToast('Registro eliminado.');
+  });
+}
+
+function renderFoda(){
+  const mapContainer = {F:'listaF', O:'listaO', D:'listaD', A:'listaA'};
+  const mapCount = {F:'countF', O:'countO', D:'countD', A:'countA'};
+  ['F','O','D','A'].forEach(cat=>{
+    const cont = document.getElementById(mapContainer[cat]);
+    const lista = DATA.foda[cat];
+    document.getElementById(mapCount[cat]).textContent = lista.length + (lista.length===1 ? ' elemento' : ' elementos');
+    if(lista.length===0){
+      cont.innerHTML = '<p style="font-size:.8rem;color:var(--gris-medio);">Sin registros.</p>';
+      return;
+    }
+    cont.innerHTML = lista.map(item=>`
+      <div class="foda-item">
+        <div class="top-row">
+          <strong>${escapeHtml(item.situacion)}</strong>
+          <span class="badge ${badgeClass(item.prioridad)}">${escapeHtml(item.prioridad)}</span>
+        </div>
+        ${item.descripcion ? `<div class="meta">${escapeHtml(item.descripcion)}</div>` : ''}
+        ${item.impacto ? `<div class="meta"><em>Impacto:</em> ${escapeHtml(item.impacto)}</div>` : ''}
+        ${item.accion ? `<div class="meta"><em>Acción:</em> ${escapeHtml(item.accion)}</div>` : ''}
+        <div class="btns no-print">
+          <button class="icon-btn" onclick="abrirModalFoda('${cat}','${item.id}')">Editar</button>
+          <button class="icon-btn" onclick="eliminarFoda('${cat}','${item.id}')">Eliminar</button>
+        </div>
+      </div>`).join('');
+  });
+}
+
+/* =========================================================
+   SECCIÓN 4: PARTES INTERESADAS
+========================================================= */
+let parteEditId = null;
+
+function abrirModalParte(editId){
+  parteEditId = editId || null;
+  document.getElementById('modalParteTitulo').textContent = editId ? 'Editar parte interesada' : 'Agregar parte interesada';
+  if(editId){
+    const item = DATA.partes.find(x=>x.id===editId);
+    document.getElementById('mpNombre').value = item.nombre;
+    document.getElementById('mpTipo').value = item.tipo;
+    document.getElementById('mpNecesidades').value = item.necesidades;
+    document.getElementById('mpExpectativas').value = item.expectativas;
+    document.getElementById('mpRequisitos').value = item.requisitos;
+    document.getElementById('mpInfluencia').value = item.influencia;
+    document.getElementById('mpImpactoLvl').value = item.impacto;
+    document.getElementById('mpSeguimiento').value = item.seguimiento;
+    document.getElementById('mpResponsable').value = item.responsable;
+    document.getElementById('mpFrecuencia').value = item.frecuencia;
+  } else {
+    ['mpNombre','mpNecesidades','mpExpectativas','mpRequisitos','mpSeguimiento','mpResponsable','mpFrecuencia'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('mpTipo').value = 'Clientes';
+    document.getElementById('mpInfluencia').value = 'Media';
+    document.getElementById('mpImpactoLvl').value = 'Medio';
+  }
+  abrirModal('modalParte');
+}
+
+function guardarParte(){
+  const nombre = document.getElementById('mpNombre').value.trim();
+  if(!nombre){ mostrarToast('El campo "Parte interesada" es obligatorio.', true); return; }
+  const registro = {
+    id: parteEditId || cid(),
+    nombre,
+    tipo: document.getElementById('mpTipo').value,
+    necesidades: document.getElementById('mpNecesidades').value.trim(),
+    expectativas: document.getElementById('mpExpectativas').value.trim(),
+    requisitos: document.getElementById('mpRequisitos').value.trim(),
+    influencia: document.getElementById('mpInfluencia').value,
+    impacto: document.getElementById('mpImpactoLvl').value,
+    seguimiento: document.getElementById('mpSeguimiento').value.trim(),
+    responsable: document.getElementById('mpResponsable').value.trim(),
+    frecuencia: document.getElementById('mpFrecuencia').value.trim()
+  };
+  if(parteEditId){
+    const idx = DATA.partes.findIndex(x=>x.id===parteEditId);
+    DATA.partes[idx] = registro;
+  } else {
+    DATA.partes.push(registro);
+  }
+  guardarDatos();
+  renderPartes();
+  cerrarModal('modalParte');
+  mostrarToast('✓ Datos guardados localmente');
+}
+
+function eliminarParte(id){
+  abrirConfirm(()=>{
+    const idx = DATA.partes.findIndex(x=>x.id===id);
+    if(idx>-1) DATA.partes.splice(idx,1);
+    guardarDatos();
+    renderPartes();
+    mostrarToast('Registro eliminado.');
+  });
+}
+
+function renderPartes(){
+  let lista = [...DATA.partes];
+  const fTipo = document.getElementById('filtroTipo').value;
+  const fInf = document.getElementById('filtroInfluencia').value;
+  const fImp = document.getElementById('filtroImpacto').value;
+  const orden = document.getElementById('ordenParte').value;
+  if(fTipo) lista = lista.filter(p=>p.tipo===fTipo);
+  if(fInf) lista = lista.filter(p=>p.influencia===fInf);
+  if(fImp) lista = lista.filter(p=>p.impacto===fImp);
+  if(orden==='nombre') lista.sort((a,b)=>a.nombre.localeCompare(b.nombre));
+  if(orden==='influencia'){ const ord={Alta:0,Media:1,Baja:2}; lista.sort((a,b)=>ord[a.influencia]-ord[b.influencia]); }
+  if(orden==='impacto'){ const ord={Alto:0,Medio:1,Bajo:2}; lista.sort((a,b)=>ord[a.impacto]-ord[b.impacto]); }
+
+  const tbody = document.getElementById('tablaPartes');
+  if(lista.length===0){
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="11">No hay registros que coincidan con los filtros.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = lista.map(p=>`
+    <tr>
+      <td>${escapeHtml(p.nombre)}</td>
+      <td>${escapeHtml(p.tipo)}</td>
+      <td>${escapeHtml(p.necesidades)}</td>
+      <td>${escapeHtml(p.expectativas)}</td>
+      <td>${escapeHtml(p.requisitos)}</td>
+      <td><span class="badge ${badgeClass(p.influencia)}">${escapeHtml(p.influencia)}</span></td>
+      <td><span class="badge ${badgeClass(p.impacto)}">${escapeHtml(p.impacto)}</span></td>
+      <td>${escapeHtml(p.seguimiento)}</td>
+      <td>${escapeHtml(p.responsable)}</td>
+      <td>${escapeHtml(p.frecuencia)}</td>
+      <td class="actions no-print">
+        <button class="icon-btn" onclick="abrirModalParte('${p.id}')">Editar</button>
+        <button class="icon-btn" onclick="eliminarParte('${p.id}')">Eliminar</button>
+      </td>
+    </tr>`).join('');
+}
+
+/* =========================================================
+   SECCIÓN 5: ALCANCE
+========================================================= */
+function cargarAlcanceUI(){
+  const a = DATA.alcanceForm;
+  document.getElementById('alcOrganizacion').value = a.organizacion;
+  document.getElementById('alcUbicacion').value = a.ubicacion;
+  document.getElementById('alcProductos').value = a.productos;
+  document.getElementById('alcProcesos').value = a.procesos;
+  document.getElementById('alcInstalaciones').value = a.instalaciones;
+  document.getElementById('alcPersonal').value = a.personal;
+  document.getElementById('alcRequisitos').value = a.requisitos;
+  document.getElementById('alcLimites').value = a.limites;
+  document.getElementById('alcExclusiones').value = a.exclusiones;
+  document.getElementById('alcJustificacion').value = a.justificacion;
+  document.getElementById('alcDeclaracion').value = DATA.alcanceDeclaracion;
+}
+function leerAlcanceForm(){
+  return {
+    organizacion: document.getElementById('alcOrganizacion').value.trim(),
+    ubicacion: document.getElementById('alcUbicacion').value.trim(),
+    productos: document.getElementById('alcProductos').value.trim(),
+    procesos: document.getElementById('alcProcesos').value.trim(),
+    instalaciones: document.getElementById('alcInstalaciones').value.trim(),
+    personal: document.getElementById('alcPersonal').value.trim(),
+    requisitos: document.getElementById('alcRequisitos').value.trim(),
+    limites: document.getElementById('alcLimites').value.trim(),
+    exclusiones: document.getElementById('alcExclusiones').value.trim(),
+    justificacion: document.getElementById('alcJustificacion').value.trim()
+  };
+}
+function guardarDatosAlcance(){
+  DATA.alcanceForm = leerAlcanceForm();
+  guardarDatos();
+  mostrarToast('✓ Datos guardados localmente');
+}
+function generarDeclaracion(){
+  const a = leerAlcanceForm();
+  if(!a.organizacion || !a.ubicacion){
+    mostrarToast('Completa al menos el nombre de la organización y la ubicación para generar la declaración.', true);
+    return;
+  }
+  DATA.alcanceForm = a;
+  let texto = `El Sistema de Gestión de la Calidad de la sucursal ${a.organizacion}, ubicada en ${a.ubicacion}, comprende las actividades relacionadas con ${a.productos || 'la recepción de materias primas, almacenamiento, preparación y entrega de alimentos y bebidas, atención al cliente, servicio en restaurante, servicio para llevar y/o entrega a domicilio'}, así como los procesos de apoyo necesarios para asegurar la conformidad de los productos y servicios.`;
+  if(a.procesos) texto += `\n\nProcesos incluidos: ${a.procesos}.`;
+  if(a.instalaciones) texto += `\nInstalaciones incluidas: ${a.instalaciones}.`;
+  if(a.personal) texto += `\nPersonal involucrado: ${a.personal}.`;
+  if(a.requisitos) texto += `\nRequisitos aplicables: ${a.requisitos}.`;
+  if(a.limites) texto += `\nLímites del SGC: ${a.limites}.`;
+  if(a.exclusiones){
+    texto += `\n\nExclusiones: ${a.exclusiones}.`;
+    if(a.justificacion) texto += ` Justificación: ${a.justificacion}.`;
+  } else {
+    texto += `\n\nNo se identifican exclusiones a los requisitos de la norma ISO 9001:2015 aplicables al presente alcance.`;
+  }
+  DATA.alcanceDeclaracion = texto;
+  document.getElementById('alcDeclaracion').value = texto;
+  guardarDatos();
+  mostrarToast('Declaración generada. Puedes editarla antes de guardarla.');
+}
+function guardarDeclaracion(){
+  DATA.alcanceDeclaracion = document.getElementById('alcDeclaracion').value;
+  guardarDatos();
+  mostrarToast('✓ Datos guardados localmente');
+}
+
+/* =========================================================
+   SECCIÓN 6: PROCESOS
+========================================================= */
+let procesoActualCat = null;
+let procesoActualId = null;
+
+function renderProcesos(){
+  const cols = {estrategico:'colEstrategico', operativo:'colOperativo', apoyo:'colApoyo'};
+  Object.keys(cols).forEach(cat=>{
+    const cont = document.getElementById(cols[cat]);
+    cont.innerHTML = DATA.procesos[cat].map(p=>`
+      <button class="proceso-chip" onclick="mostrarDetalleProceso('${cat}','${p.id}')">${escapeHtml(p.nombre)}</button>
+    `).join('');
+  });
+}
+function mostrarDetalleProceso(cat, id){
+  procesoActualCat = cat; procesoActualId = id;
+  const p = DATA.procesos[cat].find(x=>x.id===id);
+  document.getElementById('procesoDetalleCard').style.display = 'block';
+  document.getElementById('procesoDetalleNombre').textContent = p.nombre;
+  document.getElementById('pdResponsable').textContent = p.responsable || '—';
+  document.getElementById('pdEntradas').textContent = p.entradas || '—';
+  document.getElementById('pdActividades').textContent = p.actividades || '—';
+  document.getElementById('pdSalidas').textContent = p.salidas || '—';
+  document.getElementById('pdIndicadores').textContent = p.indicadores || '—';
+  document.getElementById('pdRiesgos').textContent = p.riesgos || '—';
+  document.getElementById('procesoDetalleCard').scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+function editarProcesoActual(){
+  if(!procesoActualId){ mostrarToast('Selecciona primero un proceso.', true); return; }
+  const p = DATA.procesos[procesoActualCat].find(x=>x.id===procesoActualId);
+  document.getElementById('mprNombre').value = p.nombre;
+  document.getElementById('mprResponsable').value = p.responsable;
+  document.getElementById('mprEntradas').value = p.entradas;
+  document.getElementById('mprActividades').value = p.actividades;
+  document.getElementById('mprSalidas').value = p.salidas;
+  document.getElementById('mprIndicadores').value = p.indicadores;
+  document.getElementById('mprRiesgos').value = p.riesgos;
+  abrirModal('modalProceso');
+}
+function guardarProceso(){
+  const p = DATA.procesos[procesoActualCat].find(x=>x.id===procesoActualId);
+  p.responsable = document.getElementById('mprResponsable').value.trim();
+  p.entradas = document.getElementById('mprEntradas').value.trim();
+  p.actividades = document.getElementById('mprActividades').value.trim();
+  p.salidas = document.getElementById('mprSalidas').value.trim();
+  p.indicadores = document.getElementById('mprIndicadores').value.trim();
+  p.riesgos = document.getElementById('mprRiesgos').value.trim();
+  guardarDatos();
+  mostrarDetalleProceso(procesoActualCat, procesoActualId);
+  cerrarModal('modalProceso');
+  mostrarToast('✓ Datos guardados localmente');
+}
+
+/* =========================================================
+   SECCIÓN 7: RESUMEN
+========================================================= */
+function actualizarResumen(){
+  document.getElementById('rsInternas').textContent = DATA.internas.length;
+  document.getElementById('rsExternas').textContent = DATA.externas.length;
+  document.getElementById('rsF').textContent = DATA.foda.F.length;
+  document.getElementById('rsO').textContent = DATA.foda.O.length;
+  document.getElementById('rsD').textContent = DATA.foda.D.length;
+  document.getElementById('rsA').textContent = DATA.foda.A.length;
+  document.getElementById('rsPartes').textContent = DATA.partes.length;
+  const totalProcesos = DATA.procesos.estrategico.length + DATA.procesos.operativo.length + DATA.procesos.apoyo.length;
+  document.getElementById('rsProcesos').textContent = totalProcesos;
+
+  const alcanceCompleto = !!(DATA.alcanceDeclaracion && DATA.alcanceDeclaracion.trim().length > 20);
+  document.getElementById('rsAlcanceEstado').textContent = alcanceCompleto
+    ? 'La declaración de alcance ha sido generada y se encuentra disponible para revisión.'
+    : 'Aún no se ha generado la declaración de alcance del SGC.';
+
+  // Cálculo de estado de documentación
+  const secciones = [
+    DATA.info.organizacion && DATA.info.ubicacion, // información general
+    DATA.internas.length>0 && DATA.externas.length>0, // contexto
+    (DATA.foda.F.length + DATA.foda.O.length + DATA.foda.D.length + DATA.foda.A.length) > 0, // FODA
+    DATA.partes.length>0, // partes interesadas
+    alcanceCompleto, // alcance
+    totalProcesos>0 // procesos
+  ];
+  const completadas = secciones.filter(Boolean).length;
+  const pct = Math.round((completadas/secciones.length)*100);
+  document.getElementById('estadoBar').style.width = pct + '%';
+  const pill = document.getElementById('estadoPill');
+  pill.classList.remove('pendiente','progreso','completo');
+  if(pct===0){ pill.textContent='Pendiente'; pill.classList.add('pendiente'); }
+  else if(pct===100){ pill.textContent='Completo'; pill.classList.add('completo'); }
+  else { pill.textContent='En progreso ('+pct+'%)'; pill.classList.add('progreso'); }
+}
+
+/* =========================================================
+   CONFIRMACIÓN GENÉRICA
+========================================================= */
+function abrirConfirm(callback){
+  abrirModal('modalConfirm');
+  const btn = document.getElementById('confirmDeleteBtn');
+  const nuevoBtn = btn.cloneNode(true);
+  btn.parentNode.replaceChild(nuevoBtn, btn);
+  nuevoBtn.addEventListener('click', ()=>{ callback(); cerrarModal('modalConfirm'); });
+}
+
+/* Cerrar modal al hacer click fuera de la caja */
+document.querySelectorAll('.modal-overlay').forEach(ov=>{
+  ov.addEventListener('click', (e)=>{ if(e.target===ov) ov.classList.remove('show'); });
+});
+
+/* =========================================================
+   EXPORTAR / IMPORTAR JSON
+========================================================= */
+function exportarJSON(){
+  const blob = new Blob([JSON.stringify(DATA, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'capitulo_4_datos_' + (DATA.meta.codigo || 'manual') + '.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  mostrarToast('Datos exportados a JSON.');
+}
+function importarJSON(evt){
+  const file = evt.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e){
+    try{
+      const nuevo = JSON.parse(e.target.result);
+      DATA = nuevo;
+      guardarDatos();
+      renderTodo();
+      mostrarToast('Datos importados correctamente.');
+    }catch(err){
+      mostrarToast('El archivo seleccionado no es un JSON válido.', true);
+    }
+  };
+  reader.readAsText(file);
+  evt.target.value = '';
+}
+
+/* =========================================================
+   INICIALIZACIÓN
+========================================================= */
+function renderTodo(){
+  cargarMetaEnHeader();
+  cargarInfoGeneralUI();
+  renderContexto();
+  renderFoda();
+  renderPartes();
+  cargarAlcanceUI();
+  renderProcesos();
+  actualizarResumen();
+}
+
+cargarDatos();
+document.addEventListener('DOMContentLoaded', renderTodo);
+</script>
+</body>
+</html>

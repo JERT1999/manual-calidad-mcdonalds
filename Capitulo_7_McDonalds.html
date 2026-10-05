@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manual de Calidad · Capítulo 7 — Apoyo | Caso académico McDonald's</title>
+<style>
+  :root{
+    --ink:#241f1a;
+    --ink-soft:#5a4f45;
+    --paper:#f6f2ea;
+    --paper-raised:#fffdfa;
+    --line:#ddd2bf;
+    --maroon:#7a1f1a;
+    --maroon-deep:#5c1512;
+    --amber:#b9871f;
+    --amber-soft:#f1dfb0;
+    --green:#3c6e3f;
+    --green-soft:#e2ecdd;
+    --red:#a33227;
+    --red-soft:#f4dfd9;
+    --yellow:#9c7a15;
+    --yellow-soft:#f6ecc9;
+    --gray-soft:#e9e3d6;
+    --shadow: 0 1px 2px rgba(36,31,26,.06), 0 6px 20px rgba(36,31,26,.08);
+    --radius: 10px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family: Georgia, 'Iowan Old Style', 'Times New Roman', serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .ui{font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;}
+
+  a{color:inherit;}
+
+  /* ===== HEADER ===== */
+  header.top{
+    background: linear-gradient(180deg, var(--maroon-deep), var(--maroon));
+    color:#fbf6ea;
+    padding: 28px 24px 20px;
+    position:relative;
+    overflow:hidden;
+  }
+  header.top::after{
+    content:"";
+    position:absolute; right:-40px; top:-60px;
+    width:220px; height:220px;
+    border-radius:50%;
+    background: radial-gradient(circle at 30% 30%, rgba(255,208,84,.35), transparent 70%);
+  }
+  .brand-row{
+    display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+    max-width:1180px; margin:0 auto;
+  }
+  .arches{
+    font-size:34px; line-height:1; color:#f6c453;
+    text-shadow: 0 2px 4px rgba(0,0,0,.25);
+  }
+  .brand-text h1{
+    font-size: clamp(20px, 3vw, 28px);
+    margin:0 0 2px;
+    font-weight:400;
+    letter-spacing:.2px;
+  }
+  .brand-text .chapter{
+    font-family:'Trebuchet MS', sans-serif;
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:1.5px;
+    color:#f0c96a;
+  }
+  .subtitle{
+    max-width:1180px; margin: 14px auto 0; font-size:14.5px; color:#f0e3cf;
+  }
+  .lede{
+    max-width:1180px; margin:10px auto 0; font-size:13.5px; color:#e6d6bd;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    max-width: 860px;
+    line-height:1.6;
+  }
+  .demo-flag{
+    display:inline-block; margin-top:12px;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    font-size:11.5px; letter-spacing:.4px;
+    background: rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.35);
+    padding:4px 10px; border-radius:999px;
+    color:#fdf6e6;
+  }
+
+  /* ===== NAV ===== */
+  nav.tabs{
+    position:sticky; top:0; z-index:50;
+    background: var(--paper-raised);
+    border-bottom:1px solid var(--line);
+    display:flex; gap:2px; overflow-x:auto;
+    padding: 0 12px;
+  }
+  nav.tabs button{
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background:none; border:none; cursor:pointer;
+    padding:14px 16px 12px; font-size:14px; color:var(--ink-soft);
+    white-space:nowrap; border-bottom:3px solid transparent;
+    transition: color .15s ease, border-color .15s ease;
+  }
+  nav.tabs button:hover{ color:var(--ink); }
+  nav.tabs button.active{
+    color:var(--maroon); border-bottom-color:var(--maroon); font-weight:600;
+  }
+
+  main{ max-width:1180px; margin:0 auto; padding:26px 20px 60px; }
+  .view{ display:none; animation: fade .25s ease; }
+  .view.active{ display:block; }
+  @keyframes fade{ from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:translateY(0);} }
+
+  h2.section-title{
+    font-weight:400; font-size:24px; margin:0 0 6px; color:var(--maroon-deep);
+    border-bottom:2px solid var(--amber-soft); padding-bottom:10px;
+  }
+  p.section-desc{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    font-size:13.5px; color:var(--ink-soft); max-width:820px; margin: 8px 0 22px;
+  }
+
+  /* ===== KPI CARDS ===== */
+  .kpi-grid{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+    gap:14px; margin-bottom:26px;
+  }
+  .kpi{
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:var(--radius);
+    padding:16px 16px 14px; box-shadow:var(--shadow);
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  }
+  .kpi .icon{font-size:20px;}
+  .kpi .num{font-size:30px; font-weight:700; color:var(--maroon-deep); margin-top:4px; font-family:Georgia,serif;}
+  .kpi .label{font-size:12px; color:var(--ink-soft); margin-top:2px;}
+
+  .status-grid{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:12px; margin-top: 6px;
+  }
+  .status-card{
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:var(--radius);
+    padding:14px 16px; display:flex; align-items:center; justify-content:space-between; gap:10px;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  }
+  .status-card .name{font-size:13.5px;}
+  .badge{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    font-size:11.5px; padding:4px 10px; border-radius:999px; font-weight:600; white-space:nowrap;
+  }
+  .badge.ok{ background:var(--green-soft); color:var(--green); }
+  .badge.pending{ background:var(--yellow-soft); color:var(--yellow); }
+  .badge.bad{ background:var(--red-soft); color:var(--red); }
+  .badge.gray{ background:var(--gray-soft); color:var(--ink-soft); }
+
+  /* ===== FORMS ===== */
+  fieldset.formcard{
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:var(--radius);
+    padding:18px 20px 20px; margin-bottom:24px; box-shadow:var(--shadow);
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  }
+  fieldset.formcard legend{
+    padding:0 8px; font-family:Georgia,serif; font-size:17px; color:var(--maroon-deep);
+  }
+  .form-grid{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:14px 16px;
+  }
+  .field{ display:flex; flex-direction:column; gap:5px; }
+  .field.full{ grid-column:1/-1; }
+  .field label{ font-size:12.5px; color:var(--ink-soft); }
+  .field label .req{ color:var(--red); }
+  .field input, .field select, .field textarea{
+    font-family:inherit; font-size:13.5px; padding:9px 10px;
+    border:1px solid var(--line); border-radius:7px; background:#fffefb; color:var(--ink);
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{
+    outline:2px solid var(--amber); outline-offset:1px; border-color:var(--amber);
+  }
+  .field textarea{ resize:vertical; min-height:56px; }
+  .field.error input, .field.error select, .field.error textarea{ border-color:var(--red); }
+  .field .errmsg{ font-size:11px; color:var(--red); display:none; }
+  .field.error .errmsg{ display:block; }
+
+  .form-actions{ display:flex; gap:10px; margin-top:16px; flex-wrap:wrap; }
+  button.btn{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    cursor:pointer; border:1px solid transparent; border-radius:7px;
+    padding:10px 16px; font-size:13.5px; font-weight:600; transition:filter .15s ease, transform .05s ease;
+  }
+  button.btn:active{ transform:translateY(1px); }
+  .btn-primary{ background:var(--maroon); color:#fff8ec; }
+  .btn-primary:hover{ filter:brightness(1.08); }
+  .btn-secondary{ background:#fff; color:var(--ink); border-color:var(--line); }
+  .btn-secondary:hover{ background:var(--gray-soft); }
+  .btn-danger{ background:var(--red-soft); color:var(--red); }
+  .btn-danger:hover{ filter:brightness(.96); }
+  .btn-ghost{ background:none; color:var(--ink-soft); border-color:var(--line); }
+  .btn-sm{ padding:6px 10px; font-size:12px; }
+
+  /* ===== TABLES ===== */
+  .table-wrap{
+    overflow-x:auto; background:var(--paper-raised); border:1px solid var(--line);
+    border-radius:var(--radius); box-shadow:var(--shadow); margin-bottom:26px;
+  }
+  table{ width:100%; border-collapse:collapse; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; font-size:13px; min-width:640px; }
+  thead th{
+    text-align:left; background:var(--maroon-deep); color:#f7ecd8; padding:11px 12px; font-weight:600;
+    position:sticky; top:0; font-size:12px; letter-spacing:.2px;
+  }
+  tbody td{ padding:10px 12px; border-bottom:1px solid var(--line); vertical-align:top; }
+  tbody tr:hover{ background:#faf6ec; }
+  tbody tr:last-child td{ border-bottom:none; }
+  .empty-row td{ text-align:center; color:var(--ink-soft); padding:26px; font-style:italic; }
+  .row-actions{ display:flex; gap:6px; flex-wrap:wrap; }
+  .row-actions button{ background:none; border:1px solid var(--line); border-radius:6px; cursor:pointer; padding:4px 7px; font-size:13px; }
+  .row-actions button:hover{ background:var(--gray-soft); }
+
+  .toolbar{
+    display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:14px;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  }
+  .toolbar input[type=text], .toolbar select{
+    padding:8px 10px; border:1px solid var(--line); border-radius:7px; font-size:13px; background:#fffefb;
+  }
+  .filter-chip{
+    border:1px solid var(--line); background:#fff; padding:6px 12px; border-radius:999px;
+    font-size:12.5px; cursor:pointer; color:var(--ink-soft);
+  }
+  .filter-chip.active{ background:var(--maroon); color:#fff8ec; border-color:var(--maroon); }
+
+  .progress{
+    background:var(--gray-soft); border-radius:999px; height:8px; overflow:hidden; width:100%;
+  }
+  .progress > div{ height:100%; background:var(--green); }
+
+  /* ===== TOAST ===== */
+  #toast-wrap{ position:fixed; bottom:18px; right:18px; z-index:999; display:flex; flex-direction:column; gap:8px; }
+  .toast{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    background:var(--ink); color:#fdf7ea; padding:12px 16px; border-radius:8px; font-size:13px;
+    box-shadow:0 8px 24px rgba(0,0,0,.25); display:flex; align-items:center; gap:8px;
+    animation: slidein .2s ease, fadeout .3s ease 2.7s forwards; min-width:220px;
+  }
+  .toast.ok{ background:var(--green); }
+  .toast.err{ background:var(--red); }
+  @keyframes slidein{ from{ transform:translateX(30px); opacity:0;} to{ transform:translateX(0); opacity:1;} }
+  @keyframes fadeout{ to{ opacity:0; transform:translateY(6px);} }
+
+  /* ===== MODAL ===== */
+  .modal-backdrop{
+    position:fixed; inset:0; background:rgba(36,31,26,.55); display:none;
+    align-items:flex-start; justify-content:center; z-index:200; padding:40px 16px; overflow-y:auto;
+  }
+  .modal-backdrop.open{ display:flex; }
+  .modal{
+    background:var(--paper-raised); border-radius:12px; max-width:640px; width:100%;
+    padding:22px 22px 20px; box-shadow:0 20px 60px rgba(0,0,0,.35);
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  }
+  .modal h3{ font-family:Georgia,serif; color:var(--maroon-deep); margin-top:0; }
+  .modal .modal-close{ float:right; background:none; border:none; font-size:20px; cursor:pointer; color:var(--ink-soft); }
+  .modal dl{ display:grid; grid-template-columns:150px 1fr; gap:8px 12px; font-size:13.5px; margin:14px 0; }
+  .modal dt{ color:var(--ink-soft); }
+  .modal dd{ margin:0; }
+
+  /* ===== CHECKLIST ===== */
+  .checklist{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:2px; }
+  .checklist li{
+    display:flex; align-items:center; gap:12px; padding:11px 14px; border-radius:8px;
+    background:var(--paper-raised); border:1px solid var(--line); margin-bottom:6px;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; font-size:13.5px;
+  }
+  .checklist input{ width:17px; height:17px; accent-color:var(--maroon); }
+  .checklist li.checked{ background:var(--green-soft); border-color:#cfe0c9; }
+  .evidence-summary{
+    display:flex; align-items:center; gap:16px; margin-bottom:18px; flex-wrap:wrap;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  }
+  .evidence-summary .count{ font-size:26px; font-weight:700; color:var(--maroon-deep); font-family:Georgia,serif; }
+  .evidence-summary .bar{ flex:1; min-width:160px; }
+
+  /* subsection */
+  .subhead{ font-family:Georgia,serif; font-size:18px; color:var(--maroon-deep); margin: 30px 0 6px; }
+  .note{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; font-size:12.5px; color:var(--ink-soft);
+    background:var(--amber-soft); border-left:3px solid var(--amber); padding:10px 12px; border-radius:6px; margin: 8px 0 18px;
+  }
+  .grid-2{ display:grid; grid-template-columns:1fr; gap:22px; }
+  @media(min-width:900px){ .grid-2{ grid-template-columns:1fr 1fr; } }
+
+  .range-config{
+    display:flex; gap:10px; flex-wrap:wrap; align-items:end; margin-bottom:16px;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  }
+  .range-config .field{ min-width:120px; }
+
+  footer.site-footer{
+    background:var(--maroon-deep); color:#f2e2c4; padding:26px 20px 30px; margin-top:40px;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; font-size:12.5px;
+  }
+  footer.site-footer .inner{ max-width:1180px; margin:0 auto; text-align:center; }
+  footer.site-footer strong{ display:block; font-size:14px; margin-bottom:3px; color:#fbf1da; }
+  footer.site-footer .legend{ max-width:720px; margin:12px auto 0; color:#dcc79f; line-height:1.6; }
+
+  @media(max-width:640px){
+    .modal dl{ grid-template-columns:120px 1fr; }
+    header.top{ padding:22px 16px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="brand-row">
+    <div class="arches">M</div>
+    <div class="brand-text">
+      <h1>Manual de Calidad — Sucursal McDonald's</h1>
+      <div class="chapter">Capítulo 7 · Apoyo</div>
+    </div>
+  </div>
+  <div class="subtitle">Gestión de Recursos, Competencia, Equipos de Medición e Información Documentada</div>
+  <p class="lede">Este capítulo establece los mecanismos mediante los cuales la sucursal determina, proporciona y controla los recursos necesarios para asegurar la conformidad de sus productos y servicios, así como la competencia del personal, el seguimiento de los equipos de medición y el control de la información documentada.</p>
+  <span class="demo-flag">Caso académico · Datos de demostración, no información real de McDonald's</span>
+</header>
+
+<nav class="tabs ui" id="tabs">
+  <button data-view="dashboard" class="active">📊 Panel de Control</button>
+  <button data-view="rrhh">👥 Recursos Humanos</button>
+  <button data-view="equipos">🌡️ Equipos de Medición</button>
+  <button data-view="documentos">📁 Información Documentada</button>
+  <button data-view="evidencias">📋 Evidencias y Registros</button>
+</nav>
+
+<main>
+
+  <!-- ============ DASHBOARD ============ -->
+  <section class="view active" id="view-dashboard">
+    <h2 class="section-title">Panel de Control — Capítulo 7</h2>
+    <p class="section-desc">Indicadores generales calculados automáticamente a partir de la información registrada en cada sección del capítulo.</p>
+
+    <div class="kpi-grid ui">
+      <div class="kpi"><div class="icon">👥</div><div class="num" id="kpi-personal">0</div><div class="label">Personal registrado</div></div>
+      <div class="kpi"><div class="icon">🎓</div><div class="num" id="kpi-capacitaciones">0</div><div class="label">Capacitaciones realizadas</div></div>
+      <div class="kpi"><div class="icon">🌡️</div><div class="num" id="kpi-equipos">0</div><div class="label">Equipos de medición registrados</div></div>
+      <div class="kpi"><div class="icon">✅</div><div class="num" id="kpi-vigentes">0</div><div class="label">Equipos con calibración vigente</div></div>
+      <div class="kpi"><div class="icon">⚠️</div><div class="num" id="kpi-proximos">0</div><div class="label">Equipos próximos a calibración</div></div>
+      <div class="kpi"><div class="icon">📁</div><div class="num" id="kpi-documentos">0</div><div class="label">Documentos controlados</div></div>
+    </div>
+
+    <h3 class="subhead ui">Estado general del Capítulo 7</h3>
+    <div class="status-grid ui" id="status-grid"></div>
+
+    <h3 class="subhead ui">Correspondencia con ISO 9001:2015</h3>
+    <p class="section-desc">Esta herramienta es un apoyo documental para organizar evidencias del sistema de gestión de calidad; no constituye por sí misma una certificación ni garantiza el cumplimiento de la norma.</p>
+    <div class="table-wrap ui">
+      <table>
+        <thead><tr><th>Cláusula</th><th>Requisito</th><th>Evidencia dentro del artefacto</th></tr></thead>
+        <tbody>
+          <tr><td>7.1</td><td>Recursos</td><td>Dashboard y registros de recursos</td></tr>
+          <tr><td>7.1.2</td><td>Personas</td><td>Registro de Recursos Humanos</td></tr>
+          <tr><td>7.1.3</td><td>Infraestructura</td><td>Registro relacionado con equipos</td></tr>
+          <tr><td>7.1.4</td><td>Ambiente para la operación</td><td>Registros operativos</td></tr>
+          <tr><td>7.1.5</td><td>Recursos de seguimiento y medición</td><td>Control de equipos de medición</td></tr>
+          <tr><td>7.2</td><td>Competencia</td><td>Matriz de capacitación</td></tr>
+          <tr><td>7.3</td><td>Toma de conciencia</td><td>Registros de capacitación</td></tr>
+          <tr><td>7.4</td><td>Comunicación</td><td>Información documentada</td></tr>
+          <tr><td>7.5</td><td>Información documentada</td><td>Lista maestra de documentos</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ RECURSOS HUMANOS ============ -->
+  <section class="view" id="view-rrhh">
+    <h2 class="section-title">Recursos Humanos — Capacitación y Competencia</h2>
+    <p class="section-desc">Relacionado con ISO 9001:2015 — 7.1.2 Personas y 7.2 Competencia.</p>
+
+    <fieldset class="formcard ui">
+      <legend>Registro de Recursos Humanos y Competencia</legend>
+      <form id="form-rrhh" novalidate>
+        <input type="hidden" id="rrhh-edit-id">
+        <div class="form-grid">
+          <div class="field" data-field="nombre"><label>Nombre del colaborador <span class="req">*</span></label><input type="text" id="rrhh-nombre"><span class="errmsg">Este campo es obligatorio.</span></div>
+          <div class="field" data-field="puesto"><label>Puesto <span class="req">*</span></label><input type="text" id="rrhh-puesto"><span class="errmsg">Este campo es obligatorio.</span></div>
+          <div class="field"><label>Área</label><input type="text" id="rrhh-area"></div>
+          <div class="field"><label>Número/ID del empleado</label><input type="text" id="rrhh-id-empleado"></div>
+          <div class="field"><label>Fecha de ingreso</label><input type="date" id="rrhh-fecha-ingreso"></div>
+          <div class="field"><label>Nivel de competencia</label>
+            <select id="rrhh-competencia"><option>Inicial</option><option>En desarrollo</option><option selected>Competente</option><option>Experto</option></select>
+          </div>
+          <div class="field"><label>Capacitación requerida</label><input type="text" id="rrhh-cap-requerida"></div>
+          <div class="field"><label>Última capacitación realizada</label><input type="date" id="rrhh-ultima-cap"></div>
+          <div class="field"><label>Próxima capacitación</label><input type="date" id="rrhh-proxima-cap"></div>
+          <div class="field"><label>Instructor</label><input type="text" id="rrhh-instructor"></div>
+          <div class="field"><label>Método de evaluación</label>
+            <select id="rrhh-metodo"><option>Observación directa</option><option>Evaluación teórica</option><option>Evaluación práctica</option><option>Lista de verificación</option></select>
+          </div>
+          <div class="field"><label>Resultado de evaluación</label>
+            <select id="rrhh-resultado"><option>Aprobado</option><option>Requiere refuerzo</option><option>No aprobado</option></select>
+          </div>
+          <div class="field full"><label>Observaciones</label><textarea id="rrhh-obs"></textarea></div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary" id="rrhh-submit-btn">+ Registrar colaborador</button>
+          <button type="button" class="btn btn-secondary" id="rrhh-cancel-edit" style="display:none;">Cancelar edición</button>
+          <button type="reset" class="btn btn-ghost">Limpiar formulario</button>
+        </div>
+      </form>
+    </fieldset>
+
+    <div class="toolbar ui">
+      <input type="text" id="rrhh-search" placeholder="🔎 Buscar por nombre o puesto...">
+      <button class="btn btn-danger btn-sm" id="rrhh-clear-all">🗑️ Restablecer datos de RH</button>
+    </div>
+    <div class="table-wrap ui">
+      <table>
+        <thead><tr><th>Colaborador</th><th>Puesto</th><th>Área</th><th>Competencia</th><th>Última capacitación</th><th>Próxima capacitación</th><th>Resultado</th><th>Acciones</th></tr></thead>
+        <tbody id="rrhh-tbody"></tbody>
+      </table>
+    </div>
+
+    <h3 class="subhead ui">Matriz de Capacitación y Competencia</h3>
+    <p class="section-desc">Permite identificar el porcentaje de cumplimiento por tema de capacitación operativa de la sucursal. El cumplimiento se calcula como personal capacitado ÷ personal requerido × 100.</p>
+    <div class="table-wrap ui">
+      <table>
+        <thead><tr><th>Capacitación</th><th>Personal requerido</th><th>Personal capacitado</th><th>% Cumplimiento</th><th>Estado</th><th>Acciones</th></tr></thead>
+        <tbody id="matriz-tbody"></tbody>
+      </table>
+    </div>
+    <fieldset class="formcard ui">
+      <legend>Agregar tema de capacitación a la matriz</legend>
+      <form id="form-matriz">
+        <div class="form-grid">
+          <div class="field full" data-field="tema"><label>Capacitación <span class="req">*</span></label><input type="text" id="matriz-tema" placeholder="Ej. Manejo de equipos de cocina"><span class="errmsg">Este campo es obligatorio.</span></div>
+          <div class="field"><label>Personal requerido</label><input type="number" min="0" id="matriz-requerido" value="0"></div>
+          <div class="field"><label>Personal capacitado</label><input type="number" min="0" id="matriz-capacitado" value="0"></div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">+ Agregar tema</button>
+        </div>
+      </form>
+    </fieldset>
+  </section>
+
+  <!-- ============ EQUIPOS DE MEDICIÓN ============ -->
+  <section class="view" id="view-equipos">
+    <h2 class="section-title">Control de Equipos de Medición</h2>
+    <p class="section-desc">Relacionado con ISO 9001:2015 — 7.1.5 Recursos de seguimiento y medición. La sucursal debe identificar y controlar los recursos utilizados para verificar las condiciones necesarias para garantizar la conformidad de los productos y procesos, incluyendo equipos utilizados para controlar temperaturas y otros parámetros relevantes.</p>
+
+    <fieldset class="formcard ui">
+      <legend>Registro de Equipo de Medición</legend>
+      <form id="form-equipo" novalidate>
+        <input type="hidden" id="equipo-edit-id">
+        <div class="form-grid">
+          <div class="field" data-field="idEquipo"><label>ID del equipo <span class="req">*</span></label><input type="text" id="equipo-id"><span class="errmsg">Este campo es obligatorio.</span></div>
+          <div class="field" data-field="nombre"><label>Nombre del equipo <span class="req">*</span></label><input type="text" id="equipo-nombre"><span class="errmsg">Este campo es obligatorio.</span></div>
+          <div class="field"><label>Tipo</label>
+            <select id="equipo-tipo"><option>Termómetro digital</option><option>Termómetro infrarrojo</option><option>Freidora</option><option>Refrigerador</option><option>Congelador</option><option>Otro</option></select>
+          </div>
+          <div class="field"><label>Marca</label><input type="text" id="equipo-marca"></div>
+          <div class="field"><label>Modelo</label><input type="text" id="equipo-modelo"></div>
+          <div class="field"><label>Número de serie</label><input type="text" id="equipo-serie"></div>
+          <div class="field"><label>Ubicación</label><input type="text" id="equipo-ubicacion"></div>
+          <div class="field"><label>Variable que mide</label>
+            <select id="equipo-variable"><option>Temperatura</option><option>Tiempo</option><option>Peso</option><option>Otra</option></select>
+          </div>
+          <div class="field"><label>Rango de medición</label><input type="text" id="equipo-rango" placeholder="Ej. -20°C a 100°C"></div>
+          <div class="field"><label>Fecha de última calibración/verificación</label><input type="date" id="equipo-ultima-cal"></div>
+          <div class="field"><label>Fecha de próxima calibración/verificación</label><input type="date" id="equipo-proxima-cal"></div>
+          <div class="field"><label>Frecuencia</label><input type="text" id="equipo-frecuencia" placeholder="Ej. Trimestral"></div>
+          <div class="field"><label>Responsable</label><input type="text" id="equipo-responsable"></div>
+          <div class="field"><label>Estado</label>
+            <select id="equipo-estado"><option>Calibrado</option><option>Vigente</option><option>Próximo a vencer</option><option>Vencido</option><option>Fuera de servicio</option></select>
+          </div>
+          <div class="field full"><label>Observaciones</label><textarea id="equipo-obs"></textarea></div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary" id="equipo-submit-btn">+ Registrar equipo</button>
+          <button type="button" class="btn btn-secondary" id="equipo-cancel-edit" style="display:none;">Cancelar edición</button>
+          <button type="reset" class="btn btn-ghost">Limpiar formulario</button>
+        </div>
+      </form>
+    </fieldset>
+
+    <div class="toolbar ui">
+      <input type="text" id="equipo-search" placeholder="🔎 Buscar equipo por nombre o ID...">
+      <button class="btn btn-secondary btn-sm" id="equipo-export">⬇️ Exportar CSV</button>
+      <button class="btn btn-danger btn-sm" id="equipo-clear-all">🗑️ Restablecer equipos</button>
+    </div>
+    <div class="table-wrap ui">
+      <table>
+        <thead><tr><th>ID</th><th>Equipo</th><th>Tipo</th><th>Ubicación</th><th>Última cal.</th><th>Próxima cal.</th><th>Estado</th><th>Acciones</th></tr></thead>
+        <tbody id="equipos-tbody"></tbody>
+      </table>
+    </div>
+
+    <h3 class="subhead ui">Monitoreo de Equipos Críticos</h3>
+    <div class="note ui">Los rangos de temperatura que aparecen abajo son configurables por el usuario. Deben establecerse de acuerdo con los procedimientos internos aplicables de la sucursal y la normativa sanitaria vigente; no representan requisitos oficiales de McDonald's ni de ISO 9001.</div>
+
+    <div class="range-config ui">
+      <div class="field"><label>Rango objetivo — Freidoras (°C)</label><input type="number" id="rango-freidora-min" value="160"></div>
+      <div class="field"><label>hasta</label><input type="number" id="rango-freidora-max" value="180"></div>
+      <div class="field"><label>Rango objetivo — Refrigeradores (°C)</label><input type="number" id="rango-refri-min" value="1"></div>
+      <div class="field"><label>hasta</label><input type="number" id="rango-refri-max" value="4"></div>
+      <div class="field"><label>Rango objetivo — Congeladores (°C)</label><input type="number" id="rango-congelador-min" value="-22"></div>
+      <div class="field"><label>hasta</label><input type="number" id="rango-congelador-max" value="-15"></div>
+      <button class="btn btn-secondary btn-sm" id="rango-guardar">Guardar rangos</button>
+    </div>
+
+    <div class="grid-2">
+      <div>
+        <h4 class="subhead ui" style="margin-top:0;">Freidoras</h4>
+        <fieldset class="formcard ui">
+          <legend>Registro de monitoreo — Freidoras</legend>
+          <form id="form-freidora" data-tipo="freidora">
+            <div class="form-grid">
+              <div class="field"><label>Fecha</label><input type="date" class="mon-fecha"></div>
+              <div class="field"><label>Hora</label><input type="time" class="mon-hora"></div>
+              <div class="field" data-field="equipo"><label>Equipo <span class="req">*</span></label><input type="text" class="mon-equipo"><span class="errmsg">Obligatorio.</span></div>
+              <div class="field"><label>Temp. objetivo (°C)</label><input type="number" class="mon-tobjetivo"></div>
+              <div class="field"><label>Temp. registrada (°C)</label><input type="number" class="mon-tregistrada"></div>
+              <div class="field"><label>Responsable</label><input type="text" class="mon-responsable"></div>
+              <div class="field full"><label>Acción tomada</label><input type="text" class="mon-accion"></div>
+            </div>
+            <div class="form-actions"><button type="submit" class="btn btn-primary btn-sm">+ Registrar lectura</button></div>
+          </form>
+        </fieldset>
+        <div class="table-wrap ui"><table><thead><tr><th>Fecha/Hora</th><th>Equipo</th><th>Objetivo</th><th>Registrada</th><th>Resultado</th><th></th></tr></thead><tbody id="freidora-tbody"></tbody></table></div>
+      </div>
+
+      <div>
+        <h4 class="subhead ui" style="margin-top:0;">Refrigeradores</h4>
+        <fieldset class="formcard ui">
+          <legend>Registro de monitoreo — Refrigeradores</legend>
+          <form id="form-refri" data-tipo="refri">
+            <div class="form-grid">
+              <div class="field"><label>Fecha</label><input type="date" class="mon-fecha"></div>
+              <div class="field"><label>Hora</label><input type="time" class="mon-hora"></div>
+              <div class="field" data-field="equipo"><label>Equipo <span class="req">*</span></label><input type="text" class="mon-equipo"><span class="errmsg">Obligatorio.</span></div>
+              <div class="field"><label>Temp. objetivo (°C)</label><input type="number" class="mon-tobjetivo"></div>
+              <div class="field"><label>Temp. registrada (°C)</label><input type="number" class="mon-tregistrada"></div>
+              <div class="field"><label>Responsable</label><input type="text" class="mon-responsable"></div>
+              <div class="field full"><label>Acción correctiva</label><input type="text" class="mon-accion"></div>
+            </div>
+            <div class="form-actions"><button type="submit" class="btn btn-primary btn-sm">+ Registrar lectura</button></div>
+          </form>
+        </fieldset>
+        <div class="table-wrap ui"><table><thead><tr><th>Fecha/Hora</th><th>Equipo</th><th>Objetivo</th><th>Registrada</th><th>Resultado</th><th></th></tr></thead><tbody id="refri-tbody"></tbody></table></div>
+      </div>
+    </div>
+
+    <h4 class="subhead ui">Congeladores</h4>
+    <fieldset class="formcard ui">
+      <legend>Registro de monitoreo — Congeladores</legend>
+      <form id="form-congelador" data-tipo="congelador">
+        <div class="form-grid">
+          <div class="field"><label>Fecha</label><input type="date" class="mon-fecha"></div>
+          <div class="field"><label>Hora</label><input type="time" class="mon-hora"></div>
+          <div class="field" data-field="equipo"><label>Equipo <span class="req">*</span></label><input type="text" class="mon-equipo"><span class="errmsg">Obligatorio.</span></div>
+          <div class="field"><label>Temp. objetivo (°C)</label><input type="number" class="mon-tobjetivo"></div>
+          <div class="field"><label>Temp. registrada (°C)</label><input type="number" class="mon-tregistrada"></div>
+          <div class="field"><label>Responsable</label><input type="text" class="mon-responsable"></div>
+          <div class="field full"><label>Acción correctiva</label><input type="text" class="mon-accion"></div>
+        </div>
+        <div class="form-actions"><button type="submit" class="btn btn-primary btn-sm">+ Registrar lectura</button></div>
+      </form>
+    </fieldset>
+    <div class="table-wrap ui"><table><thead><tr><th>Fecha/Hora</th><th>Equipo</th><th>Objetivo</th><th>Registrada</th><th>Resultado</th><th></th></tr></thead><tbody id="congelador-tbody"></tbody></table></div>
+
+    <h3 class="subhead ui">Calendario de Calibración y Verificación</h3>
+    <div class="toolbar ui" id="cal-filters">
+      <button class="filter-chip active" data-filter="todos">Todos</button>
+      <button class="filter-chip" data-filter="vigente">🟢 Vigentes</button>
+      <button class="filter-chip" data-filter="proximo">🟡 Próximos a vencer</button>
+      <button class="filter-chip" data-filter="vencido">🔴 Vencidos</button>
+    </div>
+    <div class="table-wrap ui">
+      <table>
+        <thead><tr><th>Equipo</th><th>Última calibración</th><th>Próxima calibración</th><th>Días restantes</th><th>Estado</th></tr></thead>
+        <tbody id="calendario-tbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ INFORMACIÓN DOCUMENTADA ============ -->
+  <section class="view" id="view-documentos">
+    <h2 class="section-title">Control de Información Documentada</h2>
+    <p class="section-desc">Relacionado con ISO 9001:2015 — 7.5 Información documentada. La información documentada necesaria para el sistema de gestión de la calidad debe mantenerse y conservarse de manera que sea adecuada, identificable, disponible y protegida contra pérdida, uso inadecuado o modificaciones no autorizadas.</p>
+
+    <fieldset class="formcard ui">
+      <legend>Registro de Documento</legend>
+      <form id="form-doc" novalidate>
+        <input type="hidden" id="doc-edit-id">
+        <div class="form-grid">
+          <div class="field" data-field="codigo"><label>Código del documento <span class="req">*</span></label><input type="text" id="doc-codigo"><span class="errmsg">Obligatorio.</span></div>
+          <div class="field" data-field="nombre"><label>Nombre del documento <span class="req">*</span></label><input type="text" id="doc-nombre"><span class="errmsg">Obligatorio.</span></div>
+          <div class="field"><label>Tipo</label>
+            <select id="doc-tipo"><option>Manual</option><option>Procedimiento</option><option>Instructivo</option><option>Formato</option><option>Registro</option><option>Política</option><option>Otro</option></select>
+          </div>
+          <div class="field"><label>Proceso relacionado</label><input type="text" id="doc-proceso"></div>
+          <div class="field"><label>Responsable</label><input type="text" id="doc-responsable"></div>
+          <div class="field"><label>Versión</label><input type="text" id="doc-version" placeholder="Ej. 1.0"></div>
+          <div class="field"><label>Fecha de emisión</label><input type="date" id="doc-emision"></div>
+          <div class="field"><label>Fecha de revisión</label><input type="date" id="doc-revision"></div>
+          <div class="field"><label>Estado</label>
+            <select id="doc-estado"><option>Vigente</option><option>En revisión</option><option>Obsoleto</option></select>
+          </div>
+          <div class="field"><label>Ubicación</label><input type="text" id="doc-ubicacion"></div>
+          <div class="field"><label>Medio</label>
+            <select id="doc-medio"><option>Digital</option><option>Físico</option><option>Digital y físico</option></select>
+          </div>
+          <div class="field"><label>Nivel de acceso</label>
+            <select id="doc-acceso"><option>Público interno</option><option>Personal autorizado</option><option>Restringido</option></select>
+          </div>
+          <div class="field full"><label>Observaciones</label><textarea id="doc-obs"></textarea></div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary" id="doc-submit-btn">+ Registrar documento</button>
+          <button type="button" class="btn btn-secondary" id="doc-cancel-edit" style="display:none;">Cancelar edición</button>
+          <button type="reset" class="btn btn-ghost">Limpiar formulario</button>
+        </div>
+      </form>
+    </fieldset>
+
+    <h3 class="subhead ui">Lista Maestra de Información Documentada</h3>
+    <div class="toolbar ui">
+      <input type="text" id="doc-search-nombre" placeholder="🔎 Buscar por nombre...">
+      <input type="text" id="doc-search-codigo" placeholder="🔎 Buscar por código...">
+      <select id="doc-filter-tipo"><option value="">Todos los tipos</option><option>Manual</option><option>Procedimiento</option><option>Instructivo</option><option>Formato</option><option>Registro</option><option>Política</option><option>Otro</option></select>
+      <select id="doc-filter-estado"><option value="">Todos los estados</option><option>Vigente</option><option>En revisión</option><option>Obsoleto</option></select>
+      <button class="btn btn-secondary btn-sm" id="doc-export">⬇️ Exportar CSV</button>
+      <button class="btn btn-danger btn-sm" id="doc-clear-all">🗑️ Restablecer documentos</button>
+    </div>
+    <div class="table-wrap ui">
+      <table>
+        <thead><tr><th>Código</th><th>Documento</th><th>Tipo</th><th>Versión</th><th>Responsable</th><th>Emisión</th><th>Revisión</th><th>Estado</th><th>Ubicación</th><th>Acciones</th></tr></thead>
+        <tbody id="doc-tbody"></tbody>
+      </table>
+    </div>
+
+    <h3 class="subhead ui">Control de Documentos Obsoletos</h3>
+    <fieldset class="formcard ui">
+      <legend>Registrar retiro de documento</legend>
+      <form id="form-obsoleto">
+        <div class="form-grid">
+          <div class="field" data-field="documento"><label>Documento <span class="req">*</span></label><input type="text" id="obs-documento"><span class="errmsg">Obligatorio.</span></div>
+          <div class="field"><label>Versión anterior</label><input type="text" id="obs-version"></div>
+          <div class="field"><label>Fecha de retiro</label><input type="date" id="obs-fecha"></div>
+          <div class="field"><label>Motivo del retiro</label><input type="text" id="obs-motivo"></div>
+          <div class="field"><label>Responsable</label><input type="text" id="obs-responsable"></div>
+          <div class="field"><label>Forma de control</label>
+            <select id="obs-forma"><option>Archivado</option><option>Eliminado</option><option>Identificado como obsoleto</option></select>
+          </div>
+        </div>
+        <div class="form-actions"><button type="submit" class="btn btn-primary">+ Registrar retiro</button></div>
+      </form>
+    </fieldset>
+    <div class="table-wrap ui">
+      <table>
+        <thead><tr><th>Documento</th><th>Versión anterior</th><th>Fecha de retiro</th><th>Motivo</th><th>Responsable</th><th>Forma de control</th><th></th></tr></thead>
+        <tbody id="obsoletos-tbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ EVIDENCIAS ============ -->
+  <section class="view" id="view-evidencias">
+    <h2 class="section-title">📋 Evidencias del Capítulo 7</h2>
+    <p class="section-desc">Checklist de evidencias que una sucursal podría conservar para demostrar la implementación de este capítulo. Esta lista es orientativa y no representa un requisito exhaustivo ni oficial.</p>
+
+    <div class="evidence-summary ui">
+      <div><span class="count" id="ev-count">0 de 0</span> evidencias disponibles</div>
+      <div class="bar"><div class="progress"><div id="ev-bar" style="width:0%"></div></div></div>
+      <div id="ev-pct" style="font-family:-apple-system,sans-serif; font-size:13px; color:var(--ink-soft);">0%</div>
+    </div>
+
+    <ul class="checklist ui" id="evidencia-list"></ul>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="inner">
+    <strong>Manual de Calidad — Capítulo 7: Apoyo</strong>
+    Basado en ISO 9001:2015 · Caso académico: Sucursal McDonald's
+    <p class="legend">Documento elaborado con fines académicos. Los procedimientos, rangos de medición, frecuencias de calibración y criterios operativos deben ser definidos y validados de acuerdo con los procedimientos internos de la organización y la normativa aplicable.</p>
+  </div>
+</footer>
+
+<div id="toast-wrap" class="ui"></div>
+
+<div class="modal-backdrop" id="modal-backdrop">
+  <div class="modal" id="modal-content"></div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- helpers ---------- */
+  const $ = (sel, ctx) => (ctx||document).querySelector(sel);
+  const $all = (sel, ctx) => Array.from((ctx||document).querySelectorAll(sel));
+  const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+
+  function load(key, fallback){
+    try{ const raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : fallback; }
+    catch(e){ return fallback; }
+  }
+  function save(key, data){
+    try{ localStorage.setItem(key, JSON.stringify(data)); }
+    catch(e){ toast('No se pudo guardar en este navegador.', 'err'); }
+  }
+
+  function toast(msg, type){
+    const wrap = $('#toast-wrap');
+    const el = document.createElement('div');
+    el.className = 'toast ' + (type||'ok');
+    const icon = type==='err' ? '⚠️' : (type==='info' ? 'ℹ️' : '✅');
+    el.innerHTML = '<span>'+icon+'</span><span>'+msg+'</span>';
+    wrap.appendChild(el);
+    setTimeout(()=> el.remove(), 3100);
+  }
+
+  function fmtDate(d){
+    if(!d) return '—';
+    return d;
+  }
+
+  function daysBetween(fromISO, toISO){
+    if(!fromISO || !toISO) return null;
+    const a = new Date(fromISO+'T00:00:00');
+    const b = new Date(toISO+'T00:00:00');
+    return Math.round((b-a)/86400000);
+  }
+
+  function escapeHtml(s){
+    if(s===undefined||s===null) return '';
+    return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  /* ---------- navigation ---------- */
+  $all('#tabs button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      $all('#tabs button').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      $all('.view').forEach(v=>v.classList.remove('active'));
+      $('#view-'+btn.dataset.view).classList.add('active');
+    });
+  });
+
+  /* ============================================================
+     ESTADO / DATOS
+  ============================================================ */
+  const DEMO_FLAG = 'iso7_seeded_v1';
+
+  let rrhh = load('iso7_rrhh', null);
+  let matriz = load('iso7_matriz', null);
+  let equipos = load('iso7_equipos', null);
+  let monitoreo = load('iso7_monitoreo', null); // {freidora:[],refri:[],congelador:[]}
+  let documentos = load('iso7_documentos', null);
+  let obsoletos = load('iso7_obsoletos', null);
+  let evidencias = load('iso7_evidencias', null);
+  let rangos = load('iso7_rangos', {freidoraMin:160, freidoraMax:180, refriMin:1, refriMax:4, congeladorMin:-22, congeladorMax:-15});
+
+  if(!localStorage.getItem(DEMO_FLAG)){
+    rrhh = [
+      {id:uid(), nombre:'Juan Pérez', puesto:'Cocinero', area:'Cocina', idEmpleado:'EMP-001', ingreso:'2023-02-10', competencia:'Competente', capReq:'Higiene y manipulación de alimentos', ultimaCap:'2026-03-01', proximaCap:'2026-09-01', instructor:'María López', metodo:'Evaluación práctica', resultado:'Aprobado', obs:'Ejemplo/demo.'},
+      {id:uid(), nombre:'María López', puesto:'Supervisora de turno', area:'Operaciones', idEmpleado:'EMP-002', ingreso:'2021-06-15', competencia:'Experto', capReq:'Procedimientos operativos estandarizados', ultimaCap:'2026-01-20', proximaCap:'2026-07-20', instructor:'Carlos Hernández', metodo:'Observación directa', resultado:'Aprobado', obs:'Ejemplo/demo.'},
+      {id:uid(), nombre:'Carlos Hernández', puesto:'Cajero', area:'Servicio al cliente', idEmpleado:'EMP-003', ingreso:'2024-05-02', competencia:'En desarrollo', capReq:'Servicio al cliente', ultimaCap:'2026-04-10', proximaCap:'2026-10-10', instructor:'Juan Pérez', metodo:'Lista de verificación', resultado:'Requiere refuerzo', obs:'Ejemplo/demo.'}
+    ];
+    matriz = [
+      {id:uid(), tema:'Higiene y manipulación de alimentos', requerido:12, capacitado:12},
+      {id:uid(), tema:'Seguridad alimentaria', requerido:12, capacitado:10},
+      {id:uid(), tema:'Limpieza y sanitización', requerido:12, capacitado:9},
+      {id:uid(), tema:'Manejo de equipos de cocina', requerido:8, capacitado:6},
+      {id:uid(), tema:'Servicio al cliente', requerido:10, capacitado:10},
+      {id:uid(), tema:'Seguridad e higiene laboral', requerido:12, capacitado:8},
+      {id:uid(), tema:'Procedimientos de emergencia', requerido:12, capacitado:5},
+      {id:uid(), tema:'Control de temperaturas', requerido:6, capacitado:6},
+      {id:uid(), tema:'Procedimientos operativos estandarizados', requerido:12, capacitado:11}
+    ];
+    equipos = [
+      {id:uid(), idEquipo:'TERM-01', nombre:'Termómetro digital cocina', tipo:'Termómetro digital', marca:'ThermoPro', modelo:'TP-16', serie:'SN-1001', ubicacion:'Cocina caliente', variable:'Temperatura', rango:'-20°C a 200°C', ultimaCal:'2026-06-01', proximaCal:'2026-09-01', frecuencia:'Trimestral', responsable:'Juan Pérez', estado:'Vigente', obs:'Ejemplo/demo.'},
+      {id:uid(), idEquipo:'FRE-01', nombre:'Freidora línea 1', tipo:'Freidora', marca:'Frymaster', modelo:'FM-45', serie:'SN-2001', ubicacion:'Área de fritura', variable:'Temperatura', rango:'0°C a 200°C', ultimaCal:'2026-05-15', proximaCal:'2026-08-15', frecuencia:'Trimestral', responsable:'Carlos Hernández', estado:'Próximo a vencer', obs:'Ejemplo/demo.'},
+      {id:uid(), idEquipo:'REF-01', nombre:'Refrigerador de insumos', tipo:'Refrigerador', marca:'True', modelo:'T-49', serie:'SN-3001', ubicacion:'Almacén frío', variable:'Temperatura', rango:'-5°C a 10°C', ultimaCal:'2026-03-10', proximaCal:'2026-06-10', frecuencia:'Trimestral', responsable:'María López', estado:'Vencido', obs:'Ejemplo/demo.'},
+      {id:uid(), idEquipo:'CON-01', nombre:'Congelador de carnes', tipo:'Congelador', marca:'Traulsen', modelo:'TR-30', serie:'SN-4001', ubicacion:'Almacén congelado', variable:'Temperatura', rango:'-30°C a 0°C', ultimaCal:'2026-07-01', proximaCal:'2026-10-01', frecuencia:'Trimestral', responsable:'Juan Pérez', estado:'Vigente', obs:'Ejemplo/demo.'}
+    ];
+    monitoreo = {
+      freidora:[{id:uid(), fecha:'2026-09-10', hora:'09:00', equipo:'FRE-01', tobjetivo:170, tregistrada:172, responsable:'Carlos Hernández', accion:'Ninguna'}],
+      refri:[{id:uid(), fecha:'2026-09-10', hora:'09:15', equipo:'REF-01', tobjetivo:3, tregistrada:6, responsable:'María López', accion:'Se ajustó el termostato y se reportó a mantenimiento.'}],
+      congelador:[{id:uid(), fecha:'2026-09-10', hora:'09:30', equipo:'CON-01', tobjetivo:-18, tregistrada:-19, responsable:'Juan Pérez', accion:'Ninguna'}]
+    };
+    documentos = [
+      {id:uid(), codigo:'MC-CAP7', nombre:'Manual de Calidad — Capítulo 7', tipo:'Manual', proceso:'Gestión de calidad', responsable:'María López', version:'1.0', emision:'2026-01-10', revision:'2026-07-10', estado:'Vigente', ubicacion:'Servidor interno / Oficina', medio:'Digital y físico', acceso:'Personal autorizado', obs:'Ejemplo/demo.'},
+      {id:uid(), codigo:'PR-HIG-01', nombre:'Procedimiento de higiene y manipulación de alimentos', tipo:'Procedimiento', proceso:'Producción', responsable:'Juan Pérez', version:'2.1', emision:'2025-11-05', revision:'2026-05-05', estado:'Vigente', ubicacion:'Cocina', medio:'Físico', acceso:'Público interno', obs:'Ejemplo/demo.'},
+      {id:uid(), codigo:'FO-CAL-01', nombre:'Formato de registro de calibración', tipo:'Formato', proceso:'Mantenimiento', responsable:'Carlos Hernández', version:'1.3', emision:'2025-08-20', revision:'2026-08-20', estado:'En revisión', ubicacion:'Carpeta de mantenimiento', medio:'Digital', acceso:'Personal autorizado', obs:'Ejemplo/demo.'}
+    ];
+    obsoletos = [
+      {id:uid(), documento:'Procedimiento de higiene y manipulación de alimentos', version:'2.0', fecha:'2025-11-05', motivo:'Actualización de norma interna', responsable:'Juan Pérez', forma:'Identificado como obsoleto'}
+    ];
+    save('iso7_rrhh', rrhh); save('iso7_matriz', matriz); save('iso7_equipos', equipos);
+    save('iso7_monitoreo', monitoreo); save('iso7_documentos', documentos); save('iso7_obsoletos', obsoletos);
+    localStorage.setItem(DEMO_FLAG, '1');
+  }
+
+  const EVIDENCIA_DEFAULT = [
+    'Perfiles de puesto','Registros de capacitación','Evaluaciones de competencia','Matriz de capacitación',
+    'Registros de inducción','Inventario de equipos de medición','Registros de calibración/verificación',
+    'Registros de monitoreo de temperatura','Lista maestra de documentos','Control de documentos obsoletos',
+    'Registros de mantenimiento de equipos'
+  ];
+  if(!evidencias){
+    evidencias = EVIDENCIA_DEFAULT.map(name=>({id:uid(), name, checked:false}));
+    save('iso7_evidencias', evidencias);
+  }
+
+  function persistAll(){
+    save('iso7_rrhh', rrhh); save('iso7_matriz', matriz); save('iso7_equipos', equipos);
+    save('iso7_monitoreo', monitoreo); save('iso7_documentos', documentos); save('iso7_obsoletos', obsoletos);
+    save('iso7_evidencias', evidencias); save('iso7_rangos', rangos);
+  }
+
+  /* ============================================================
+     MODAL
+  ============================================================ */
+  const backdrop = $('#modal-backdrop');
+  const modalContent = $('#modal-content');
+  function openModal(html){
+    modalContent.innerHTML = '<button class="modal-close" id="modal-x">&times;</button>' + html;
+    backdrop.classList.add('open');
+    $('#modal-x').addEventListener('click', closeModal);
+  }
+  function closeModal(){ backdrop.classList.remove('open'); modalContent.innerHTML=''; }
+  backdrop.addEventListener('click', e=>{ if(e.target===backdrop) closeModal(); });
+
+  function confirmDelete(msg, onYes){
+    openModal(
+      '<h3>Confirmar eliminación</h3>' +
+      '<p style="font-size:13.5px;">'+escapeHtml(msg)+'</p>' +
+      '<div class="form-actions">' +
+        '<button class="btn btn-danger" id="confirm-yes">🗑️ Eliminar</button>' +
+        '<button class="btn btn-secondary" id="confirm-no">Cancelar</button>' +
+      '</div>'
+    );
+    $('#confirm-yes').addEventListener('click', ()=>{ onYes(); closeModal(); });
+    $('#confirm-no').addEventListener('click', closeModal);
+  }
+
+  /* ============================================================
+     VALIDACIÓN GENÉRICA
+  ============================================================ */
+  function validateRequired(fieldEls){
+    let ok = true;
+    fieldEls.forEach(({wrap, input})=>{
+      const val = (input.value||'').trim();
+      if(!val){ wrap.classList.add('error'); ok = false; }
+      else { wrap.classList.remove('error'); }
+    });
+    return ok;
+  }
+
+  /* ============================================================
+     RECURSOS HUMANOS
+  ============================================================ */
+  const rrhhForm = $('#form-rrhh');
+  const rrhhSubmitBtn = $('#rrhh-submit-btn');
+  const rrhhCancelBtn = $('#rrhh-cancel-edit');
+
+  function renderRrhh(){
+    const tbody = $('#rrhh-tbody');
+    const term = ($('#rrhh-search').value||'').toLowerCase();
+    const filtered = rrhh.filter(r => !term || r.nombre.toLowerCase().includes(term) || r.puesto.toLowerCase().includes(term));
+    tbody.innerHTML = '';
+    if(filtered.length===0){
+      tbody.innerHTML = '<tr class="empty-row"><td colspan="8">Sin registros de personal todavía.</td></tr>';
+    } else {
+      filtered.forEach(r=>{
+        const badgeClass = r.resultado==='Aprobado'?'ok':(r.resultado==='Requiere refuerzo'?'pending':'bad');
+        const tr = document.createElement('tr');
+        tr.innerHTML =
+          '<td>'+escapeHtml(r.nombre)+'</td><td>'+escapeHtml(r.puesto)+'</td><td>'+escapeHtml(r.area)+'</td>'+
+          '<td>'+escapeHtml(r.competencia)+'</td><td>'+fmtDate(r.ultimaCap)+'</td><td>'+fmtDate(r.proximaCap)+'</td>'+
+          '<td><span class="badge '+badgeClass+'">'+escapeHtml(r.resultado)+'</span></td>'+
+          '<td class="row-actions">'+
+            '<button data-act="view" title="Ver detalles">👁️</button>'+
+            '<button data-act="edit" title="Editar">✏️</button>'+
+            '<button data-act="del" title="Eliminar">🗑️</button>'+
+          '</td>';
+        tr.querySelector('[data-act=view]').addEventListener('click', ()=>viewRrhh(r.id));
+        tr.querySelector('[data-act=edit]').addEventListener('click', ()=>editRrhh(r.id));
+        tr.querySelector('[data-act=del]').addEventListener('click', ()=>{
+          confirmDelete('¿Eliminar el registro de "'+r.nombre+'"?', ()=>{
+            rrhh = rrhh.filter(x=>x.id!==r.id);
+            persistAll(); renderRrhh(); refreshDashboard();
+            toast('Registro de colaborador eliminado.');
+          });
+        });
+        tbody.appendChild(tr);
+      });
+    }
+  }
+
+  function viewRrhh(id){
+    const r = rrhh.find(x=>x.id===id); if(!r) return;
+    openModal('<h3>'+escapeHtml(r.nombre)+'</h3><dl>'+
+      '<dt>Puesto</dt><dd>'+escapeHtml(r.puesto)+'</dd>'+
+      '<dt>Área</dt><dd>'+escapeHtml(r.area)+'</dd>'+
+      '<dt>ID empleado</dt><dd>'+escapeHtml(r.idEmpleado)+'</dd>'+
+      '<dt>Ingreso</dt><dd>'+fmtDate(r.ingreso)+'</dd>'+
+      '<dt>Competencia</dt><dd>'+escapeHtml(r.competencia)+'</dd>'+
+      '<dt>Capacitación requerida</dt><dd>'+escapeHtml(r.capReq)+'</dd>'+
+      '<dt>Última capacitación</dt><dd>'+fmtDate(r.ultimaCap)+'</dd>'+
+      '<dt>Próxima capacitación</dt><dd>'+fmtDate(r.proximaCap)+'</dd>'+
+      '<dt>Instructor</dt><dd>'+escapeHtml(r.instructor)+'</dd>'+
+      '<dt>Método de evaluación</dt><dd>'+escapeHtml(r.metodo)+'</dd>'+
+      '<dt>Resultado</dt><dd>'+escapeHtml(r.resultado)+'</dd>'+
+      '<dt>Observaciones</dt><dd>'+escapeHtml(r.obs||'—')+'</dd>'+
+    '</dl>');
+  }
+
+  function editRrhh(id){
+    const r = rrhh.find(x=>x.id===id); if(!r) return;
+    $('#rrhh-edit-id').value = r.id;
+    $('#rrhh-nombre').value = r.nombre; $('#rrhh-puesto').value = r.puesto; $('#rrhh-area').value = r.area;
+    $('#rrhh-id-empleado').value = r.idEmpleado; $('#rrhh-fecha-ingreso').value = r.ingreso;
+    $('#rrhh-competencia').value = r.competencia; $('#rrhh-cap-requerida').value = r.capReq;
+    $('#rrhh-ultima-cap').value = r.ultimaCap; $('#rrhh-proxima-cap').value = r.proximaCap;
+    $('#rrhh-instructor').value = r.instructor; $('#rrhh-metodo').value = r.metodo;
+    $('#rrhh-resultado').value = r.resultado; $('#rrhh-obs').value = r.obs;
+    rrhhSubmitBtn.textContent = '💾 Guardar cambios';
+    rrhhCancelBtn.style.display = 'inline-block';
+    rrhhForm.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  rrhhCancelBtn.addEventListener('click', ()=>{
+    rrhhForm.reset(); $('#rrhh-edit-id').value='';
+    rrhhSubmitBtn.textContent = '+ Registrar colaborador';
+    rrhhCancelBtn.style.display = 'none';
+  });
+
+  rrhhForm.addEventListener('submit', e=>{
+    e.preventDefault();
+    const fields = [
+      {wrap: rrhhForm.querySelector('[data-field=nombre]'), input: $('#rrhh-nombre')},
+      {wrap: rrhhForm.querySelector('[data-field=puesto]'), input: $('#rrhh-puesto')}
+    ];
+    if(!validateRequired(fields)){ toast('Completa los campos obligatorios.', 'err'); return; }
+    const editId = $('#rrhh-edit-id').value;
+    const record = {
+      id: editId || uid(),
+      nombre: $('#rrhh-nombre').value.trim(), puesto: $('#rrhh-puesto').value.trim(), area: $('#rrhh-area').value.trim(),
+      idEmpleado: $('#rrhh-id-empleado').value.trim(), ingreso: $('#rrhh-fecha-ingreso').value,
+      competencia: $('#rrhh-competencia').value, capReq: $('#rrhh-cap-requerida').value.trim(),
+      ultimaCap: $('#rrhh-ultima-cap').value, proximaCap: $('#rrhh-proxima-cap').value,
+      instructor: $('#rrhh-instructor').value.trim(), metodo: $('#rrhh-metodo').value,
+      resultado: $('#rrhh-resultado').value, obs: $('#rrhh-obs').value.trim()
+    };
+    if(editId){
+      rrhh = rrhh.map(r=> r.id===editId ? record : r);
+      toast('Registro de colaborador actualizado.');
+    } else {
+      rrhh.push(record);
+      toast('Colaborador registrado correctamente.');
+    }
+    persistAll();
+    rrhhForm.reset(); $('#rrhh-edit-id').value='';
+    rrhhSubmitBtn.textContent = '+ Registrar colaborador';
+    rrhhCancelBtn.style.display = 'none';
+    renderRrhh(); refreshDashboard();
+  });
+
+  $('#rrhh-search').addEventListener('input', renderRrhh);
+  $('#rrhh-clear-all').addEventListener('click', ()=>{
+    confirmDelete('¿Restablecer todos los registros de Recursos Humanos?', ()=>{
+      rrhh = []; persistAll(); renderRrhh(); refreshDashboard();
+      toast('Datos de Recursos Humanos restablecidos.');
+    });
+  });
+
+  /* ---- Matriz de capacitación ---- */
+  function estadoMatriz(pct){
+    if(pct>=100) return {txt:'Cumplido', cls:'ok'};
+    if(pct>=80) return {txt:'En proceso', cls:'pending'};
+    return {txt:'Pendiente', cls:'bad'};
+  }
+  function renderMatriz(){
+    const tbody = $('#matriz-tbody');
+    tbody.innerHTML = '';
+    if(matriz.length===0){
+      tbody.innerHTML = '<tr class="empty-row"><td colspan="6">Sin temas registrados en la matriz.</td></tr>';
+      return;
+    }
+    matriz.forEach(m=>{
+      const pct = m.requerido>0 ? Math.round((m.capacitado/m.requerido)*100) : 0;
+      const est = estadoMatriz(pct);
+      const tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td>'+escapeHtml(m.tema)+'</td><td>'+m.requerido+'</td><td>'+m.capacitado+'</td>'+
+        '<td>'+pct+'%</td><td><span class="badge '+est.cls+'">'+est.txt+'</span></td>'+
+        '<td class="row-actions"><button data-act="del" title="Eliminar">🗑️</button></td>';
+      tr.querySelector('[data-act=del]').addEventListener('click', ()=>{
+        confirmDelete('¿Eliminar el tema "'+m.tema+'" de la matriz?', ()=>{
+          matriz = matriz.filter(x=>x.id!==m.id);
+          persistAll(); renderMatriz(); refreshDashboard();
+          toast('Tema de capacitación eliminado.');
+        });
+      });
+      tbody.appendChild(tr);
+    });
+  }
+  $('#form-matriz').addEventListener('submit', e=>{
+    e.preventDefault();
+    const wrap = document.querySelector('[data-field=tema]');
+    const input = $('#matriz-tema');
+    if(!input.value.trim()){ wrap.classList.add('error'); toast('Indica el nombre de la capacitación.', 'err'); return; }
+    wrap.classList.remove('error');
+    matriz.push({
+      id: uid(), tema: input.value.trim(),
+      requerido: Number($('#matriz-requerido').value)||0,
+      capacitado: Number($('#matriz-capacitado').value)||0
+    });
+    persistAll();
+    e.target.reset();
+    renderMatriz(); refreshDashboard();
+    toast('Tema agregado a la matriz de capacitación.');
+  });
+
+  /* ============================================================
+     EQUIPOS DE MEDICIÓN
+  ============================================================ */
+  const equipoForm = $('#form-equipo');
+  const equipoSubmitBtn = $('#equipo-submit-btn');
+  const equipoCancelBtn = $('#equipo-cancel-edit');
+
+  function badgeForEstadoEquipo(estado){
+    if(estado==='Calibrado' || estado==='Vigente') return 'ok';
+    if(estado==='Próximo a vencer') return 'pending';
+    if(estado==='Vencido' || estado==='Fuera de servicio') return 'bad';
+    return 'gray';
+  }
+
+  function renderEquipos(){
+    const tbody = $('#equipos-tbody');
+    const term = ($('#equipo-search').value||'').toLowerCase();
+    const filtered = equipos.filter(e => !term || e.nombre.toLowerCase().includes(term) || e.idEquipo.toLowerCase().includes(term));
+    tbody.innerHTML='';
+    if(filtered.length===0){
+      tbody.innerHTML = '<tr class="empty-row"><td colspan="8">Sin equipos registrados todavía.</td></tr>';
+    } else {
+      filtered.forEach(eq=>{
+        const tr = document.createElement('tr');
+        tr.innerHTML =
+          '<td>'+escapeHtml(eq.idEquipo)+'</td><td>'+escapeHtml(eq.nombre)+'</td><td>'+escapeHtml(eq.tipo)+'</td>'+
+          '<td>'+escapeHtml(eq.ubicacion)+'</td><td>'+fmtDate(eq.ultimaCal)+'</td><td>'+fmtDate(eq.proximaCal)+'</td>'+
+          '<td><span class="badge '+badgeForEstadoEquipo(eq.estado)+'">'+escapeHtml(eq.estado)+'</span></td>'+
+          '<td class="row-actions">'+
+            '<button data-act="view" title="Ver detalles">👁️</button>'+
+            '<button data-act="edit" title="Editar">✏️</button>'+
+            '<button data-act="del" title="Eliminar">🗑️</button>'+
+          '</td>';
+        tr.querySelector('[data-act=view]').addEventListener('click', ()=>viewEquipo(eq.id));
+        tr.querySelector('[data-act=edit]').addEventListener('click', ()=>editEquipo(eq.id));
+        tr.querySelector('[data-act=del]').addEventListener('click', ()=>{
+          confirmDelete('¿Eliminar el equipo "'+eq.nombre+'"?', ()=>{
+            equipos = equipos.filter(x=>x.id!==eq.id);
+            persistAll(); renderEquipos(); renderCalendario(); refreshDashboard();
+            toast('Equipo eliminado.');
+          });
+        });
+        tbody.appendChild(tr);
+      });
+    }
+  }
+
+  function viewEquipo(id){
+    const eq = equipos.find(x=>x.id===id); if(!eq) return;
+    openModal('<h3>'+escapeHtml(eq.nombre)+'</h3><dl>'+
+      '<dt>ID</dt><dd>'+escapeHtml(eq.idEquipo)+'</dd>'+
+      '<dt>Tipo</dt><dd>'+escapeHtml(eq.tipo)+'</dd>'+
+      '<dt>Marca / Modelo</dt><dd>'+escapeHtml(eq.marca)+' / '+escapeHtml(eq.modelo)+'</dd>'+
+      '<dt>Número de serie</dt><dd>'+escapeHtml(eq.serie)+'</dd>'+
+      '<dt>Ubicación</dt><dd>'+escapeHtml(eq.ubicacion)+'</dd>'+
+      '<dt>Variable que mide</dt><dd>'+escapeHtml(eq.variable)+'</dd>'+
+      '<dt>Rango</dt><dd>'+escapeHtml(eq.rango)+'</dd>'+
+      '<dt>Última calibración</dt><dd>'+fmtDate(eq.ultimaCal)+'</dd>'+
+      '<dt>Próxima calibración</dt><dd>'+fmtDate(eq.proximaCal)+'</dd>'+
+      '<dt>Frecuencia</dt><dd>'+escapeHtml(eq.frecuencia)+'</dd>'+
+      '<dt>Responsable</dt><dd>'+escapeHtml(eq.responsable)+'</dd>'+
+      '<dt>Estado</dt><dd>'+escapeHtml(eq.estado)+'</dd>'+
+      '<dt>Observaciones</dt><dd>'+escapeHtml(eq.obs||'—')+'</dd>'+
+    '</dl>');
+  }
+
+  function editEquipo(id){
+    const eq = equipos.find(x=>x.id===id); if(!eq) return;
+    $('#equipo-edit-id').value = eq.id;
+    $('#equipo-id').value = eq.idEquipo; $('#equipo-nombre').value = eq.nombre; $('#equipo-tipo').value = eq.tipo;
+    $('#equipo-marca').value = eq.marca; $('#equipo-modelo').value = eq.modelo; $('#equipo-serie').value = eq.serie;
+    $('#equipo-ubicacion').value = eq.ubicacion; $('#equipo-variable').value = eq.variable; $('#equipo-rango').value = eq.rango;
+    $('#equipo-ultima-cal').value = eq.ultimaCal; $('#equipo-proxima-cal').value = eq.proximaCal;
+    $('#equipo-frecuencia').value = eq.frecuencia; $('#equipo-responsable').value = eq.responsable;
+    $('#equipo-estado').value = eq.estado; $('#equipo-obs').value = eq.obs;
+    equipoSubmitBtn.textContent = '💾 Guardar cambios';
+    equipoCancelBtn.style.display = 'inline-block';
+    equipoForm.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+  equipoCancelBtn.addEventListener('click', ()=>{
+    equipoForm.reset(); $('#equipo-edit-id').value='';
+    equipoSubmitBtn.textContent = '+ Registrar equipo';
+    equipoCancelBtn.style.display = 'none';
+  });
+
+  equipoForm.addEventListener('submit', e=>{
+    e.preventDefault();
+    const fields = [
+      {wrap: equipoForm.querySelector('[data-field=idEquipo]'), input: $('#equipo-id')},
+      {wrap: equipoForm.querySelector('[data-field=nombre]'), input: $('#equipo-nombre')}
+    ];
+    if(!validateRequired(fields)){ toast('Completa los campos obligatorios.', 'err'); return; }
+    const editId = $('#equipo-edit-id').value;
+    const record = {
+      id: editId || uid(),
+      idEquipo: $('#equipo-id').value.trim(), nombre: $('#equipo-nombre').value.trim(), tipo: $('#equipo-tipo').value,
+      marca: $('#equipo-marca').value.trim(), modelo: $('#equipo-modelo').value.trim(), serie: $('#equipo-serie').value.trim(),
+      ubicacion: $('#equipo-ubicacion').value.trim(), variable: $('#equipo-variable').value, rango: $('#equipo-rango').value.trim(),
+      ultimaCal: $('#equipo-ultima-cal').value, proximaCal: $('#equipo-proxima-cal').value,
+      frecuencia: $('#equipo-frecuencia').value.trim(), responsable: $('#equipo-responsable').value.trim(),
+      estado: $('#equipo-estado').value, obs: $('#equipo-obs').value.trim()
+    };
+    if(editId){ equipos = equipos.map(x=> x.id===editId ? record : x); toast('Equipo actualizado.'); }
+    else { equipos.push(record); toast('Equipo registrado correctamente.'); }
+    persistAll();
+    equipoForm.reset(); $('#equipo-edit-id').value='';
+    equipoSubmitBtn.textContent = '+ Registrar equipo';
+    equipoCancelBtn.style.display = 'none';
+    renderEquipos(); renderCalendario(); refreshDashboard();
+  });
+
+  $('#equipo-search').addEventListener('input', renderEquipos);
+  $('#equipo-clear-all').addEventListener('click', ()=>{
+    confirmDelete('¿Restablecer todos los equipos de medición registrados?', ()=>{
+      equipos = []; persistAll(); renderEquipos(); renderCalendario(); refreshDashboard();
+      toast('Equipos de medición restablecidos.');
+    });
+  });
+
+  function exportCSV(rows, headers, filename){
+    if(!rows.length){ toast('No hay datos para exportar.', 'err'); return; }
+    const csvRows = [headers.join(',')];
+    rows.forEach(r=>{
+      csvRows.push(headers.map(h=>{
+        const v = r[h]===undefined ? '' : String(r[h]).replace(/"/g,'""');
+        return '"'+v+'"';
+      }).join(','));
+    });
+    const blob = new Blob([csvRows.join('\n')], {type:'text/csv;charset=utf-8;'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(url);
+    toast('Archivo CSV exportado.');
+  }
+  $('#equipo-export').addEventListener('click', ()=>{
+    exportCSV(equipos, ['idEquipo','nombre','tipo','marca','modelo','serie','ubicacion','variable','rango','ultimaCal','proximaCal','frecuencia','responsable','estado','obs'], 'equipos_medicion.csv');
+  });
+
+  /* ---- Monitoreo freidoras / refris / congeladores ---- */
+  function rangoDe(tipo){
+    if(tipo==='freidora') return [rangos.freidoraMin, rangos.freidoraMax];
+    if(tipo==='refri') return [rangos.refriMin, rangos.refriMax];
+    return [rangos.congeladorMin, rangos.congeladorMax];
+  }
+  function renderMonitoreo(tipo){
+    const tbody = $('#'+tipo+'-tbody');
+    const list = monitoreo[tipo] || [];
+    tbody.innerHTML='';
+    if(list.length===0){
+      tbody.innerHTML = '<tr class="empty-row"><td colspan="6">Sin lecturas registradas.</td></tr>';
+      return;
+    }
+    const [min,max] = rangoDe(tipo);
+    list.slice().reverse().forEach(m=>{
+      const conforme = (m.tregistrada>=min && m.tregistrada<=max);
+      const tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td>'+fmtDate(m.fecha)+' '+(m.hora||'')+'</td><td>'+escapeHtml(m.equipo)+'</td>'+
+        '<td>'+m.tobjetivo+'°C</td><td>'+m.tregistrada+'°C</td>'+
+        '<td><span class="badge '+(conforme?'ok':'bad')+'">'+(conforme?'Conforme':'No conforme')+'</span></td>'+
+        '<td class="row-actions"><button data-act="del">🗑️</button></td>';
+      tr.querySelector('[data-act=del]').addEventListener('click', ()=>{
+        confirmDelete('¿Eliminar esta lectura de monitoreo?', ()=>{
+          monitoreo[tipo] = monitoreo[tipo].filter(x=>x.id!==m.id);
+          persistAll(); renderMonitoreo(tipo);
+          toast('Lectura eliminada.');
+        });
+      });
+      tbody.appendChild(tr);
+    });
+  }
+
+  function wireMonForm(formId, tipo){
+    const form = $('#'+formId);
+    form.addEventListener('submit', e=>{
+      e.preventDefault();
+      const wrap = form.querySelector('[data-field=equipo]');
+      const equipoInput = form.querySelector('.mon-equipo');
+      if(!equipoInput.value.trim()){ wrap.classList.add('error'); toast('Indica el equipo monitoreado.', 'err'); return; }
+      wrap.classList.remove('error');
+      const rec = {
+        id: uid(),
+        fecha: form.querySelector('.mon-fecha').value || new Date().toISOString().slice(0,10),
+        hora: form.querySelector('.mon-hora').value,
+        equipo: equipoInput.value.trim(),
+        tobjetivo: Number(form.querySelector('.mon-tobjetivo').value)||0,
+        tregistrada: Number(form.querySelector('.mon-tregistrada').value)||0,
+        responsable: form.querySelector('.mon-responsable').value.trim(),
+        accion: form.querySelector('.mon-accion').value.trim()
+      };
+      monitoreo[tipo] = monitoreo[tipo] || [];
+      monitoreo[tipo].push(rec);
+      persistAll();
+      form.reset();
+      renderMonitoreo(tipo);
+      toast('Lectura de monitoreo registrada.');
+    });
+  }
+  wireMonForm('form-freidora', 'freidora');
+  wireMonForm('form-refri', 'refri');
+  wireMonForm('form-congelador', 'congelador');
+
+  $('#rango-guardar').addEventListener('click', ()=>{
+    rangos = {
+      freidoraMin: Number($('#rango-freidora-min').value), freidoraMax: Number($('#rango-freidora-max').value),
+      refriMin: Number($('#rango-refri-min').value), refriMax: Number($('#rango-refri-max').value),
+      congeladorMin: Number($('#rango-congelador-min').value), congeladorMax: Number($('#rango-congelador-max').value)
+    };
+    persistAll();
+    renderMonitoreo('freidora'); renderMonitoreo('refri'); renderMonitoreo('congelador');
+    toast('Rangos de referencia actualizados.');
+  });
+
+  /* ---- Calendario de calibración ---- */
+  let calFilter = 'todos';
+  function estadoCalibracion(dias){
+    if(dias===null) return {txt:'Sin datos', cls:'gray', key:'sindatos'};
+    if(dias<0) return {txt:'🔴 Vencido', cls:'bad', key:'vencido'};
+    if(dias<=30) return {txt:'🟡 Próximo a vencer', cls:'pending', key:'proximo'};
+    return {txt:'🟢 Vigente', cls:'ok', key:'vigente'};
+  }
+  function renderCalendario(){
+    const tbody = $('#calendario-tbody');
+    const today = new Date().toISOString().slice(0,10);
+    let rows = equipos.map(eq=>{
+      const dias = daysBetween(today, eq.proximaCal);
+      const est = estadoCalibracion(dias);
+      return {eq, dias, est};
+    });
+    if(calFilter!=='todos') rows = rows.filter(r=>r.est.key===calFilter);
+    tbody.innerHTML='';
+    if(rows.length===0){
+      tbody.innerHTML = '<tr class="empty-row"><td colspan="5">Sin equipos que coincidan con el filtro.</td></tr>';
+      return;
+    }
+    rows.forEach(({eq,dias,est})=>{
+      const tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td>'+escapeHtml(eq.nombre)+' <span style="color:var(--ink-soft);">('+escapeHtml(eq.idEquipo)+')</span></td>'+
+        '<td>'+fmtDate(eq.ultimaCal)+'</td><td>'+fmtDate(eq.proximaCal)+'</td>'+
+        '<td>'+(dias===null?'—':dias)+'</td>'+
+        '<td><span class="badge '+est.cls+'">'+est.txt+'</span></td>';
+      tbody.appendChild(tr);
+    });
+  }
+  $all('#cal-filters .filter-chip').forEach(chip=>{
+    chip.addEventListener('click', ()=>{
+      $all('#cal-filters .filter-chip').forEach(c=>c.classList.remove('active'));
+      chip.classList.add('active');
+      calFilter = chip.dataset.filter;
+      renderCalendario();
+    });
+  });
+
+  /* ============================================================
+     INFORMACIÓN DOCUMENTADA
+  ============================================================ */
+  const docForm = $('#form-doc');
+  const docSubmitBtn = $('#doc-submit-btn');
+  const docCancelBtn = $('#doc-cancel-edit');
+
+  function badgeForEstadoDoc(estado){
+    if(estado==='Vigente') return 'ok';
+    if(estado==='En revisión') return 'pending';
+    return 'bad';
+  }
+
+  function renderDocumentos(){
+    const tbody = $('#doc-tbody');
+    const nombreTerm = ($('#doc-search-nombre').value||'').toLowerCase();
+    const codigoTerm = ($('#doc-search-codigo').value||'').toLowerCase();
+    const tipoF = $('#doc-filter-tipo').value;
+    const estadoF = $('#doc-filter-estado').value;
+    const filtered = documentos.filter(d=>
+      (!nombreTerm || d.nombre.toLowerCase().includes(nombreTerm)) &&
+      (!codigoTerm || d.codigo.toLowerCase().includes(codigoTerm)) &&
+      (!tipoF || d.tipo===tipoF) &&
+      (!estadoF || d.estado===estadoF)
+    );
+    tbody.innerHTML='';
+    if(filtered.length===0){
+      tbody.innerHTML = '<tr class="empty-row"><td colspan="10">Sin documentos que coincidan.</td></tr>';
+    } else {
+      filtered.forEach(d=>{
+        const tr = document.createElement('tr');
+        tr.innerHTML =
+          '<td>'+escapeHtml(d.codigo)+'</td><td>'+escapeHtml(d.nombre)+'</td><td>'+escapeHtml(d.tipo)+'</td>'+
+          '<td>'+escapeHtml(d.version)+'</td><td>'+escapeHtml(d.responsable)+'</td>'+
+          '<td>'+fmtDate(d.emision)+'</td><td>'+fmtDate(d.revision)+'</td>'+
+          '<td><span class="badge '+badgeForEstadoDoc(d.estado)+'">'+escapeHtml(d.estado)+'</span></td>'+
+          '<td>'+escapeHtml(d.ubicacion)+'</td>'+
+          '<td class="row-actions">'+
+            '<button data-act="view">👁️</button><button data-act="edit">✏️</button><button data-act="del">🗑️</button>'+
+          '</td>';
+        tr.querySelector('[data-act=view]').addEventListener('click', ()=>viewDoc(d.id));
+        tr.querySelector('[data-act=edit]').addEventListener('click', ()=>editDoc(d.id));
+        tr.querySelector('[data-act=del]').addEventListener('click', ()=>{
+          confirmDelete('¿Eliminar el documento "'+d.nombre+'"?', ()=>{
+            documentos = documentos.filter(x=>x.id!==d.id);
+            persistAll(); renderDocumentos(); refreshDashboard();
+            toast('Documento eliminado.');
+          });
+        });
+        tbody.appendChild(tr);
+      });
+    }
+  }
+
+  function viewDoc(id){
+    const d = documentos.find(x=>x.id===id); if(!d) return;
+    openModal('<h3>'+escapeHtml(d.nombre)+'</h3><dl>'+
+      '<dt>Código</dt><dd>'+escapeHtml(d.codigo)+'</dd>'+
+      '<dt>Tipo</dt><dd>'+escapeHtml(d.tipo)+'</dd>'+
+      '<dt>Proceso relacionado</dt><dd>'+escapeHtml(d.proceso)+'</dd>'+
+      '<dt>Responsable</dt><dd>'+escapeHtml(d.responsable)+'</dd>'+
+      '<dt>Versión</dt><dd>'+escapeHtml(d.version)+'</dd>'+
+      '<dt>Emisión</dt><dd>'+fmtDate(d.emision)+'</dd>'+
+      '<dt>Revisión</dt><dd>'+fmtDate(d.revision)+'</dd>'+
+      '<dt>Estado</dt><dd>'+escapeHtml(d.estado)+'</dd>'+
+      '<dt>Ubicación</dt><dd>'+escapeHtml(d.ubicacion)+'</dd>'+
+      '<dt>Medio</dt><dd>'+escapeHtml(d.medio)+'</dd>'+
+      '<dt>Nivel de acceso</dt><dd>'+escapeHtml(d.acceso)+'</dd>'+
+      '<dt>Observaciones</dt><dd>'+escapeHtml(d.obs||'—')+'</dd>'+
+    '</dl>');
+  }
+
+  function editDoc(id){
+    const d = documentos.find(x=>x.id===id); if(!d) return;
+    $('#doc-edit-id').value = d.id;
+    $('#doc-codigo').value = d.codigo; $('#doc-nombre').value = d.nombre; $('#doc-tipo').value = d.tipo;
+    $('#doc-proceso').value = d.proceso; $('#doc-responsable').value = d.responsable; $('#doc-version').value = d.version;
+    $('#doc-emision').value = d.emision; $('#doc-revision').value = d.revision; $('#doc-estado').value = d.estado;
+    $('#doc-ubicacion').value = d.ubicacion; $('#doc-medio').value = d.medio; $('#doc-acceso').value = d.acceso;
+    $('#doc-obs').value = d.obs;
+    docSubmitBtn.textContent = '💾 Guardar cambios';
+    docCancelBtn.style.display = 'inline-block';
+    docForm.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+  docCancelBtn.addEventListener('click', ()=>{
+    docForm.reset(); $('#doc-edit-id').value='';
+    docSubmitBtn.textContent = '+ Registrar documento';
+    docCancelBtn.style.display = 'none';
+  });
+
+  docForm.addEventListener('submit', e=>{
+    e.preventDefault();
+    const fields = [
+      {wrap: docForm.querySelector('[data-field=codigo]'), input: $('#doc-codigo')},
+      {wrap: docForm.querySelector('[data-field=nombre]'), input: $('#doc-nombre')}
+    ];
+    if(!validateRequired(fields)){ toast('Completa los campos obligatorios.', 'err'); return; }
+    const editId = $('#doc-edit-id').value;
+    const record = {
+      id: editId || uid(),
+      codigo: $('#doc-codigo').value.trim(), nombre: $('#doc-nombre').value.trim(), tipo: $('#doc-tipo').value,
+      proceso: $('#doc-proceso').value.trim(), responsable: $('#doc-responsable').value.trim(), version: $('#doc-version').value.trim(),
+      emision: $('#doc-emision').value, revision: $('#doc-revision').value, estado: $('#doc-estado').value,
+      ubicacion: $('#doc-ubicacion').value.trim(), medio: $('#doc-medio').value, acceso: $('#doc-acceso').value,
+      obs: $('#doc-obs').value.trim()
+    };
+    if(editId){ documentos = documentos.map(x=> x.id===editId ? record : x); toast('Documento actualizado.'); }
+    else { documentos.push(record); toast('Documento registrado correctamente.'); }
+    persistAll();
+    docForm.reset(); $('#doc-edit-id').value='';
+    docSubmitBtn.textContent = '+ Registrar documento';
+    docCancelBtn.style.display = 'none';
+    renderDocumentos(); refreshDashboard();
+  });
+
+  ['#doc-search-nombre','#doc-search-codigo','#doc-filter-tipo','#doc-filter-estado'].forEach(sel=>{
+    $(sel).addEventListener('input', renderDocumentos);
+    $(sel).addEventListener('change', renderDocumentos);
+  });
+  $('#doc-clear-all').addEventListener('click', ()=>{
+    confirmDelete('¿Restablecer toda la lista maestra de documentos?', ()=>{
+      documentos = []; persistAll(); renderDocumentos(); refreshDashboard();
+      toast('Lista maestra de documentos restablecida.');
+    });
+  });
+  $('#doc-export').addEventListener('click', ()=>{
+    exportCSV(documentos, ['codigo','nombre','tipo','proceso','responsable','version','emision','revision','estado','ubicacion','medio','acceso','obs'], 'lista_maestra_documentos.csv');
+  });
+
+  /* ---- Documentos obsoletos ---- */
+  function renderObsoletos(){
+    const tbody = $('#obsoletos-tbody');
+    tbody.innerHTML='';
+    if(obsoletos.length===0){
+      tbody.innerHTML = '<tr class="empty-row"><td colspan="7">Sin documentos obsoletos registrados.</td></tr>';
+      return;
+    }
+    obsoletos.forEach(o=>{
+      const tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td>'+escapeHtml(o.documento)+'</td><td>'+escapeHtml(o.version)+'</td><td>'+fmtDate(o.fecha)+'</td>'+
+        '<td>'+escapeHtml(o.motivo)+'</td><td>'+escapeHtml(o.responsable)+'</td><td>'+escapeHtml(o.forma)+'</td>'+
+        '<td class="row-actions"><button data-act="del">🗑️</button></td>';
+      tr.querySelector('[data-act=del]').addEventListener('click', ()=>{
+        confirmDelete('¿Eliminar este registro de documento obsoleto?', ()=>{
+          obsoletos = obsoletos.filter(x=>x.id!==o.id);
+          persistAll(); renderObsoletos();
+          toast('Registro eliminado.');
+        });
+      });
+      tbody.appendChild(tr);
+    });
+  }
+  $('#form-obsoleto').addEventListener('submit', e=>{
+    e.preventDefault();
+    const wrap = document.querySelector('[data-field=documento]');
+    const input = $('#obs-documento');
+    if(!input.value.trim()){ wrap.classList.add('error'); toast('Indica el nombre del documento.', 'err'); return; }
+    wrap.classList.remove('error');
+    obsoletos.push({
+      id: uid(), documento: input.value.trim(), version: $('#obs-version').value.trim(),
+      fecha: $('#obs-fecha').value, motivo: $('#obs-motivo').value.trim(),
+      responsable: $('#obs-responsable').value.trim(), forma: $('#obs-forma').value
+    });
+    persistAll();
+    e.target.reset();
+    renderObsoletos();
+    toast('Retiro de documento registrado.');
+  });
+
+  /* ============================================================
+     EVIDENCIAS
+  ============================================================ */
+  function renderEvidencias(){
+    const list = $('#evidencia-list');
+    list.innerHTML = '';
+    evidencias.forEach(ev=>{
+      const li = document.createElement('li');
+      li.className = ev.checked ? 'checked' : '';
+      li.innerHTML = '<input type="checkbox" '+(ev.checked?'checked':'')+'> <span>'+escapeHtml(ev.name)+'</span>';
+      li.querySelector('input').addEventListener('change', (e)=>{
+        ev.checked = e.target.checked;
+        persistAll();
+        renderEvidencias();
+      });
+      list.appendChild(li);
+    });
+    const total = evidencias.length;
+    const done = evidencias.filter(e=>e.checked).length;
+    $('#ev-count').textContent = done + ' de ' + total;
+    const pct = total? Math.round((done/total)*100) : 0;
+    $('#ev-bar').style.width = pct + '%';
+    $('#ev-pct').textContent = pct + '%';
+  }
+
+  /* ============================================================
+     DASHBOARD
+  ============================================================ */
+  function refreshDashboard(){
+    $('#kpi-personal').textContent = rrhh.length;
+    $('#kpi-capacitaciones').textContent = rrhh.filter(r=>r.ultimaCap).length;
+    $('#kpi-equipos').textContent = equipos.length;
+    const today = new Date().toISOString().slice(0,10);
+    const vigentes = equipos.filter(eq=>{
+      const d = daysBetween(today, eq.proximaCal);
+      return d!==null && d>30;
+    }).length;
+    const proximos = equipos.filter(eq=>{
+      const d = daysBetween(today, eq.proximaCal);
+      return d!==null && d>=0 && d<=30;
+    }).length;
+    $('#kpi-vigentes').textContent = vigentes;
+    $('#kpi-proximos').textContent = proximos;
+    $('#kpi-documentos').textContent = documentos.length;
+
+    const statusGrid = $('#status-grid');
+    const matrizAvg = matriz.length ? matriz.reduce((acc,m)=> acc + (m.requerido>0?(m.capacitado/m.requerido*100):0),0)/matriz.length : 0;
+    const docVigentesPct = documentos.length ? (documentos.filter(d=>d.estado==='Vigente').length/documentos.length*100) : 0;
+    const equiposVencidos = equipos.filter(eq=>{
+      const d = daysBetween(today, eq.proximaCal);
+      return d!==null && d<0;
+    }).length;
+
+    const items = [
+      {name:'Recursos humanos', ok: rrhh.length>0, pendingReason: 'Sin colaboradores registrados'},
+      {name:'Capacitación y competencia', ok: matrizAvg>=80, pendingReason: 'Cumplimiento promedio menor al 80%'},
+      {name:'Equipos de medición', ok: equipos.length>0 && equiposVencidos===0, pendingReason: equiposVencidos>0 ? equiposVencidos+' equipo(s) vencido(s)' : 'Sin equipos registrados'},
+      {name:'Información documentada', ok: documentos.length>0 && docVigentesPct>=80, pendingReason: 'Menos del 80% de documentos vigentes'}
+    ];
+    statusGrid.innerHTML = '';
+    items.forEach(it=>{
+      const div = document.createElement('div');
+      div.className = 'status-card';
+      div.innerHTML = '<span class="name">'+it.name+'</span><span class="badge '+(it.ok?'ok':'pending')+'" title="'+escapeHtml(it.pendingReason)+'">'+(it.ok?'Cumplimiento':'Pendiente')+'</span>';
+      statusGrid.appendChild(div);
+    });
+  }
+
+  /* ============================================================
+     INICIALIZACIÓN
+  ============================================================ */
+  renderRrhh(); renderMatriz();
+  renderEquipos(); renderMonitoreo('freidora'); renderMonitoreo('refri'); renderMonitoreo('congelador'); renderCalendario();
+  $('#rango-freidora-min').value = rangos.freidoraMin; $('#rango-freidora-max').value = rangos.freidoraMax;
+  $('#rango-refri-min').value = rangos.refriMin; $('#rango-refri-max').value = rangos.refriMax;
+  $('#rango-congelador-min').value = rangos.congeladorMin; $('#rango-congelador-max').value = rangos.congeladorMax;
+  renderDocumentos(); renderObsoletos(); renderEvidencias(); refreshDashboard();
+
+})();
+</script>
+</body>
+</html>

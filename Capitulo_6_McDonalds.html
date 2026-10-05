@@ -1,0 +1,1598 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manual de Calidad · Capítulo 6 — Planificación · Sucursal McDonald's</title>
+<style>
+/* ============================================================
+   1. TOKENS / VARIABLES
+   ============================================================ */
+:root{
+  --rojo: #DA291C;
+  --rojo-oscuro: #A61E14;
+  --amarillo: #FFC72C;
+  --amarillo-oscuro: #E0A800;
+  --gris-950: #1D1D1F;
+  --gris-800: #33363B;
+  --gris-600: #5C6066;
+  --gris-400: #9AA0A6;
+  --gris-200: #E4E6E9;
+  --gris-100: #F2F3F5;
+  --blanco: #FFFFFF;
+  --verde: #2E8B57;
+  --verde-bg: #E7F5EC;
+  --naranja: #D97706;
+  --naranja-bg: #FDF0DC;
+  --rojo-bg: #FBE7E5;
+  --azul: #2563EB;
+  --azul-bg: #E8EEFD;
+  --radio: 12px;
+  --radio-chico: 8px;
+  --sombra: 0 1px 3px rgba(29,29,31,.08), 0 1px 2px rgba(29,29,31,.06);
+  --sombra-modal: 0 20px 60px rgba(29,29,31,.35);
+  --fuente: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  font-family: var(--fuente);
+  background: var(--gris-100);
+  color: var(--gris-950);
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{margin:0 0 .4em 0; font-weight:700;}
+p{margin:0 0 .8em 0;}
+button{font-family:inherit; cursor:pointer;}
+input, select, textarea{font-family:inherit;}
+::selection{background:var(--amarillo); color:var(--gris-950);}
+
+/* ============================================================
+   2. ENCABEZADO
+   ============================================================ */
+.encabezado{
+  background: linear-gradient(135deg, var(--rojo) 0%, var(--rojo-oscuro) 100%);
+  color:var(--blanco);
+  padding: 22px 28px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.15);
+  position:relative;
+  z-index:5;
+}
+.encabezado .marca{
+  display:flex; align-items:center; gap:14px;
+}
+.marca .arcos{
+  width:44px; height:44px; border-radius:10px;
+  background: var(--amarillo);
+  display:flex; align-items:center; justify-content:center;
+  font-size:26px; font-weight:800; color:var(--rojo);
+  flex-shrink:0;
+}
+.marca-texto .titulo-doc{font-size:12px; letter-spacing:.04em; opacity:.85; text-transform:uppercase;}
+.marca-texto .titulo-cap{font-size:21px; font-weight:800; line-height:1.15;}
+.marca-texto .subtitulo{font-size:13px; opacity:.9;}
+.encabezado .leyenda{
+  background: rgba(255,255,255,.15);
+  border:1px solid rgba(255,255,255,.35);
+  padding:6px 14px;
+  border-radius: 999px;
+  font-size:12.5px;
+  white-space:nowrap;
+}
+.encabezado .accion-imprimir{
+  background: var(--amarillo);
+  color: var(--gris-950);
+  border:none;
+  padding:9px 16px;
+  border-radius: var(--radio-chico);
+  font-weight:700;
+  font-size:13.5px;
+}
+.encabezado .accion-imprimir:hover{background:var(--amarillo-oscuro);}
+
+/* ============================================================
+   3. LAYOUT PRINCIPAL
+   ============================================================ */
+.app{
+  display:flex;
+  min-height: calc(100vh - 92px);
+}
+.nav-lateral{
+  width:250px;
+  background: var(--blanco);
+  border-right:1px solid var(--gris-200);
+  padding: 18px 12px;
+  flex-shrink:0;
+}
+.nav-lateral button{
+  display:flex; align-items:center; gap:10px;
+  width:100%;
+  text-align:left;
+  background:none; border:none;
+  padding:11px 14px;
+  border-radius: var(--radio-chico);
+  font-size:14.5px;
+  color: var(--gris-800);
+  margin-bottom:4px;
+  font-weight:600;
+}
+.nav-lateral button .icono-nav{
+  width:22px; text-align:center; font-size:16px;
+}
+.nav-lateral button:hover{ background: var(--gris-100); }
+.nav-lateral button.activo{
+  background: var(--rojo-bg);
+  color: var(--rojo-oscuro);
+}
+.nav-lateral .separador-nav{
+  font-size:11px; text-transform:uppercase; letter-spacing:.05em;
+  color:var(--gris-400); padding:14px 14px 4px;
+}
+
+.contenido{
+  flex:1;
+  padding: 26px 34px 60px;
+  max-width:1180px;
+}
+.seccion{ display:none; animation: aparecer .18s ease; }
+.seccion.activa{ display:block; }
+@keyframes aparecer{ from{opacity:0;} to{opacity:1;} }
+
+/* ============================================================
+   4. COMPONENTES GENERALES
+   ============================================================ */
+.tarjeta{
+  background:var(--blanco);
+  border:1px solid var(--gris-200);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  padding: 22px 24px;
+  margin-bottom:20px;
+}
+.tarjeta h3{font-size:17px;}
+.nota-iso{
+  background: var(--azul-bg);
+  border-left:3px solid var(--azul);
+  padding: 12px 16px;
+  border-radius: 0 var(--radio-chico) var(--radio-chico) 0;
+  font-size:13.5px;
+  color:#1E3A8A;
+  margin-bottom:16px;
+}
+.nota-academica{
+  display:inline-block;
+  background: var(--amarillo);
+  color:var(--gris-950);
+  font-size:11.5px;
+  font-weight:700;
+  padding:3px 9px;
+  border-radius:999px;
+  margin-left:8px;
+}
+.rejilla-3{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:16px;
+}
+.rejilla-4{
+  display:grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap:14px;
+}
+@media (max-width:900px){
+  .rejilla-3{grid-template-columns:1fr;}
+  .rejilla-4{grid-template-columns:repeat(2,1fr);}
+}
+
+.tarjeta-clic{
+  background:var(--blanco); border:1px solid var(--gris-200); border-radius:var(--radio);
+  padding:20px; cursor:pointer; box-shadow:var(--sombra);
+  border-top: 4px solid var(--rojo);
+}
+.tarjeta-clic:hover{ border-color: var(--rojo); }
+.tarjeta-clic .codigo{ font-size:26px; font-weight:800; color:var(--rojo); }
+.tarjeta-clic .nombre{ font-size:14.5px; color:var(--gris-600); margin-top:4px; }
+
+.kpi{
+  background:var(--blanco); border:1px solid var(--gris-200); border-radius:var(--radio);
+  padding:16px 18px; box-shadow:var(--sombra);
+}
+.kpi .valor{ font-size:28px; font-weight:800; }
+.kpi .etiqueta{ font-size:12.5px; color:var(--gris-600); margin-top:2px;}
+.kpi.rojo .valor{color:var(--rojo);}
+.kpi.verde .valor{color:var(--verde);}
+.kpi.amarillo .valor{color:var(--naranja);}
+.kpi.azul .valor{color:var(--azul);}
+
+/* formularios */
+.form-grid{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:14px 16px;
+}
+@media (max-width:900px){ .form-grid{grid-template-columns:1fr;} }
+.campo{ display:flex; flex-direction:column; gap:5px; }
+.campo.ancho2{ grid-column: span 2; }
+.campo.ancho3{ grid-column: 1 / -1; }
+.campo label{ font-size:12.5px; font-weight:700; color:var(--gris-800); }
+.campo .req{ color:var(--rojo); }
+.campo input, .campo select, .campo textarea{
+  border:1px solid var(--gris-200); border-radius: var(--radio-chico);
+  padding:9px 11px; font-size:13.5px; background:var(--blanco); color:var(--gris-950);
+}
+.campo input:focus, .campo select:focus, .campo textarea:focus{
+  outline:2px solid var(--rojo); outline-offset:1px; border-color:var(--rojo);
+}
+.campo textarea{ resize:vertical; min-height:56px; }
+.campo .error-msg{ font-size:11.5px; color:var(--rojo); display:none; }
+.campo.con-error input, .campo.con-error select, .campo.con-error textarea{ border-color:var(--rojo); }
+.campo.con-error .error-msg{ display:block; }
+
+.fieldset-titulo{
+  font-size:12.5px; font-weight:800; text-transform:uppercase; letter-spacing:.04em;
+  color:var(--rojo-oscuro); margin: 18px 0 8px; padding-top:14px; border-top:1px dashed var(--gris-200);
+}
+.fieldset-titulo:first-of-type{ border-top:none; padding-top:0; margin-top:4px; }
+
+.fila-botones{ display:flex; gap:10px; margin-top:18px; flex-wrap:wrap; }
+.boton{
+  border:none; border-radius: var(--radio-chico); padding:10px 18px; font-size:13.5px; font-weight:700;
+}
+.boton-primario{ background:var(--rojo); color:var(--blanco); }
+.boton-primario:hover{ background:var(--rojo-oscuro); }
+.boton-secundario{ background:var(--gris-100); color:var(--gris-800); border:1px solid var(--gris-200); }
+.boton-secundario:hover{ background:var(--gris-200); }
+.boton-amarillo{ background:var(--amarillo); color:var(--gris-950); }
+.boton-amarillo:hover{ background:var(--amarillo-oscuro); }
+.boton-chico{ padding:5px 10px; font-size:12px; border-radius:6px; }
+.boton-icono{ background:none; border:none; padding:5px 7px; border-radius:6px; font-size:14px; }
+.boton-icono:hover{ background:var(--gris-100); }
+
+/* nivel de riesgo */
+.pastilla-nivel{
+  display:inline-block; padding:3px 10px; border-radius:999px; font-size:11.5px; font-weight:800;
+}
+.nivel-bajo{ background:var(--verde-bg); color:var(--verde); }
+.nivel-medio{ background:var(--naranja-bg); color:var(--naranja); }
+.nivel-alto{ background:#FDE4D0; color:#C2410C; }
+.nivel-critico{ background:var(--rojo-bg); color:var(--rojo-oscuro); }
+
+.pastilla-estado{
+  display:inline-block; padding:3px 10px; border-radius:999px; font-size:11.5px; font-weight:700;
+}
+.estado-pendiente,.estado-propuesto,.estado-no-iniciado{ background:var(--gris-200); color:var(--gris-800); }
+.estado-en-proceso,.estado-en-evaluacion,.estado-en-progreso{ background:var(--azul-bg); color:var(--azul); }
+.estado-completado,.estado-implementado,.estado-cumplido,.estado-verificado,.estado-aprobado{ background:var(--verde-bg); color:var(--verde); }
+.estado-cancelado,.estado-no-cumplido{ background:var(--rojo-bg); color:var(--rojo-oscuro); }
+
+/* previsualización de riesgo en vivo dentro del formulario */
+.previsualizacion-riesgo{
+  display:flex; align-items:center; gap:14px; padding:12px 16px; border-radius:var(--radio-chico);
+  background:var(--gris-100); margin-top:6px; font-size:13.5px;
+}
+.previsualizacion-riesgo .numero-nivel{ font-size:22px; font-weight:800; }
+
+/* tablas */
+.contenedor-tabla{ overflow-x:auto; }
+table.tabla-datos{
+  width:100%; border-collapse:collapse; font-size:13px; margin-top:10px;
+}
+table.tabla-datos th{
+  background:var(--gris-950); color:var(--blanco); text-align:left; padding:9px 10px; font-size:11.5px;
+  text-transform:uppercase; letter-spacing:.03em; white-space:nowrap;
+}
+table.tabla-datos td{ padding:9px 10px; border-bottom:1px solid var(--gris-200); vertical-align:middle; }
+table.tabla-datos tbody tr:hover{ background:var(--gris-100); }
+table.tabla-datos td.celda-larga{ max-width:220px; white-space:normal; }
+.sin-datos{ text-align:center; color:var(--gris-400); padding:30px; font-size:13.5px; }
+
+/* barra de herramientas de tabla */
+.barra-herramientas{
+  display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin:14px 0;
+}
+.barra-herramientas input[type=text]{
+  border:1px solid var(--gris-200); border-radius:var(--radio-chico); padding:8px 12px; font-size:13px; min-width:200px;
+}
+.barra-herramientas select{
+  border:1px solid var(--gris-200); border-radius:var(--radio-chico); padding:8px 10px; font-size:13px;
+}
+
+/* modales */
+.fondo-modal{
+  position:fixed; inset:0; background:rgba(20,20,22,.55); display:none;
+  align-items:center; justify-content:center; z-index:100; padding:20px;
+}
+.fondo-modal.visible{ display:flex; }
+.modal{
+  background:var(--blanco); border-radius:var(--radio); width:100%; max-width:640px; max-height:88vh;
+  overflow-y:auto; box-shadow:var(--sombra-modal); padding:24px 26px;
+}
+.modal-cabecera{ display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; }
+.modal-cabecera h3{ margin:0; }
+.cerrar-modal{ background:none; border:none; font-size:20px; color:var(--gris-600); }
+
+/* toasts */
+.zona-toast{ position:fixed; bottom:22px; right:22px; z-index:200; display:flex; flex-direction:column; gap:10px; }
+.toast{
+  background:var(--gris-950); color:var(--blanco); padding:12px 18px; border-radius:var(--radio-chico);
+  font-size:13.5px; box-shadow:0 8px 24px rgba(0,0,0,.25); display:flex; align-items:center; gap:10px;
+  animation: entrar-toast .25s ease;
+  min-width:220px;
+}
+.toast.exito{ border-left:4px solid var(--verde); }
+.toast.error{ border-left:4px solid var(--rojo); }
+.toast.info{ border-left:4px solid var(--azul); }
+@keyframes entrar-toast{ from{ transform:translateX(30px); opacity:0;} to{ transform:translateX(0); opacity:1;} }
+
+/* tooltip iso */
+.tooltip-iso{ position:relative; border-bottom:1px dotted var(--gris-400); cursor:help; }
+.tooltip-iso .globo{
+  visibility:hidden; opacity:0; position:absolute; bottom:125%; left:0; width:260px;
+  background:var(--gris-950); color:var(--blanco); font-size:12px; padding:10px 12px; border-radius:8px;
+  transition:opacity .15s; z-index:20; font-weight:400;
+}
+.tooltip-iso:hover .globo{ visibility:visible; opacity:1; }
+
+/* ciclo de planificación */
+.ciclo-flujo{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:center; padding:10px 0; }
+.ciclo-paso{
+  background:var(--blanco); border:2px solid var(--rojo); border-radius:var(--radio);
+  padding:12px 16px; font-size:13px; font-weight:700; color:var(--rojo-oscuro); text-align:center; min-width:120px;
+}
+.ciclo-flecha{ color:var(--gris-400); font-size:20px; }
+
+/* barra de progreso */
+.barra-progreso{ background:var(--gris-200); border-radius:999px; height:9px; overflow:hidden; width:100%; }
+.barra-progreso-relleno{ height:100%; background:var(--verde); border-radius:999px; transition:width .3s; }
+
+/* gráfico simple de barras (css) */
+.grafico-barras{ display:flex; align-items:flex-end; gap:16px; height:180px; padding:10px 6px 0; }
+.grafico-barras .barra-col{ display:flex; flex-direction:column; align-items:center; gap:6px; flex:1; }
+.grafico-barras .barra{ width:100%; max-width:46px; border-radius:6px 6px 0 0; background:var(--rojo); transition:height .4s; }
+.grafico-barras .etiqueta-barra{ font-size:11px; color:var(--gris-600); text-align:center; }
+.grafico-barras .valor-barra{ font-size:12px; font-weight:800; }
+
+/* responsabilidades */
+.lista-responsables{ list-style:none; padding:0; margin:0; display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+.lista-responsables li{
+  background:var(--gris-100); border-radius:var(--radio-chico); padding:10px 14px; font-size:13.5px;
+  display:flex; align-items:center; gap:10px;
+}
+@media (max-width:700px){ .lista-responsables{grid-template-columns:1fr;} }
+
+/* control documental */
+.tabla-control{ width:100%; border-collapse:collapse; font-size:13.5px; }
+.tabla-control td{ padding:8px 10px; border:1px solid var(--gris-200); }
+.tabla-control td.etiqueta{ background:var(--gris-100); font-weight:700; width:220px; }
+
+footer.pie{
+  text-align:center; font-size:12px; color:var(--gris-400); padding:24px; border-top:1px solid var(--gris-200);
+}
+
+/* responsive general */
+@media (max-width: 860px){
+  .app{ flex-direction:column; }
+  .nav-lateral{ width:100%; display:flex; overflow-x:auto; gap:4px; padding:10px; }
+  .nav-lateral .separador-nav{ display:none; }
+  .nav-lateral button{ white-space:nowrap; margin-bottom:0; }
+  .contenido{ padding:18px; }
+  .encabezado{ flex-wrap:wrap; }
+}
+
+/* ============================================================
+   5. IMPRESIÓN
+   ============================================================ */
+@media print{
+  .nav-lateral, .encabezado .accion-imprimir, .barra-herramientas, .fila-botones,
+  .zona-toast, .fondo-modal, th.col-acciones, td.col-acciones, .boton{ display:none !important; }
+  body{ background:var(--blanco); }
+  .contenido{ max-width:100%; padding:0; }
+  .seccion{ display:block !important; page-break-after:always; }
+  .tarjeta{ box-shadow:none; border:1px solid #ccc; }
+  .encabezado{ background:var(--blanco) !important; color:var(--gris-950) !important; box-shadow:none; }
+  .marca .arcos{ color:var(--rojo); }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     ENCABEZADO
+     ============================================================ -->
+<header class="encabezado">
+  <div class="marca">
+    <div class="arcos">M</div>
+    <div class="marca-texto">
+      <div class="titulo-doc">Manual de Calidad</div>
+      <div class="titulo-cap">Capítulo 6 — Planificación</div>
+      <div class="subtitulo">Sistema de Gestión de la Calidad · Sucursal McDonald's</div>
+    </div>
+  </div>
+  <div style="display:flex; align-items:center; gap:12px;">
+    <span class="leyenda">ISO 9001:2015 — Capítulo 6</span>
+    <button class="accion-imprimir" onclick="window.print()">🖨️ Imprimir Capítulo 6</button>
+  </div>
+</header>
+
+<div class="app">
+  <!-- ============================================================
+       NAVEGACIÓN LATERAL
+       ============================================================ -->
+  <nav class="nav-lateral">
+    <div class="separador-nav">Capítulo 6</div>
+    <button data-seccion="inicio" class="activo" onclick="irASeccion('inicio')"><span class="icono-nav">🏠</span> Inicio</button>
+    <button data-seccion="s61" onclick="irASeccion('s61')"><span class="icono-nav">⚠️</span> 6.1 Riesgos y Oportunidades</button>
+    <button data-seccion="s62" onclick="irASeccion('s62')"><span class="icono-nav">🎯</span> 6.2 Objetivos de Calidad</button>
+    <button data-seccion="s63" onclick="irASeccion('s63')"><span class="icono-nav">🔄</span> 6.3 Planificación de Cambios</button>
+    <button data-seccion="dashboard" onclick="irASeccion('dashboard')"><span class="icono-nav">📊</span> Resumen / Dashboard</button>
+  </nav>
+
+  <main class="contenido">
+
+    <!-- ============================================================
+         SECCIÓN: INICIO
+         ============================================================ -->
+    <section id="seccion-inicio" class="seccion activa">
+      <div class="tarjeta">
+        <h2>Capítulo 6 — Planificación del Sistema de Gestión de la Calidad</h2>
+        <div class="nota-iso">
+          <strong>ISO 9001:2015 — 6. Planificación.</strong> Al planificar el sistema de gestión de la calidad,
+          la organización debe considerar las cuestiones de su contexto y los requisitos de las partes interesadas,
+          y determinar los riesgos y oportunidades que es necesario abordar.
+        </div>
+        <h3>Propósito</h3>
+        <p>Este capítulo establece cómo la sucursal planifica las acciones necesarias para abordar los riesgos
+        y oportunidades que puedan afectar la conformidad de sus productos y servicios, define objetivos de
+        calidad medibles y coherentes con la política de calidad, y controla de manera planificada los cambios
+        que puedan impactar al Sistema de Gestión de la Calidad.</p>
+
+        <h3>Aplicación en la sucursal McDonald's</h3>
+        <p>La planificación se aplica de forma práctica a aspectos operativos del restaurante, entre ellos:</p>
+        <div class="rejilla-3" style="margin-bottom:6px;">
+          <ul style="margin:0; padding-left:18px; font-size:13.5px;">
+            <li>Inocuidad y seguridad de los alimentos</li>
+            <li>Calidad de los productos</li>
+            <li>Tiempo de servicio</li>
+          </ul>
+          <ul style="margin:0; padding-left:18px; font-size:13.5px;">
+            <li>Satisfacción del cliente</li>
+            <li>Disponibilidad de productos</li>
+            <li>Limpieza e higiene</li>
+          </ul>
+          <ul style="margin:0; padding-left:18px; font-size:13.5px;">
+            <li>Capacitación del personal</li>
+            <li>Mantenimiento de equipos</li>
+            <li>Cumplimiento de procedimientos y atención de quejas</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="rejilla-3">
+        <div class="tarjeta-clic" onclick="irASeccion('s61')">
+          <div class="codigo">6.1</div>
+          <div class="nombre">Riesgos y oportunidades</div>
+        </div>
+        <div class="tarjeta-clic" onclick="irASeccion('s62')">
+          <div class="codigo">6.2</div>
+          <div class="nombre">Objetivos de calidad</div>
+        </div>
+        <div class="tarjeta-clic" onclick="irASeccion('s63')">
+          <div class="codigo">6.3</div>
+          <div class="nombre">Planificación de cambios</div>
+        </div>
+      </div>
+
+      <div class="tarjeta">
+        <h3>Ciclo de Planificación de la Calidad</h3>
+        <p style="font-size:13px; color:var(--gris-600);">Relación entre el requisito ISO, los riesgos y oportunidades,
+        los objetivos, el plan de acción, la implementación, el seguimiento y la mejora.</p>
+        <div class="ciclo-flujo">
+          <div class="ciclo-paso">Contexto</div><div class="ciclo-flecha">→</div>
+          <div class="ciclo-paso">Riesgos y<br>oportunidades</div><div class="ciclo-flecha">→</div>
+          <div class="ciclo-paso">Objetivos</div><div class="ciclo-flecha">→</div>
+          <div class="ciclo-paso">Plan de acción</div><div class="ciclo-flecha">→</div>
+          <div class="ciclo-paso">Implementación</div><div class="ciclo-flecha">→</div>
+          <div class="ciclo-paso">Seguimiento</div><div class="ciclo-flecha">→</div>
+          <div class="ciclo-paso">Mejora</div>
+        </div>
+      </div>
+
+      <div class="tarjeta">
+        <h3>Responsabilidades generales en la planificación</h3>
+        <p style="font-size:13px; color:var(--gris-600);">Las responsabilidades concretas deben adaptarse a la
+        estructura real de cada sucursal; el siguiente listado es orientativo.</p>
+        <ul class="lista-responsables">
+          <li>👤 Gerente de restaurante</li>
+          <li>👥 Gerentes de turno</li>
+          <li>🧑‍🍳 Personal operativo</li>
+          <li>✅ Responsable de calidad o persona designada</li>
+          <li>🔧 Personal de mantenimiento</li>
+          <li>🎓 Personal de capacitación</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SECCIÓN 6.1 — RIESGOS Y OPORTUNIDADES
+         ============================================================ -->
+    <section id="seccion-s61" class="seccion">
+      <div class="tarjeta">
+        <h2>6.1 Acciones para abordar riesgos y oportunidades</h2>
+        <div class="nota-iso">
+          Al planificar el sistema, la organización debe determinar los riesgos y oportunidades que es necesario
+          abordar para asegurar que el sistema pueda lograr sus resultados previstos, aumentar los efectos deseables,
+          prevenir o reducir efectos no deseados, y lograr la mejora. La organización debe planificar acciones para
+          abordarlos e integrarlas en los procesos del sistema, evaluando la eficacia de dichas acciones.
+        </div>
+        <p><span class="nota-academica">Ejemplos para fines académicos</span> los registros precargados ilustran
+        cómo documentar riesgos y oportunidades; pueden modificarse libremente.</p>
+      </div>
+
+      <div class="tarjeta">
+        <h3 id="titulo-form-riesgo">Registrar riesgo u oportunidad</h3>
+        <form id="form-riesgo" novalidate>
+          <input type="hidden" id="riesgo-id-editando">
+
+          <div class="fieldset-titulo">Identificación</div>
+          <div class="form-grid">
+            <div class="campo"><label>ID</label><input type="text" id="riesgo-id" readonly placeholder="Automático"></div>
+            <div class="campo"><label>Fecha <span class="req">*</span></label><input type="date" id="riesgo-fecha"><span class="error-msg">Ingrese una fecha válida.</span></div>
+            <div class="campo"><label>Proceso <span class="req">*</span></label>
+              <select id="riesgo-proceso">
+                <option value="">Seleccione…</option>
+                <option>Preparación de alimentos</option>
+                <option>Servicio al cliente</option>
+                <option>Atención al cliente</option>
+                <option>Limpieza e higiene</option>
+                <option>Mantenimiento de equipos</option>
+                <option>Capacitación del personal</option>
+                <option>Gestión de proveedores</option>
+              </select><span class="error-msg">Seleccione un proceso.</span>
+            </div>
+            <div class="campo"><label>Responsable <span class="req">*</span></label><input type="text" id="riesgo-responsable" placeholder="Ej. Gerente de turno"><span class="error-msg">Campo obligatorio.</span></div>
+            <div class="campo"><label>Tipo <span class="req">*</span></label>
+              <select id="riesgo-tipo"><option value="Riesgo">Riesgo</option><option value="Oportunidad">Oportunidad</option></select>
+            </div>
+          </div>
+
+          <div class="fieldset-titulo">Descripción</div>
+          <div class="form-grid">
+            <div class="campo ancho3"><label>Situación identificada <span class="req">*</span></label><textarea id="riesgo-situacion" placeholder="Describa la situación observada"></textarea><span class="error-msg">Campo obligatorio.</span></div>
+            <div class="campo ancho2"><label>Causa</label><textarea id="riesgo-causa"></textarea></div>
+            <div class="campo"><label>Consecuencia</label><textarea id="riesgo-consecuencia"></textarea></div>
+          </div>
+
+          <div class="fieldset-titulo">Evaluación del riesgo</div>
+          <div class="form-grid">
+            <div class="campo">
+              <label class="tooltip-iso">Probabilidad (1–5) <span class="req">*</span>
+                <span class="globo">1 Muy baja · 2 Baja · 3 Media · 4 Alta · 5 Muy alta</span>
+              </label>
+              <select id="riesgo-probabilidad" onchange="actualizarPrevisualizacionRiesgo()">
+                <option value="">—</option><option value="1">1 · Muy baja</option><option value="2">2 · Baja</option>
+                <option value="3">3 · Media</option><option value="4">4 · Alta</option><option value="5">5 · Muy alta</option>
+              </select><span class="error-msg">Seleccione un valor entre 1 y 5.</span>
+            </div>
+            <div class="campo">
+              <label class="tooltip-iso">Impacto (1–5) <span class="req">*</span>
+                <span class="globo">1 Insignificante · 2 Menor · 3 Moderado · 4 Mayor · 5 Crítico</span>
+              </label>
+              <select id="riesgo-impacto" onchange="actualizarPrevisualizacionRiesgo()">
+                <option value="">—</option><option value="1">1 · Insignificante</option><option value="2">2 · Menor</option>
+                <option value="3">3 · Moderado</option><option value="4">4 · Mayor</option><option value="5">5 · Crítico</option>
+              </select><span class="error-msg">Seleccione un valor entre 1 y 5.</span>
+            </div>
+            <div class="campo">
+              <label>Nivel de riesgo (calculado)</label>
+              <div class="previsualizacion-riesgo" id="previsualizacion-riesgo">
+                <span class="numero-nivel" id="pv-numero">—</span>
+                <span id="pv-pastilla"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="fieldset-titulo">Tratamiento</div>
+          <div class="form-grid">
+            <div class="campo ancho2"><label>Acción para abordar el riesgo/oportunidad <span class="req">*</span></label><textarea id="riesgo-accion"></textarea><span class="error-msg">Campo obligatorio.</span></div>
+            <div class="campo"><label>Responsable de la acción</label><input type="text" id="riesgo-responsable-accion"></div>
+            <div class="campo"><label>Fecha objetivo</label><input type="date" id="riesgo-fecha-objetivo"></div>
+            <div class="campo"><label>Estado</label>
+              <select id="riesgo-estado">
+                <option>Pendiente</option><option>En proceso</option><option>Completado</option><option>Cancelado</option>
+              </select>
+            </div>
+            <div class="campo ancho2"><label>Resultado / seguimiento</label><textarea id="riesgo-resultado"></textarea></div>
+          </div>
+
+          <div class="fila-botones">
+            <button type="button" class="boton boton-primario" onclick="guardarRiesgo()">Guardar registro</button>
+            <button type="button" class="boton boton-secundario" onclick="limpiarFormularioRiesgo()">Limpiar formulario</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="tarjeta">
+        <h3>Matriz de riesgos y oportunidades</h3>
+        <div class="barra-herramientas">
+          <input type="text" id="riesgo-buscar" placeholder="Buscar en la matriz…" oninput="renderizarTablaRiesgos()">
+          <select id="riesgo-filtro-proceso" onchange="renderizarTablaRiesgos()"><option value="">Todos los procesos</option></select>
+          <select id="riesgo-filtro-tipo" onchange="renderizarTablaRiesgos()">
+            <option value="">Todos los tipos</option><option value="Riesgo">Riesgo</option><option value="Oportunidad">Oportunidad</option>
+          </select>
+          <select id="riesgo-filtro-nivel" onchange="renderizarTablaRiesgos()">
+            <option value="">Todos los niveles</option><option value="Bajo">Bajo</option><option value="Medio">Medio</option>
+            <option value="Alto">Alto</option><option value="Crítico">Crítico</option>
+          </select>
+          <select id="riesgo-filtro-estado" onchange="renderizarTablaRiesgos()">
+            <option value="">Todos los estados</option><option>Pendiente</option><option>En proceso</option><option>Completado</option><option>Cancelado</option>
+          </select>
+          <button class="boton boton-amarillo" onclick="exportarCSV('riesgos')">⬇️ Exportar matriz a CSV</button>
+        </div>
+        <div class="contenedor-tabla">
+          <table class="tabla-datos">
+            <thead><tr>
+              <th>ID</th><th>Proceso</th><th>Tipo</th><th>Situación</th><th>Prob.</th><th>Imp.</th>
+              <th>Nivel</th><th>Acción</th><th>Responsable</th><th>Estado</th><th class="col-acciones">Acciones</th>
+            </tr></thead>
+            <tbody id="cuerpo-tabla-riesgos"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SECCIÓN 6.2 — OBJETIVOS DE CALIDAD
+         ============================================================ -->
+    <section id="seccion-s62" class="seccion">
+      <div class="tarjeta">
+        <h2>6.2 Objetivos de la calidad y planificación para lograrlos</h2>
+        <div class="nota-iso">
+          Los objetivos de la calidad deben ser coherentes con la política de calidad, ser medibles cuando sea
+          posible, tener en cuenta los requisitos aplicables, ser pertinentes para la conformidad de los productos
+          y servicios, ser objeto de seguimiento, comunicarse y actualizarse según corresponda. La organización debe
+          determinar qué se va a hacer, qué recursos se requerirán, quién será responsable, cuándo se finalizará y
+          cómo se evaluarán los resultados.
+        </div>
+        <p><span class="nota-academica">Ejemplos de referencia académica</span> las metas de indicadores mostradas
+        no representan requisitos oficiales de McDonald's.</p>
+      </div>
+
+      <div class="tarjeta">
+        <h3>Registrar objetivo de calidad</h3>
+        <form id="form-objetivo" novalidate>
+          <input type="hidden" id="objetivo-id-editando">
+
+          <div class="fieldset-titulo">Identificación</div>
+          <div class="form-grid">
+            <div class="campo"><label>ID del objetivo</label><input type="text" id="objetivo-id" readonly placeholder="Automático"></div>
+            <div class="campo ancho2"><label>Objetivo de calidad <span class="req">*</span></label><input type="text" id="objetivo-nombre" placeholder="Ej. Reducir el tiempo de servicio en ventanilla"><span class="error-msg">Campo obligatorio.</span></div>
+            <div class="campo"><label>Proceso relacionado</label>
+              <select id="objetivo-proceso">
+                <option value="">Seleccione…</option>
+                <option>Preparación de alimentos</option><option>Servicio al cliente</option>
+                <option>Atención al cliente</option><option>Limpieza e higiene</option>
+                <option>Mantenimiento de equipos</option><option>Capacitación del personal</option>
+              </select>
+            </div>
+            <div class="campo"><label>Responsable</label><input type="text" id="objetivo-responsable"></div>
+            <div class="campo"><label>Periodo</label><input type="text" id="objetivo-periodo" placeholder="Ej. 2026"></div>
+          </div>
+
+          <div class="fieldset-titulo">Indicador</div>
+          <div class="form-grid">
+            <div class="campo"><label>Nombre del indicador <span class="req">*</span></label><input type="text" id="objetivo-indicador"><span class="error-msg">Campo obligatorio.</span></div>
+            <div class="campo ancho2"><label>Fórmula</label><input type="text" id="objetivo-formula" placeholder="Ej. (quejas / transacciones) x 1000"></div>
+            <div class="campo"><label>Unidad de medida</label><input type="text" id="objetivo-unidad" placeholder="%, min, quejas…"></div>
+            <div class="campo"><label>Línea base</label><input type="number" step="any" id="objetivo-linea-base"></div>
+            <div class="campo"><label>Meta <span class="req">*</span></label><input type="number" step="any" id="objetivo-meta"><span class="error-msg">Ingrese una meta numérica.</span></div>
+            <div class="campo"><label>Frecuencia de medición</label>
+              <select id="objetivo-frecuencia">
+                <option>Diario</option><option>Semanal</option><option>Mensual</option><option>Trimestral</option><option>Semestral</option><option>Anual</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="fieldset-titulo">Plan para lograrlo</div>
+          <div class="form-grid">
+            <div class="campo ancho3"><label>Actividades / acciones</label><textarea id="objetivo-actividades"></textarea></div>
+            <div class="campo"><label>Recursos necesarios</label><input type="text" id="objetivo-recursos"></div>
+            <div class="campo"><label>Responsable</label><input type="text" id="objetivo-responsable-plan"></div>
+            <div class="campo"><label>Fecha de inicio</label><input type="date" id="objetivo-fecha-inicio"></div>
+            <div class="campo"><label>Fecha límite</label><input type="date" id="objetivo-fecha-limite"></div>
+          </div>
+
+          <div class="fieldset-titulo">Seguimiento</div>
+          <div class="form-grid">
+            <div class="campo"><label>Valor actual</label><input type="number" step="any" id="objetivo-valor-actual" oninput="actualizarPrevisualizacionObjetivo()"></div>
+            <div class="campo"><label>% de cumplimiento (automático)</label>
+              <div class="previsualizacion-riesgo" id="previsualizacion-objetivo"><span id="pv-objetivo-texto">—</span></div>
+            </div>
+            <div class="campo"><label>Estado</label>
+              <select id="objetivo-estado"><option>No iniciado</option><option>En progreso</option><option>Cumplido</option><option>No cumplido</option></select>
+            </div>
+          </div>
+
+          <div class="fila-botones">
+            <button type="button" class="boton boton-primario" onclick="guardarObjetivo()">Guardar objetivo</button>
+            <button type="button" class="boton boton-secundario" onclick="limpiarFormularioObjetivo()">Limpiar formulario</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="tarjeta">
+        <h3>Indicadores de referencia académica</h3>
+        <div class="rejilla-4">
+          <div class="kpi"><div class="valor">≤ 5 min</div><div class="etiqueta">Tiempo promedio de servicio</div></div>
+          <div class="kpi"><div class="valor">≥ 90%</div><div class="etiqueta">Satisfacción del cliente</div></div>
+          <div class="kpi"><div class="valor">≥ 95%</div><div class="etiqueta">Cumplimiento de limpieza</div></div>
+          <div class="kpi"><div class="valor">100%</div><div class="etiqueta">Cumplimiento de capacitación</div></div>
+          <div class="kpi"><div class="valor">≤ 3 / 1000</div><div class="etiqueta">Quejas de clientes por transacciones</div></div>
+          <div class="kpi"><div class="valor">100%</div><div class="etiqueta">Control de temperaturas</div></div>
+        </div>
+        <p style="font-size:12px; color:var(--gris-400); margin-top:10px;">Ejemplo para fines académicos — no constituye una meta oficial de McDonald's.</p>
+      </div>
+
+      <div class="tarjeta">
+        <h3>Panel de objetivos</h3>
+        <div class="rejilla-4" id="kpis-objetivos"></div>
+        <div class="grafico-barras" id="grafico-objetivos" style="margin-top:18px;"></div>
+      </div>
+
+      <div class="tarjeta">
+        <h3>Listado de objetivos</h3>
+        <div class="barra-herramientas">
+          <input type="text" id="objetivo-buscar" placeholder="Buscar objetivo…" oninput="renderizarTablaObjetivos()">
+          <select id="objetivo-filtro-estado" onchange="renderizarTablaObjetivos()">
+            <option value="">Todos los estados</option><option>No iniciado</option><option>En progreso</option><option>Cumplido</option><option>No cumplido</option>
+          </select>
+          <button class="boton boton-amarillo" onclick="exportarCSV('objetivos')">⬇️ Exportar objetivos a CSV</button>
+        </div>
+        <div class="contenedor-tabla">
+          <table class="tabla-datos">
+            <thead><tr>
+              <th>ID</th><th>Objetivo</th><th>Indicador</th><th>Meta</th><th>Actual</th><th>% Cumpl.</th>
+              <th>Estado</th><th class="col-acciones">Acciones</th>
+            </tr></thead>
+            <tbody id="cuerpo-tabla-objetivos"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SECCIÓN 6.3 — PLANIFICACIÓN DE CAMBIOS
+         ============================================================ -->
+    <section id="seccion-s63" class="seccion">
+      <div class="tarjeta">
+        <h2>6.3 Planificación de los cambios</h2>
+        <div class="nota-iso">
+          Cuando la organización determine la necesidad de cambios en el sistema de gestión de la calidad, estos
+          deben llevarse a cabo de manera planificada, considerando el propósito de los cambios y sus consecuencias
+          potenciales, la integridad del sistema, la disponibilidad de recursos, y la asignación o reasignación de
+          responsabilidades y autoridades.
+        </div>
+      </div>
+
+      <div class="tarjeta">
+        <h3>Registrar cambio</h3>
+        <form id="form-cambio" novalidate>
+          <input type="hidden" id="cambio-id-editando">
+
+          <div class="fieldset-titulo">Identificación del cambio</div>
+          <div class="form-grid">
+            <div class="campo"><label>ID</label><input type="text" id="cambio-id" readonly placeholder="Automático"></div>
+            <div class="campo"><label>Fecha de solicitud <span class="req">*</span></label><input type="date" id="cambio-fecha"><span class="error-msg">Ingrese una fecha válida.</span></div>
+            <div class="campo"><label>Área / proceso <span class="req">*</span></label>
+              <select id="cambio-proceso">
+                <option value="">Seleccione…</option>
+                <option>Preparación de alimentos</option><option>Servicio al cliente</option>
+                <option>Atención al cliente</option><option>Limpieza e higiene</option>
+                <option>Mantenimiento de equipos</option><option>Capacitación del personal</option>
+                <option>Gestión de proveedores</option>
+              </select><span class="error-msg">Seleccione un área.</span>
+            </div>
+            <div class="campo"><label>Responsable</label><input type="text" id="cambio-responsable"></div>
+            <div class="campo ancho2"><label>Descripción del cambio <span class="req">*</span></label><textarea id="cambio-descripcion"></textarea><span class="error-msg">Campo obligatorio.</span></div>
+            <div class="campo"><label>Motivo del cambio</label><textarea id="cambio-motivo"></textarea></div>
+          </div>
+
+          <div class="fieldset-titulo">Evaluación</div>
+          <div class="form-grid">
+            <div class="campo ancho3"><label>¿Por qué es necesario el cambio?</label><textarea id="cambio-porque"></textarea></div>
+            <div class="campo ancho2"><label>Impacto esperado</label><textarea id="cambio-impacto"></textarea></div>
+            <div class="campo"><label>Riesgos asociados</label><textarea id="cambio-riesgos"></textarea></div>
+            <div class="campo"><label>Recursos necesarios</label><input type="text" id="cambio-recursos"></div>
+            <div class="campo"><label>Personal involucrado</label><input type="text" id="cambio-personal"></div>
+            <div class="campo"><label>¿Afecta procedimientos?</label><select id="cambio-afecta-procedimientos"><option>No</option><option>Sí</option></select></div>
+            <div class="campo"><label>¿Afecta capacitación?</label><select id="cambio-afecta-capacitacion"><option>No</option><option>Sí</option></select></div>
+            <div class="campo"><label>¿Afecta equipos o infraestructura?</label><select id="cambio-afecta-equipos"><option>No</option><option>Sí</option></select></div>
+            <div class="campo"><label>¿Afecta proveedores?</label><select id="cambio-afecta-proveedores"><option>No</option><option>Sí</option></select></div>
+          </div>
+
+          <div class="fieldset-titulo">Planificación</div>
+          <div class="form-grid">
+            <div class="campo ancho3"><label>Actividades necesarias</label><textarea id="cambio-actividades"></textarea></div>
+            <div class="campo"><label>Responsable</label><input type="text" id="cambio-responsable-plan"></div>
+            <div class="campo"><label>Fecha de inicio</label><input type="date" id="cambio-fecha-inicio"></div>
+            <div class="campo"><label>Fecha prevista de implementación</label><input type="date" id="cambio-fecha-implementacion"></div>
+            <div class="campo"><label>Estado</label>
+              <select id="cambio-estado"><option>Propuesto</option><option>En evaluación</option><option>Aprobado</option><option>Implementado</option><option>Verificado</option><option>Cancelado</option></select>
+            </div>
+          </div>
+
+          <div class="fieldset-titulo">Verificación</div>
+          <div class="form-grid">
+            <div class="campo ancho2"><label>Resultado del cambio</label><textarea id="cambio-resultado"></textarea></div>
+            <div class="campo"><label>¿El cambio fue eficaz?</label><select id="cambio-eficacia"><option>—</option><option>Sí</option><option>Parcialmente</option><option>No</option></select></div>
+            <div class="campo ancho3"><label>Observaciones</label><textarea id="cambio-observaciones"></textarea></div>
+          </div>
+
+          <div class="fila-botones">
+            <button type="button" class="boton boton-primario" onclick="guardarCambio()">Guardar cambio</button>
+            <button type="button" class="boton boton-secundario" onclick="limpiarFormularioCambio()">Limpiar formulario</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="tarjeta">
+        <h3>Registro de cambios</h3>
+        <div class="barra-herramientas">
+          <input type="text" id="cambio-buscar" placeholder="Buscar cambio…" oninput="renderizarTablaCambios()">
+          <select id="cambio-filtro-estado" onchange="renderizarTablaCambios()">
+            <option value="">Todos los estados</option><option>Propuesto</option><option>En evaluación</option><option>Aprobado</option><option>Implementado</option><option>Verificado</option><option>Cancelado</option>
+          </select>
+          <button class="boton boton-amarillo" onclick="exportarCSV('cambios')">⬇️ Exportar cambios a CSV</button>
+        </div>
+        <div class="contenedor-tabla">
+          <table class="tabla-datos">
+            <thead><tr><th>ID</th><th>Fecha</th><th>Proceso</th><th>Cambio</th><th>Responsable</th><th>Estado</th><th>Eficacia</th><th class="col-acciones">Acciones</th></tr></thead>
+            <tbody id="cuerpo-tabla-cambios"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SECCIÓN: DASHBOARD GENERAL
+         ============================================================ -->
+    <section id="seccion-dashboard" class="seccion">
+      <div class="tarjeta">
+        <h2>Resumen del Capítulo 6</h2>
+        <p style="font-size:13px; color:var(--gris-600);">Este panel se actualiza automáticamente al agregar, editar o eliminar registros.</p>
+      </div>
+
+      <div class="tarjeta">
+        <h3>Riesgos y oportunidades</h3>
+        <div class="rejilla-4" id="resumen-riesgos"></div>
+      </div>
+
+      <div class="tarjeta">
+        <h3>Objetivos de calidad</h3>
+        <div class="rejilla-4" id="resumen-objetivos"></div>
+      </div>
+
+      <div class="tarjeta">
+        <h3>Planificación de cambios</h3>
+        <div class="rejilla-4" id="resumen-cambios"></div>
+      </div>
+
+      <div class="tarjeta">
+        <h3>Distribución de niveles de riesgo</h3>
+        <div class="grafico-barras" id="grafico-riesgos"></div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         CONTROL DOCUMENTAL
+         ============================================================ -->
+    <div class="tarjeta">
+      <h3>Control del documento</h3>
+      <table class="tabla-control">
+        <tr><td class="etiqueta">Documento</td><td>Manual de Calidad</td></tr>
+        <tr><td class="etiqueta">Capítulo</td><td>6 — Planificación</td></tr>
+        <tr><td class="etiqueta">Norma</td><td>ISO 9001:2015</td></tr>
+        <tr><td class="etiqueta">Organización</td><td>McDonald's</td></tr>
+        <tr><td class="etiqueta">Unidad</td><td>Sucursal</td></tr>
+        <tr><td class="etiqueta">Código</td><td>MC-C6-001</td></tr>
+        <tr><td class="etiqueta">Versión</td><td>1.0</td></tr>
+        <tr><td class="etiqueta">Fecha de emisión</td><td>2026</td></tr>
+        <tr><td class="etiqueta">Elaboró</td><td>__________________</td></tr>
+        <tr><td class="etiqueta">Revisó</td><td>__________________</td></tr>
+        <tr><td class="etiqueta">Aprobó</td><td>__________________</td></tr>
+      </table>
+    </div>
+
+    <footer class="pie">Documento académico — Manual de Calidad, Capítulo 6, ISO 9001:2015. Uso educativo.</footer>
+  </main>
+</div>
+
+<!-- ============================================================
+     MODAL GENÉRICO DE DETALLE
+     ============================================================ -->
+<div class="fondo-modal" id="fondo-modal-detalle">
+  <div class="modal">
+    <div class="modal-cabecera">
+      <h3 id="titulo-modal-detalle">Detalle del registro</h3>
+      <button class="cerrar-modal" onclick="cerrarModalDetalle()">✕</button>
+    </div>
+    <div id="cuerpo-modal-detalle"></div>
+  </div>
+</div>
+
+<!-- ZONA DE TOASTS -->
+<div class="zona-toast" id="zona-toast"></div>
+
+<script>
+/* ============================================================
+   6. ESTADO Y PERSISTENCIA (localStorage)
+   ============================================================ */
+const CLAVES = { riesgos:'mc_c6_riesgos', objetivos:'mc_c6_objetivos', cambios:'mc_c6_cambios' };
+
+function cargar(clave){
+  try{ const datos = localStorage.getItem(clave); return datos ? JSON.parse(datos) : null; }
+  catch(e){ return null; }
+}
+function guardar(clave, valor){ localStorage.setItem(clave, JSON.stringify(valor)); }
+
+let riesgos   = cargar(CLAVES.riesgos)   || datosPrecargadosRiesgos();
+let objetivos = cargar(CLAVES.objetivos) || datosPrecargadosObjetivos();
+let cambios   = cargar(CLAVES.cambios)   || datosPrecargadosCambios();
+
+function persistirRiesgos(){ guardar(CLAVES.riesgos, riesgos); }
+function persistirObjetivos(){ guardar(CLAVES.objetivos, objetivos); }
+function persistirCambios(){ guardar(CLAVES.cambios, cambios); }
+
+/* -------- ejemplos precargados (académicos) -------- */
+function datosPrecargadosRiesgos(){
+  return [
+    { id:'R-001', fecha:'2026-01-15', proceso:'Preparación de alimentos', responsable:'Gerente de turno', tipo:'Riesgo',
+      situacion:'Variación en la temperatura de conservación de alimentos.', causa:'Falla intermitente de refrigeración', consecuencia:'Riesgo de inocuidad alimentaria',
+      probabilidad:3, impacto:5, accion:'Verificar temperaturas de refrigeradores y congeladores conforme al procedimiento establecido.',
+      responsableAccion:'Personal de mantenimiento', fechaObjetivo:'2026-02-01', estado:'En proceso', resultado:'' },
+    { id:'R-002', fecha:'2026-01-18', proceso:'Servicio al cliente', responsable:'Gerente de restaurante', tipo:'Riesgo',
+      situacion:'Incremento en el tiempo promedio de entrega durante horas pico.', causa:'Personal insuficiente en estaciones clave', consecuencia:'Insatisfacción del cliente',
+      probabilidad:4, impacto:4, accion:'Revisar asignación de personal y distribución de estaciones durante periodos de alta demanda.',
+      responsableAccion:'Gerente de turno', fechaObjetivo:'2026-02-10', estado:'Pendiente', resultado:'' },
+    { id:'R-003', fecha:'2026-01-20', proceso:'Atención al cliente', responsable:'Responsable de calidad', tipo:'Oportunidad',
+      situacion:'Uso de herramientas digitales para mejorar la experiencia del cliente.', causa:'Adopción de pedidos digitales', consecuencia:'Mejora potencial en la satisfacción',
+      probabilidad:4, impacto:4, accion:'Analizar resultados de pedidos digitales y utilizar la información para mejorar el servicio.',
+      responsableAccion:'Responsable de calidad', fechaObjetivo:'2026-03-01', estado:'En proceso', resultado:'' }
+  ];
+}
+function datosPrecargadosObjetivos(){
+  return [
+    { id:'O-001', nombre:'Reducir el tiempo promedio de servicio en ventanilla', proceso:'Servicio al cliente', responsable:'Gerente de restaurante',
+      periodo:'2026', indicador:'Tiempo promedio de servicio', formula:'Suma de tiempos / número de órdenes', unidad:'minutos', lineaBase:6, meta:5,
+      frecuencia:'Semanal', actividades:'Redistribuir estaciones en hora pico', recursos:'Personal adicional en hora pico', responsablePlan:'Gerente de turno',
+      fechaInicio:'2026-01-05', fechaLimite:'2026-06-30', valorActual:5.4, estado:'En progreso' },
+    { id:'O-002', nombre:'Mantener el cumplimiento de controles de temperatura', proceso:'Preparación de alimentos', responsable:'Responsable de calidad',
+      periodo:'2026', indicador:'Cumplimiento de controles de temperatura', formula:'Controles conformes / controles realizados x 100', unidad:'%', lineaBase:96, meta:100,
+      frecuencia:'Diario', actividades:'Verificación diaria de temperaturas', recursos:'Termómetros calibrados', responsablePlan:'Personal de mantenimiento',
+      fechaInicio:'2026-01-05', fechaLimite:'2026-12-31', valorActual:99, estado:'En progreso' }
+  ];
+}
+function datosPrecargadosCambios(){
+  return [
+    { id:'C-001', fecha:'2026-01-10', proceso:'Mantenimiento de equipos', responsable:'Gerente de restaurante',
+      descripcion:'Sustitución de refrigerador principal de cocina.', motivo:'Fallas recurrentes de temperatura',
+      porque:'El equipo actual presenta fallas intermitentes que afectan la inocuidad', impacto:'Mejora en la estabilidad de temperatura',
+      riesgos:'Interrupción temporal del servicio durante la instalación', recursos:'Presupuesto para equipo nuevo', personal:'Mantenimiento y proveedor externo',
+      afectaProcedimientos:'No', afectaCapacitacion:'Sí', afectaEquipos:'Sí', afectaProveedores:'Sí',
+      actividades:'Cotización, compra, instalación y capacitación', responsablePlan:'Personal de mantenimiento',
+      fechaInicio:'2026-02-01', fechaImplementacion:'2026-02-20', estado:'Aprobado', resultado:'', eficacia:'—', observaciones:'' }
+  ];
+}
+
+/* ============================================================
+   7. UTILIDADES GENERALES
+   ============================================================ */
+function generarId(prefijo, lista){
+  const numeros = lista.map(r => parseInt((r.id||'').split('-')[1]) || 0);
+  const siguiente = (numeros.length ? Math.max(...numeros) : 0) + 1;
+  return prefijo + '-' + String(siguiente).padStart(3,'0');
+}
+function escaparHtml(texto){
+  const div = document.createElement('div'); div.textContent = texto ?? ''; return div.innerHTML;
+}
+function mostrarToast(mensaje, tipo){
+  const zona = document.getElementById('zona-toast');
+  const toast = document.createElement('div');
+  toast.className = 'toast ' + (tipo||'info');
+  const icono = tipo==='exito' ? '✅' : tipo==='error' ? '⚠️' : 'ℹ️';
+  toast.innerHTML = icono + ' ' + escaparHtml(mensaje);
+  zona.appendChild(toast);
+  setTimeout(()=> toast.remove(), 3200);
+}
+function marcarError(idCampo, mostrar){
+  const campo = document.getElementById(idCampo).closest('.campo');
+  if(campo) campo.classList.toggle('con-error', !!mostrar);
+}
+
+/* ============================================================
+   8. NAVEGACIÓN
+   ============================================================ */
+function irASeccion(id){
+  document.querySelectorAll('.seccion').forEach(s => s.classList.remove('activa'));
+  document.getElementById('seccion-'+id).classList.add('activa');
+  document.querySelectorAll('.nav-lateral button').forEach(b => b.classList.toggle('activo', b.dataset.seccion === id));
+  window.scrollTo({top:0, behavior:'instant'});
+  if(id==='dashboard') renderizarDashboard();
+}
+
+/* ============================================================
+   9. MÓDULO 6.1 — RIESGOS
+   ============================================================ */
+function nivelDeRiesgo(probabilidad, impacto){
+  const puntaje = probabilidad * impacto;
+  let etiqueta, clase;
+  if(puntaje <= 4){ etiqueta='Bajo'; clase='nivel-bajo'; }
+  else if(puntaje <= 9){ etiqueta='Medio'; clase='nivel-medio'; }
+  else if(puntaje <= 16){ etiqueta='Alto'; clase='nivel-alto'; }
+  else { etiqueta='Crítico'; clase='nivel-critico'; }
+  return { puntaje, etiqueta, clase };
+}
+function actualizarPrevisualizacionRiesgo(){
+  const p = parseInt(document.getElementById('riesgo-probabilidad').value);
+  const i = parseInt(document.getElementById('riesgo-impacto').value);
+  const numero = document.getElementById('pv-numero');
+  const pastilla = document.getElementById('pv-pastilla');
+  if(!p || !i){ numero.textContent='—'; pastilla.innerHTML=''; return; }
+  const n = nivelDeRiesgo(p,i);
+  numero.textContent = n.puntaje;
+  pastilla.innerHTML = '<span class="pastilla-nivel '+n.clase+'">'+n.etiqueta+'</span>';
+}
+
+function limpiarFormularioRiesgo(){
+  document.getElementById('form-riesgo').reset();
+  document.getElementById('riesgo-id-editando').value='';
+  document.getElementById('riesgo-id').value='';
+  document.getElementById('titulo-form-riesgo').textContent='Registrar riesgo u oportunidad';
+  actualizarPrevisualizacionRiesgo();
+  document.querySelectorAll('#form-riesgo .campo').forEach(c=>c.classList.remove('con-error'));
+}
+
+function guardarRiesgo(){
+  const campos = {
+    fecha: document.getElementById('riesgo-fecha').value,
+    proceso: document.getElementById('riesgo-proceso').value,
+    responsable: document.getElementById('riesgo-responsable').value.trim(),
+    tipo: document.getElementById('riesgo-tipo').value,
+    situacion: document.getElementById('riesgo-situacion').value.trim(),
+    causa: document.getElementById('riesgo-causa').value.trim(),
+    consecuencia: document.getElementById('riesgo-consecuencia').value.trim(),
+    probabilidad: document.getElementById('riesgo-probabilidad').value,
+    impacto: document.getElementById('riesgo-impacto').value,
+    accion: document.getElementById('riesgo-accion').value.trim(),
+    responsableAccion: document.getElementById('riesgo-responsable-accion').value.trim(),
+    fechaObjetivo: document.getElementById('riesgo-fecha-objetivo').value,
+    estado: document.getElementById('riesgo-estado').value,
+    resultado: document.getElementById('riesgo-resultado').value.trim()
+  };
+
+  let valido = true;
+  const requeridos = ['riesgo-fecha','riesgo-proceso','riesgo-responsable','riesgo-situacion','riesgo-probabilidad','riesgo-impacto','riesgo-accion'];
+  requeridos.forEach(id=>{
+    const valor = document.getElementById(id).value.trim();
+    const conError = !valor;
+    marcarError(id, conError);
+    if(conError) valido = false;
+  });
+  const p = parseInt(campos.probabilidad), i = parseInt(campos.impacto);
+  if(campos.probabilidad && (p<1||p>5)){ marcarError('riesgo-probabilidad', true); valido=false; }
+  if(campos.impacto && (i<1||i>5)){ marcarError('riesgo-impacto', true); valido=false; }
+  if(!valido){ mostrarToast('Revise los campos marcados en rojo antes de guardar.', 'error'); return; }
+
+  const idEditando = document.getElementById('riesgo-id-editando').value;
+  campos.probabilidad = p; campos.impacto = i;
+
+  if(idEditando){
+    const idx = riesgos.findIndex(r=>r.id===idEditando);
+    riesgos[idx] = { ...riesgos[idx], ...campos };
+    mostrarToast('Registro '+idEditando+' actualizado correctamente.', 'exito');
+  } else {
+    const nuevoId = generarId('R', riesgos);
+    riesgos.push({ id:nuevoId, ...campos });
+    mostrarToast('Registro '+nuevoId+' guardado correctamente.', 'exito');
+  }
+  persistirRiesgos();
+  limpiarFormularioRiesgo();
+  renderizarTablaRiesgos();
+  actualizarSelectoresFiltroRiesgo();
+}
+
+function editarRiesgo(id){
+  const r = riesgos.find(x=>x.id===id); if(!r) return;
+  document.getElementById('riesgo-id-editando').value = r.id;
+  document.getElementById('riesgo-id').value = r.id;
+  document.getElementById('riesgo-fecha').value = r.fecha||'';
+  document.getElementById('riesgo-proceso').value = r.proceso||'';
+  document.getElementById('riesgo-responsable').value = r.responsable||'';
+  document.getElementById('riesgo-tipo').value = r.tipo||'Riesgo';
+  document.getElementById('riesgo-situacion').value = r.situacion||'';
+  document.getElementById('riesgo-causa').value = r.causa||'';
+  document.getElementById('riesgo-consecuencia').value = r.consecuencia||'';
+  document.getElementById('riesgo-probabilidad').value = r.probabilidad||'';
+  document.getElementById('riesgo-impacto').value = r.impacto||'';
+  document.getElementById('riesgo-accion').value = r.accion||'';
+  document.getElementById('riesgo-responsable-accion').value = r.responsableAccion||'';
+  document.getElementById('riesgo-fecha-objetivo').value = r.fechaObjetivo||'';
+  document.getElementById('riesgo-estado').value = r.estado||'Pendiente';
+  document.getElementById('riesgo-resultado').value = r.resultado||'';
+  actualizarPrevisualizacionRiesgo();
+  document.getElementById('titulo-form-riesgo').textContent = 'Editando registro ' + r.id;
+  document.getElementById('form-riesgo').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function eliminarRiesgo(id){
+  if(!confirm('¿Confirma que desea eliminar el registro '+id+'? Esta acción no se puede deshacer.')) return;
+  riesgos = riesgos.filter(r=>r.id!==id);
+  persistirRiesgos();
+  renderizarTablaRiesgos();
+  mostrarToast('Registro '+id+' eliminado.', 'info');
+}
+
+function verDetalleRiesgo(id){
+  const r = riesgos.find(x=>x.id===id); if(!r) return;
+  const n = nivelDeRiesgo(r.probabilidad, r.impacto);
+  document.getElementById('titulo-modal-detalle').textContent = 'Detalle del registro ' + r.id;
+  document.getElementById('cuerpo-modal-detalle').innerHTML = `
+    <table class="tabla-control">
+      <tr><td class="etiqueta">Tipo</td><td>${escaparHtml(r.tipo)}</td></tr>
+      <tr><td class="etiqueta">Proceso</td><td>${escaparHtml(r.proceso)}</td></tr>
+      <tr><td class="etiqueta">Responsable</td><td>${escaparHtml(r.responsable)}</td></tr>
+      <tr><td class="etiqueta">Situación</td><td>${escaparHtml(r.situacion)}</td></tr>
+      <tr><td class="etiqueta">Causa</td><td>${escaparHtml(r.causa||'—')}</td></tr>
+      <tr><td class="etiqueta">Consecuencia</td><td>${escaparHtml(r.consecuencia||'—')}</td></tr>
+      <tr><td class="etiqueta">Probabilidad × Impacto</td><td>${r.probabilidad} × ${r.impacto} = ${n.puntaje} (<span class="pastilla-nivel ${n.clase}">${n.etiqueta}</span>)</td></tr>
+      <tr><td class="etiqueta">Acción</td><td>${escaparHtml(r.accion)}</td></tr>
+      <tr><td class="etiqueta">Responsable de la acción</td><td>${escaparHtml(r.responsableAccion||'—')}</td></tr>
+      <tr><td class="etiqueta">Fecha objetivo</td><td>${r.fechaObjetivo||'—'}</td></tr>
+      <tr><td class="etiqueta">Estado</td><td><span class="pastilla-estado estado-${r.estado.toLowerCase().replace(/\\s+/g,'-')}">${r.estado}</span></td></tr>
+      <tr><td class="etiqueta">Resultado / seguimiento</td><td>${escaparHtml(r.resultado||'—')}</td></tr>
+    </table>`;
+  document.getElementById('fondo-modal-detalle').classList.add('visible');
+}
+function cerrarModalDetalle(){ document.getElementById('fondo-modal-detalle').classList.remove('visible'); }
+
+function actualizarSelectoresFiltroRiesgo(){
+  const select = document.getElementById('riesgo-filtro-proceso');
+  const actual = select.value;
+  const procesos = [...new Set(riesgos.map(r=>r.proceso))].sort();
+  select.innerHTML = '<option value="">Todos los procesos</option>' + procesos.map(p=>`<option>${escaparHtml(p)}</option>`).join('');
+  select.value = actual;
+}
+
+function renderizarTablaRiesgos(){
+  const cuerpo = document.getElementById('cuerpo-tabla-riesgos');
+  const busqueda = document.getElementById('riesgo-buscar').value.toLowerCase();
+  const fProceso = document.getElementById('riesgo-filtro-proceso').value;
+  const fTipo = document.getElementById('riesgo-filtro-tipo').value;
+  const fNivel = document.getElementById('riesgo-filtro-nivel').value;
+  const fEstado = document.getElementById('riesgo-filtro-estado').value;
+
+  const filtrados = riesgos.filter(r=>{
+    const n = nivelDeRiesgo(r.probabilidad, r.impacto);
+    if(fProceso && r.proceso!==fProceso) return false;
+    if(fTipo && r.tipo!==fTipo) return false;
+    if(fNivel && n.etiqueta!==fNivel) return false;
+    if(fEstado && r.estado!==fEstado) return false;
+    if(busqueda){
+      const texto = (r.situacion+' '+r.proceso+' '+r.responsable+' '+r.accion).toLowerCase();
+      if(!texto.includes(busqueda)) return false;
+    }
+    return true;
+  });
+
+  if(!filtrados.length){ cuerpo.innerHTML = '<tr><td colspan="11" class="sin-datos">No hay registros que coincidan con los filtros aplicados.</td></tr>'; return; }
+
+  cuerpo.innerHTML = filtrados.map(r=>{
+    const n = nivelDeRiesgo(r.probabilidad, r.impacto);
+    const estadoClase = 'estado-' + r.estado.toLowerCase().replace(/\s+/g,'-');
+    return `<tr>
+      <td>${r.id}</td><td>${escaparHtml(r.proceso)}</td><td>${r.tipo}</td>
+      <td class="celda-larga">${escaparHtml(r.situacion)}</td>
+      <td>${r.probabilidad}</td><td>${r.impacto}</td>
+      <td><span class="pastilla-nivel ${n.clase}">${n.etiqueta} (${n.puntaje})</span></td>
+      <td class="celda-larga">${escaparHtml(r.accion)}</td>
+      <td>${escaparHtml(r.responsableAccion||'—')}</td>
+      <td><span class="pastilla-estado ${estadoClase}">${r.estado}</span></td>
+      <td class="col-acciones">
+        <button class="boton-icono" title="Ver detalle" onclick="verDetalleRiesgo('${r.id}')">👁️</button>
+        <button class="boton-icono" title="Editar" onclick="editarRiesgo('${r.id}')">✏️</button>
+        <button class="boton-icono" title="Eliminar" onclick="eliminarRiesgo('${r.id}')">🗑️</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+/* ============================================================
+   10. MÓDULO 6.2 — OBJETIVOS
+   ============================================================ */
+function calcularPorcentajeCumplimiento(o){
+  const meta = parseFloat(o.meta), base = parseFloat(o.lineaBase), actual = parseFloat(o.valorActual);
+  if(isNaN(meta) || isNaN(actual)) return null;
+  if(!isNaN(base) && meta !== base){
+    const avance = ((actual - base) / (meta - base)) * 100;
+    return Math.max(0, Math.min(150, Math.round(avance)));
+  }
+  if(meta === 0) return null;
+  return Math.max(0, Math.min(150, Math.round((actual/meta)*100)));
+}
+function actualizarPrevisualizacionObjetivo(){
+  const meta = parseFloat(document.getElementById('objetivo-meta').value);
+  const base = parseFloat(document.getElementById('objetivo-linea-base').value);
+  const actual = parseFloat(document.getElementById('objetivo-valor-actual').value);
+  const texto = document.getElementById('pv-objetivo-texto');
+  const pct = calcularPorcentajeCumplimiento({meta, lineaBase:base, valorActual:actual});
+  texto.textContent = (pct===null) ? 'Ingrese meta y valor actual' : pct + '%';
+}
+
+function limpiarFormularioObjetivo(){
+  document.getElementById('form-objetivo').reset();
+  document.getElementById('objetivo-id-editando').value='';
+  document.getElementById('objetivo-id').value='';
+  actualizarPrevisualizacionObjetivo();
+  document.querySelectorAll('#form-objetivo .campo').forEach(c=>c.classList.remove('con-error'));
+}
+
+function guardarObjetivo(){
+  const campos = {
+    nombre: document.getElementById('objetivo-nombre').value.trim(),
+    proceso: document.getElementById('objetivo-proceso').value,
+    responsable: document.getElementById('objetivo-responsable').value.trim(),
+    periodo: document.getElementById('objetivo-periodo').value.trim(),
+    indicador: document.getElementById('objetivo-indicador').value.trim(),
+    formula: document.getElementById('objetivo-formula').value.trim(),
+    unidad: document.getElementById('objetivo-unidad').value.trim(),
+    lineaBase: document.getElementById('objetivo-linea-base').value,
+    meta: document.getElementById('objetivo-meta').value,
+    frecuencia: document.getElementById('objetivo-frecuencia').value,
+    actividades: document.getElementById('objetivo-actividades').value.trim(),
+    recursos: document.getElementById('objetivo-recursos').value.trim(),
+    responsablePlan: document.getElementById('objetivo-responsable-plan').value.trim(),
+    fechaInicio: document.getElementById('objetivo-fecha-inicio').value,
+    fechaLimite: document.getElementById('objetivo-fecha-limite').value,
+    valorActual: document.getElementById('objetivo-valor-actual').value,
+    estado: document.getElementById('objetivo-estado').value
+  };
+
+  let valido = true;
+  ['objetivo-nombre','objetivo-indicador','objetivo-meta'].forEach(id=>{
+    const conError = !document.getElementById(id).value.trim();
+    marcarError(id, conError); if(conError) valido=false;
+  });
+  if(!valido){ mostrarToast('Complete los campos obligatorios del objetivo.', 'error'); return; }
+
+  campos.lineaBase = campos.lineaBase===''? null : parseFloat(campos.lineaBase);
+  campos.meta = parseFloat(campos.meta);
+  campos.valorActual = campos.valorActual===''? null : parseFloat(campos.valorActual);
+
+  const idEditando = document.getElementById('objetivo-id-editando').value;
+  if(idEditando){
+    const idx = objetivos.findIndex(o=>o.id===idEditando);
+    objetivos[idx] = { ...objetivos[idx], ...campos };
+    mostrarToast('Objetivo '+idEditando+' actualizado.', 'exito');
+  } else {
+    const nuevoId = generarId('O', objetivos);
+    objetivos.push({ id:nuevoId, ...campos });
+    mostrarToast('Objetivo '+nuevoId+' guardado.', 'exito');
+  }
+  persistirObjetivos();
+  limpiarFormularioObjetivo();
+  renderizarTablaObjetivos();
+}
+
+function editarObjetivo(id){
+  const o = objetivos.find(x=>x.id===id); if(!o) return;
+  document.getElementById('objetivo-id-editando').value = o.id;
+  document.getElementById('objetivo-id').value = o.id;
+  document.getElementById('objetivo-nombre').value = o.nombre||'';
+  document.getElementById('objetivo-proceso').value = o.proceso||'';
+  document.getElementById('objetivo-responsable').value = o.responsable||'';
+  document.getElementById('objetivo-periodo').value = o.periodo||'';
+  document.getElementById('objetivo-indicador').value = o.indicador||'';
+  document.getElementById('objetivo-formula').value = o.formula||'';
+  document.getElementById('objetivo-unidad').value = o.unidad||'';
+  document.getElementById('objetivo-linea-base').value = o.lineaBase ?? '';
+  document.getElementById('objetivo-meta').value = o.meta ?? '';
+  document.getElementById('objetivo-frecuencia').value = o.frecuencia||'Mensual';
+  document.getElementById('objetivo-actividades').value = o.actividades||'';
+  document.getElementById('objetivo-recursos').value = o.recursos||'';
+  document.getElementById('objetivo-responsable-plan').value = o.responsablePlan||'';
+  document.getElementById('objetivo-fecha-inicio').value = o.fechaInicio||'';
+  document.getElementById('objetivo-fecha-limite').value = o.fechaLimite||'';
+  document.getElementById('objetivo-valor-actual').value = o.valorActual ?? '';
+  document.getElementById('objetivo-estado').value = o.estado||'No iniciado';
+  actualizarPrevisualizacionObjetivo();
+  document.getElementById('form-objetivo').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function eliminarObjetivo(id){
+  if(!confirm('¿Confirma que desea eliminar el objetivo '+id+'?')) return;
+  objetivos = objetivos.filter(o=>o.id!==id);
+  persistirObjetivos();
+  renderizarTablaObjetivos();
+  mostrarToast('Objetivo '+id+' eliminado.', 'info');
+}
+
+function renderizarTablaObjetivos(){
+  const cuerpo = document.getElementById('cuerpo-tabla-objetivos');
+  const busqueda = document.getElementById('objetivo-buscar').value.toLowerCase();
+  const fEstado = document.getElementById('objetivo-filtro-estado').value;
+  const filtrados = objetivos.filter(o=>{
+    if(fEstado && o.estado!==fEstado) return false;
+    if(busqueda && !((o.nombre+' '+o.indicador).toLowerCase().includes(busqueda))) return false;
+    return true;
+  });
+  if(!filtrados.length){ cuerpo.innerHTML='<tr><td colspan="8" class="sin-datos">No hay objetivos que coincidan con los filtros.</td></tr>'; renderizarPanelObjetivos(); return; }
+
+  cuerpo.innerHTML = filtrados.map(o=>{
+    const pct = calcularPorcentajeCumplimiento(o);
+    const estadoClase = 'estado-' + o.estado.toLowerCase().replace(/\s+/g,'-');
+    return `<tr>
+      <td>${o.id}</td><td class="celda-larga">${escaparHtml(o.nombre)}</td><td>${escaparHtml(o.indicador)}</td>
+      <td>${o.meta ?? '—'} ${escaparHtml(o.unidad||'')}</td><td>${o.valorActual ?? '—'}</td>
+      <td>${pct===null?'—':pct+'%'}</td>
+      <td><span class="pastilla-estado ${estadoClase}">${o.estado}</span></td>
+      <td class="col-acciones">
+        <button class="boton-icono" title="Editar" onclick="editarObjetivo('${o.id}')">✏️</button>
+        <button class="boton-icono" title="Eliminar" onclick="eliminarObjetivo('${o.id}')">🗑️</button>
+      </td>
+    </tr>`;
+  }).join('');
+  renderizarPanelObjetivos();
+}
+
+function renderizarPanelObjetivos(){
+  const total = objetivos.length;
+  const cumplidos = objetivos.filter(o=>o.estado==='Cumplido').length;
+  const progreso = objetivos.filter(o=>o.estado==='En progreso').length;
+  const noCumplidos = objetivos.filter(o=>o.estado==='No cumplido').length;
+  const porcentajes = objetivos.map(calcularPorcentajeCumplimiento).filter(p=>p!==null);
+  const promedio = porcentajes.length ? Math.round(porcentajes.reduce((a,b)=>a+b,0)/porcentajes.length) : 0;
+
+  document.getElementById('kpis-objetivos').innerHTML = `
+    <div class="kpi azul"><div class="valor">${total}</div><div class="etiqueta">Total de objetivos</div></div>
+    <div class="kpi verde"><div class="valor">${cumplidos}</div><div class="etiqueta">Objetivos cumplidos</div></div>
+    <div class="kpi amarillo"><div class="valor">${progreso}</div><div class="etiqueta">En progreso</div></div>
+    <div class="kpi rojo"><div class="valor">${noCumplidos}</div><div class="etiqueta">No cumplidos</div></div>`;
+
+  const contenedorGrafico = document.getElementById('grafico-objetivos');
+  if(!objetivos.length){ contenedorGrafico.innerHTML = '<p class="sin-datos">Sin datos suficientes para graficar.</p>'; return; }
+  contenedorGrafico.innerHTML = objetivos.map(o=>{
+    const pct = calcularPorcentajeCumplimiento(o) ?? 0;
+    const alturaPct = Math.max(4, Math.min(100, pct));
+    return `<div class="barra-col">
+      <span class="valor-barra">${pct}%</span>
+      <div class="barra" style="height:${alturaPct}%;"></div>
+      <span class="etiqueta-barra">${escaparHtml(o.id)}</span>
+    </div>`;
+  }).join('');
+}
+
+/* ============================================================
+   11. MÓDULO 6.3 — CAMBIOS
+   ============================================================ */
+function limpiarFormularioCambio(){
+  document.getElementById('form-cambio').reset();
+  document.getElementById('cambio-id-editando').value='';
+  document.getElementById('cambio-id').value='';
+  document.querySelectorAll('#form-cambio .campo').forEach(c=>c.classList.remove('con-error'));
+}
+
+function guardarCambio(){
+  const campos = {
+    fecha: document.getElementById('cambio-fecha').value,
+    proceso: document.getElementById('cambio-proceso').value,
+    responsable: document.getElementById('cambio-responsable').value.trim(),
+    descripcion: document.getElementById('cambio-descripcion').value.trim(),
+    motivo: document.getElementById('cambio-motivo').value.trim(),
+    porque: document.getElementById('cambio-porque').value.trim(),
+    impacto: document.getElementById('cambio-impacto').value.trim(),
+    riesgos: document.getElementById('cambio-riesgos').value.trim(),
+    recursos: document.getElementById('cambio-recursos').value.trim(),
+    personal: document.getElementById('cambio-personal').value.trim(),
+    afectaProcedimientos: document.getElementById('cambio-afecta-procedimientos').value,
+    afectaCapacitacion: document.getElementById('cambio-afecta-capacitacion').value,
+    afectaEquipos: document.getElementById('cambio-afecta-equipos').value,
+    afectaProveedores: document.getElementById('cambio-afecta-proveedores').value,
+    actividades: document.getElementById('cambio-actividades').value.trim(),
+    responsablePlan: document.getElementById('cambio-responsable-plan').value.trim(),
+    fechaInicio: document.getElementById('cambio-fecha-inicio').value,
+    fechaImplementacion: document.getElementById('cambio-fecha-implementacion').value,
+    estado: document.getElementById('cambio-estado').value,
+    resultado: document.getElementById('cambio-resultado').value.trim(),
+    eficacia: document.getElementById('cambio-eficacia').value,
+    observaciones: document.getElementById('cambio-observaciones').value.trim()
+  };
+
+  let valido = true;
+  ['cambio-fecha','cambio-proceso','cambio-descripcion'].forEach(id=>{
+    const conError = !document.getElementById(id).value.trim();
+    marcarError(id, conError); if(conError) valido=false;
+  });
+  if(!valido){ mostrarToast('Complete los campos obligatorios del cambio.', 'error'); return; }
+
+  const idEditando = document.getElementById('cambio-id-editando').value;
+  if(idEditando){
+    const idx = cambios.findIndex(c=>c.id===idEditando);
+    cambios[idx] = { ...cambios[idx], ...campos };
+    mostrarToast('Cambio '+idEditando+' actualizado.', 'exito');
+  } else {
+    const nuevoId = generarId('C', cambios);
+    cambios.push({ id:nuevoId, ...campos });
+    mostrarToast('Cambio '+nuevoId+' guardado.', 'exito');
+  }
+  persistirCambios();
+  limpiarFormularioCambio();
+  renderizarTablaCambios();
+}
+
+function editarCambio(id){
+  const c = cambios.find(x=>x.id===id); if(!c) return;
+  document.getElementById('cambio-id-editando').value = c.id;
+  document.getElementById('cambio-id').value = c.id;
+  document.getElementById('cambio-fecha').value = c.fecha||'';
+  document.getElementById('cambio-proceso').value = c.proceso||'';
+  document.getElementById('cambio-responsable').value = c.responsable||'';
+  document.getElementById('cambio-descripcion').value = c.descripcion||'';
+  document.getElementById('cambio-motivo').value = c.motivo||'';
+  document.getElementById('cambio-porque').value = c.porque||'';
+  document.getElementById('cambio-impacto').value = c.impacto||'';
+  document.getElementById('cambio-riesgos').value = c.riesgos||'';
+  document.getElementById('cambio-recursos').value = c.recursos||'';
+  document.getElementById('cambio-personal').value = c.personal||'';
+  document.getElementById('cambio-afecta-procedimientos').value = c.afectaProcedimientos||'No';
+  document.getElementById('cambio-afecta-capacitacion').value = c.afectaCapacitacion||'No';
+  document.getElementById('cambio-afecta-equipos').value = c.afectaEquipos||'No';
+  document.getElementById('cambio-afecta-proveedores').value = c.afectaProveedores||'No';
+  document.getElementById('cambio-actividades').value = c.actividades||'';
+  document.getElementById('cambio-responsable-plan').value = c.responsablePlan||'';
+  document.getElementById('cambio-fecha-inicio').value = c.fechaInicio||'';
+  document.getElementById('cambio-fecha-implementacion').value = c.fechaImplementacion||'';
+  document.getElementById('cambio-estado').value = c.estado||'Propuesto';
+  document.getElementById('cambio-resultado').value = c.resultado||'';
+  document.getElementById('cambio-eficacia').value = c.eficacia||'—';
+  document.getElementById('cambio-observaciones').value = c.observaciones||'';
+  document.getElementById('form-cambio').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function eliminarCambio(id){
+  if(!confirm('¿Confirma que desea eliminar el cambio '+id+'?')) return;
+  cambios = cambios.filter(c=>c.id!==id);
+  persistirCambios();
+  renderizarTablaCambios();
+  mostrarToast('Cambio '+id+' eliminado.', 'info');
+}
+
+function renderizarTablaCambios(){
+  const cuerpo = document.getElementById('cuerpo-tabla-cambios');
+  const busqueda = document.getElementById('cambio-buscar').value.toLowerCase();
+  const fEstado = document.getElementById('cambio-filtro-estado').value;
+  const filtrados = cambios.filter(c=>{
+    if(fEstado && c.estado!==fEstado) return false;
+    if(busqueda && !((c.descripcion+' '+c.proceso).toLowerCase().includes(busqueda))) return false;
+    return true;
+  });
+  if(!filtrados.length){ cuerpo.innerHTML='<tr><td colspan="8" class="sin-datos">No hay cambios que coincidan con los filtros.</td></tr>'; return; }
+  cuerpo.innerHTML = filtrados.map(c=>{
+    const estadoClase = 'estado-' + c.estado.toLowerCase().replace(/\s+/g,'-');
+    return `<tr>
+      <td>${c.id}</td><td>${c.fecha||'—'}</td><td>${escaparHtml(c.proceso)}</td>
+      <td class="celda-larga">${escaparHtml(c.descripcion)}</td><td>${escaparHtml(c.responsable||'—')}</td>
+      <td><span class="pastilla-estado ${estadoClase}">${c.estado}</span></td>
+      <td>${c.eficacia||'—'}</td>
+      <td class="col-acciones">
+        <button class="boton-icono" title="Editar" onclick="editarCambio('${c.id}')">✏️</button>
+        <button class="boton-icono" title="Eliminar" onclick="eliminarCambio('${c.id}')">🗑️</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+/* ============================================================
+   12. DASHBOARD GENERAL
+   ============================================================ */
+function renderizarDashboard(){
+  const conteoNivel = { Bajo:0, Medio:0, Alto:0, Crítico:0 };
+  riesgos.forEach(r=>{ conteoNivel[nivelDeRiesgo(r.probabilidad, r.impacto).etiqueta]++; });
+
+  document.getElementById('resumen-riesgos').innerHTML = `
+    <div class="kpi"><div class="valor">${riesgos.length}</div><div class="etiqueta">Total identificados</div></div>
+    <div class="kpi rojo"><div class="valor">${conteoNivel['Crítico']}</div><div class="etiqueta">Riesgos críticos</div></div>
+    <div class="kpi amarillo"><div class="valor">${conteoNivel['Alto']}</div><div class="etiqueta">Riesgos altos</div></div>
+    <div class="kpi verde"><div class="valor">${conteoNivel['Medio']+conteoNivel['Bajo']}</div><div class="etiqueta">Riesgos medios / bajos</div></div>`;
+
+  document.getElementById('resumen-objetivos').innerHTML = `
+    <div class="kpi azul"><div class="valor">${objetivos.length}</div><div class="etiqueta">Total de objetivos</div></div>
+    <div class="kpi verde"><div class="valor">${objetivos.filter(o=>o.estado==='Cumplido').length}</div><div class="etiqueta">Cumplidos</div></div>
+    <div class="kpi amarillo"><div class="valor">${objetivos.filter(o=>o.estado==='En progreso').length}</div><div class="etiqueta">En progreso</div></div>
+    <div class="kpi rojo"><div class="valor">${objetivos.filter(o=>o.estado==='No cumplido').length}</div><div class="etiqueta">No cumplidos</div></div>`;
+
+  document.getElementById('resumen-cambios').innerHTML = `
+    <div class="kpi"><div class="valor">${cambios.length}</div><div class="etiqueta">Total de cambios</div></div>
+    <div class="kpi azul"><div class="valor">${cambios.filter(c=>c.estado==='Propuesto').length}</div><div class="etiqueta">Propuestos</div></div>
+    <div class="kpi amarillo"><div class="valor">${cambios.filter(c=>c.estado==='Aprobado').length}</div><div class="etiqueta">Aprobados</div></div>
+    <div class="kpi verde"><div class="valor">${cambios.filter(c=>c.estado==='Implementado'||c.estado==='Verificado').length}</div><div class="etiqueta">Implementados / verificados</div></div>`;
+
+  const maxConteo = Math.max(1, ...Object.values(conteoNivel));
+  document.getElementById('grafico-riesgos').innerHTML = Object.entries(conteoNivel).map(([nivel, cantidad])=>{
+    const altura = Math.max(4, Math.round((cantidad/maxConteo)*100));
+    return `<div class="barra-col">
+      <span class="valor-barra">${cantidad}</span>
+      <div class="barra" style="height:${altura}%;"></div>
+      <span class="etiqueta-barra">${nivel}</span>
+    </div>`;
+  }).join('');
+}
+
+/* ============================================================
+   13. EXPORTACIÓN CSV
+   ============================================================ */
+function convertirACSV(filas, columnas){
+  const escaparCelda = valor => '"' + String(valor ?? '').replace(/"/g,'""') + '"';
+  const encabezado = columnas.map(c=>escaparCelda(c.titulo)).join(',');
+  const cuerpo = filas.map(fila => columnas.map(c=>escaparCelda(fila[c.clave])).join(',')).join('\n');
+  return encabezado + '\n' + cuerpo;
+}
+function descargarArchivo(nombre, contenido){
+  const blob = new Blob(['\ufeff'+contenido], {type:'text/csv;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const enlace = document.createElement('a');
+  enlace.href = url; enlace.download = nombre;
+  document.body.appendChild(enlace); enlace.click(); enlace.remove();
+  URL.revokeObjectURL(url);
+}
+function exportarCSV(tipo){
+  let csv, nombre;
+  if(tipo==='riesgos'){
+    const filasConNivel = riesgos.map(r=>({...r, nivel: nivelDeRiesgo(r.probabilidad,r.impacto).etiqueta}));
+    csv = convertirACSV(filasConNivel, [
+      {clave:'id',titulo:'ID'},{clave:'fecha',titulo:'Fecha'},{clave:'proceso',titulo:'Proceso'},{clave:'tipo',titulo:'Tipo'},
+      {clave:'situacion',titulo:'Situación'},{clave:'probabilidad',titulo:'Probabilidad'},{clave:'impacto',titulo:'Impacto'},
+      {clave:'nivel',titulo:'Nivel'},{clave:'accion',titulo:'Acción'},{clave:'responsableAccion',titulo:'Responsable acción'},
+      {clave:'estado',titulo:'Estado'}
+    ]);
+    nombre = 'matriz_riesgos_oportunidades.csv';
+  } else if(tipo==='objetivos'){
+    csv = convertirACSV(objetivos, [
+      {clave:'id',titulo:'ID'},{clave:'nombre',titulo:'Objetivo'},{clave:'indicador',titulo:'Indicador'},
+      {clave:'meta',titulo:'Meta'},{clave:'valorActual',titulo:'Valor actual'},{clave:'frecuencia',titulo:'Frecuencia'},
+      {clave:'estado',titulo:'Estado'}
+    ]);
+    nombre = 'objetivos_calidad.csv';
+  } else {
+    csv = convertirACSV(cambios, [
+      {clave:'id',titulo:'ID'},{clave:'fecha',titulo:'Fecha'},{clave:'proceso',titulo:'Proceso'},
+      {clave:'descripcion',titulo:'Descripción'},{clave:'responsable',titulo:'Responsable'},
+      {clave:'estado',titulo:'Estado'},{clave:'eficacia',titulo:'Eficacia'}
+    ]);
+    nombre = 'planificacion_cambios.csv';
+  }
+  descargarArchivo(nombre, csv);
+  mostrarToast('Archivo CSV descargado correctamente.', 'exito');
+}
+
+/* ============================================================
+   14. INICIALIZACIÓN
+   ============================================================ */
+document.addEventListener('DOMContentLoaded', () => {
+  persistirRiesgos(); persistirObjetivos(); persistirCambios();
+  actualizarSelectoresFiltroRiesgo();
+  renderizarTablaRiesgos();
+  renderizarTablaObjetivos();
+  renderizarTablaCambios();
+  renderizarDashboard();
+});
+document.getElementById('fondo-modal-detalle').addEventListener('click', (e)=>{
+  if(e.target.id==='fondo-modal-detalle') cerrarModalDetalle();
+});
+</script>
+</body>
+</html>

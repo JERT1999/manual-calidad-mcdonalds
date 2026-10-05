@@ -1,0 +1,1825 @@
+<!DOCTYPE html>
+<!-- saved from url=(0073)file:///C:/Users/ernes/Downloads/manual_calidad_capitulo_5.html#objetivos -->
+<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manual de Calidad · Capítulo 5 — Liderazgo</title>
+<style>
+/* ============================================================
+   TOKENS
+   ============================================================ */
+:root{
+  --red:#D62D20;
+  --red-dark:#A81F16;
+  --yellow:#FFC72C;
+  --yellow-dark:#E3A800;
+  --ink:#232019;
+  --ink-soft:#5B564C;
+  --paper:#FAF8F3;
+  --panel:#FFFFFF;
+  --line:#E6E1D6;
+  --line-strong:#D2CBBB;
+  --ok:#1E7B44;
+  --ok-bg:#E8F5EC;
+  --warn:#9A6B00;
+  --warn-bg:#FFF3D6;
+  --danger:#B3261E;
+  --danger-bg:#FBEAE9;
+  --info:#2A5C8A;
+  --info-bg:#EAF1F8;
+  --neutral-bg:#EFEBE0;
+  --radius-s:6px;
+  --radius-m:10px;
+  --radius-l:16px;
+  --shadow:0 1px 2px rgba(35,32,25,.06), 0 4px 14px rgba(35,32,25,.06);
+  --font-head:'Segoe UI Semibold','Arial Narrow',Arial,sans-serif;
+  --font-body:'Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;
+  --sidebar-w:264px;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  font-family:var(--font-body);
+  background:var(--paper);
+  color:var(--ink);
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{
+  font-family:var(--font-head);
+  letter-spacing:.1px;
+  color:var(--ink);
+  margin:0 0 .4em 0;
+}
+p{margin:.2em 0 .8em;}
+a{color:var(--red-dark);}
+button{font-family:inherit;cursor:pointer;}
+table{border-collapse:collapse;width:100%;}
+:focus-visible{outline:3px solid var(--info);outline-offset:2px;}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;}
+
+/* ============================================================
+   LAYOUT SHELL
+   ============================================================ */
+.app-shell{display:flex;min-height:100vh;}
+
+/* --- Sidebar --- */
+.sidebar{
+  width:var(--sidebar-w);
+  flex-shrink:0;
+  background:linear-gradient(180deg,#1E1B15 0%, #262319 100%);
+  color:#F3F0E8;
+  position:sticky;
+  top:0;
+  height:100vh;
+  overflow-y:auto;
+  padding:22px 0 20px;
+  z-index:40;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:0 20px 18px;
+  border-bottom:1px solid rgba(255,255,255,.12);
+  margin-bottom:14px;
+}
+.arch-mark{
+  width:38px;height:38px;flex-shrink:0;position:relative;
+}
+.arch-mark svg{width:100%;height:100%;display:block;}
+.brand-text{line-height:1.15;}
+.brand-text strong{display:block;font-family:var(--font-head);font-size:1.05rem;color:var(--yellow);letter-spacing:.3px;}
+.brand-text span{display:block;font-size:.72rem;color:#C9C4B5;}
+
+.side-nav{list-style:none;margin:0;padding:0 10px;}
+.side-nav li{margin:2px 0;}
+.side-nav a{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 12px;border-radius:var(--radius-s);
+  color:#DEDACD;text-decoration:none;font-size:.9rem;
+  border-left:3px solid transparent;
+  transition:background .15s ease, color .15s ease;
+}
+.side-nav a .num{
+  font-family:var(--font-head);font-size:.72rem;color:#8E886F;
+  width:18px;text-align:right;
+}
+.side-nav a:hover{background:rgba(255,255,255,.06);color:#fff;}
+.side-nav a.active{background:rgba(255,199,44,.14);color:#fff;border-left-color:var(--yellow);}
+.side-nav a.active .num{color:var(--yellow);}
+
+.sidebar-foot{
+  padding:14px 20px 0;margin-top:16px;border-top:1px solid rgba(255,255,255,.12);
+  font-size:.72rem;color:#9C977F;
+}
+
+/* Mobile top bar */
+.topbar{
+  display:none;
+  position:sticky;top:0;z-index:50;
+  background:#1E1B15;color:#F3F0E8;
+  align-items:center;justify-content:space-between;
+  padding:10px 14px;
+}
+.topbar .brand{border:none;padding:0;margin:0;}
+.hamburger{
+  background:none;border:1px solid rgba(255,255,255,.3);color:#fff;
+  border-radius:var(--radius-s);width:38px;height:38px;font-size:1.2rem;
+}
+
+/* --- Main --- */
+.main{flex:1;min-width:0;}
+.doc-header{
+  background:var(--panel);
+  border-bottom:3px solid var(--red);
+  padding:22px 32px;
+  position:relative;
+}
+.doc-header::after{
+  content:"";position:absolute;left:0;right:0;bottom:-3px;height:3px;
+  background:repeating-linear-gradient(90deg,var(--yellow) 0 24px, transparent 24px 32px);
+}
+.doc-header-top{display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between;align-items:flex-start;}
+.doc-titles h1{font-size:1.5rem;margin-bottom:2px;}
+.doc-titles .sub{font-size:1rem;color:var(--red-dark);font-weight:600;margin-bottom:4px;}
+.doc-titles .branch-name{color:var(--ink-soft);font-size:.92rem;}
+.doc-meta{
+  display:grid;grid-template-columns:repeat(2,minmax(120px,1fr));gap:6px 22px;
+  font-size:.8rem;color:var(--ink-soft);
+}
+.doc-meta b{color:var(--ink);}
+.notice-band{
+  background:var(--neutral-bg);border-top:1px solid var(--line);
+  padding:8px 32px;font-size:.78rem;color:var(--ink-soft);
+}
+
+.content{padding:26px 32px 80px;max-width:1180px;}
+section.panel-section{scroll-margin-top:14px;padding-top:6px;margin-bottom:52px;}
+.section-head{display:flex;align-items:baseline;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
+.section-head h2{font-size:1.28rem;}
+.section-head .req-tag{
+  font-size:.7rem;background:var(--info-bg);color:var(--info);
+  padding:2px 8px;border-radius:999px;font-weight:600;
+}
+.lede{color:var(--ink-soft);font-size:.92rem;max-width:70ch;margin-top:-6px;}
+
+/* ============================================================
+   CARDS / KPI
+   ============================================================ */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-bottom:22px;}
+.kpi-card{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius-m);
+  padding:16px 16px 14px;box-shadow:var(--shadow);border-left:4px solid var(--red);
+}
+.kpi-card .kpi-label{font-size:.76rem;color:var(--ink-soft);margin-bottom:6px;}
+.kpi-card .kpi-value{font-family:var(--font-head);font-size:1.9rem;color:var(--ink);}
+.kpi-card .kpi-value small{font-size:1rem;color:var(--ink-soft);font-family:var(--font-body);}
+.kpi-card.acc-yellow{border-left-color:var(--yellow-dark);}
+.kpi-card.acc-ok{border-left-color:var(--ok);}
+.kpi-card.acc-info{border-left-color:var(--info);}
+
+.progress-block{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius-m);
+  padding:18px 20px;box-shadow:var(--shadow);margin-bottom:26px;
+}
+.progress-block .lbl{display:flex;justify-content:space-between;font-size:.86rem;margin-bottom:8px;}
+.progress-track{height:12px;border-radius:999px;background:var(--neutral-bg);overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--red),var(--yellow));transition:width .4s ease;}
+
+.dash-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:18px;}
+@media (max-width:920px){.dash-grid{grid-template-columns:1fr;}}
+.mini-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius-m);padding:16px 18px;box-shadow:var(--shadow);}
+.mini-card h3{font-size:1rem;margin-bottom:10px;}
+.mini-list{list-style:none;margin:0;padding:0;font-size:.86rem;}
+.mini-list li{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px dashed var(--line);}
+.mini-list li:last-child{border-bottom:none;}
+
+/* ============================================================
+   FORMS
+   ============================================================ */
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius-m);box-shadow:var(--shadow);padding:20px 22px;margin-bottom:20px;}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(220px,1fr));gap:14px 18px;}
+.form-grid.single{grid-template-columns:1fr;}
+@media (max-width:720px){.form-grid{grid-template-columns:1fr;}}
+.field{display:flex;flex-direction:column;gap:5px;}
+.field.span-2{grid-column:1/-1;}
+.field label{font-size:.82rem;font-weight:600;color:var(--ink);}
+.field label .req{color:var(--red-dark);margin-left:2px;}
+.field input,.field select,.field textarea{
+  border:1px solid var(--line-strong);border-radius:var(--radius-s);
+  padding:9px 10px;font-size:.9rem;font-family:inherit;background:#fff;color:var(--ink);
+}
+.field textarea{resize:vertical;min-height:90px;}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--info);}
+.field.invalid input,.field.invalid select,.field.invalid textarea{border-color:var(--danger);background:var(--danger-bg);}
+.field .err-msg{display:none;font-size:.76rem;color:var(--danger);}
+.field.invalid .err-msg{display:block;}
+.field .hint{font-size:.74rem;color:var(--ink-soft);}
+
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;}
+.btn{
+  border:1px solid var(--line-strong);background:#fff;color:var(--ink);
+  padding:9px 16px;border-radius:var(--radius-s);font-size:.86rem;font-weight:600;
+  display:inline-flex;align-items:center;gap:6px;transition:transform .05s ease, background .15s ease;
+}
+.btn:hover{background:var(--neutral-bg);}
+.btn:active{transform:translateY(1px);}
+.btn-primary{background:var(--red);border-color:var(--red-dark);color:#fff;}
+.btn-primary:hover{background:var(--red-dark);}
+.btn-accent{background:var(--yellow);border-color:var(--yellow-dark);color:#3A2E00;}
+.btn-accent:hover{background:var(--yellow-dark);}
+.btn-ghost{background:transparent;border-color:transparent;color:var(--ink-soft);}
+.btn-ghost:hover{background:var(--neutral-bg);}
+.btn-danger{background:#fff;border-color:var(--danger);color:var(--danger);}
+.btn-danger:hover{background:var(--danger-bg);}
+.btn-sm{padding:5px 10px;font-size:.76rem;}
+.btn[disabled]{opacity:.5;cursor:not-allowed;}
+
+/* ============================================================
+   TABLES
+   ============================================================ */
+.table-toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px;justify-content:space-between;}
+.table-toolbar .filters{display:flex;gap:8px;flex-wrap:wrap;}
+.table-toolbar input[type="search"], .table-toolbar select{
+  border:1px solid var(--line-strong);border-radius:var(--radius-s);padding:8px 10px;font-size:.85rem;
+}
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius-m);background:#fff;}
+table.data-table{min-width:640px;}
+table.data-table th{
+  background:#231F19;color:#F3F0E8;text-align:left;font-size:.72rem;letter-spacing:.3px;
+  padding:10px 12px;position:sticky;top:0;
+}
+table.data-table td{padding:10px 12px;font-size:.85rem;border-top:1px solid var(--line);vertical-align:top;}
+table.data-table tbody tr:nth-child(even){background:#FBFAF6;}
+table.data-table tbody tr:hover{background:var(--neutral-bg);}
+.row-actions{display:flex;gap:6px;white-space:nowrap;}
+.empty-state{padding:34px 20px;text-align:center;color:var(--ink-soft);font-size:.9rem;}
+.empty-state .big{font-size:1.8rem;display:block;margin-bottom:6px;}
+.count-pill{font-size:.75rem;background:var(--neutral-bg);padding:3px 10px;border-radius:999px;color:var(--ink-soft);}
+.pagination{display:flex;justify-content:center;gap:6px;padding:10px;}
+.pagination button{border:1px solid var(--line-strong);background:#fff;border-radius:var(--radius-s);padding:5px 10px;font-size:.8rem;}
+.pagination button.active{background:var(--red);color:#fff;border-color:var(--red-dark);}
+
+/* Badges */
+.badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:.72rem;font-weight:700;letter-spacing:.2px;}
+.badge-completado{background:var(--ok-bg);color:var(--ok);}
+.badge-cumplido{background:var(--ok-bg);color:var(--ok);}
+.badge-en-proceso{background:var(--info-bg);color:var(--info);}
+.badge-pendiente{background:var(--neutral-bg);color:var(--ink-soft);}
+.badge-no-iniciado{background:var(--neutral-bg);color:var(--ink-soft);}
+.badge-en-riesgo{background:var(--warn-bg);color:var(--warn);}
+.badge-vencido{background:var(--danger-bg);color:var(--danger);}
+.badge-activo{background:var(--ok-bg);color:var(--ok);}
+.badge-inactivo{background:var(--neutral-bg);color:var(--ink-soft);}
+.badge-vigente{background:var(--ok-bg);color:var(--ok);}
+.badge-borrador{background:var(--warn-bg);color:var(--warn);}
+.badge-obsoleto{background:var(--danger-bg);color:var(--danger);}
+
+/* ============================================================
+   PROFILE CARDS
+   ============================================================ */
+.profile-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;}
+.profile-card{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius-m);
+  padding:16px 16px 14px;box-shadow:var(--shadow);position:relative;border-top:4px solid var(--yellow);
+}
+.profile-card .avatar{
+  width:42px;height:42px;border-radius:50%;background:var(--red);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-size:1rem;margin-bottom:10px;
+}
+.profile-card h4{font-size:.98rem;margin-bottom:1px;}
+.profile-card .role-line{font-size:.8rem;color:var(--red-dark);font-weight:600;margin-bottom:8px;}
+.profile-card dl{margin:0;font-size:.8rem;}
+.profile-card dt{color:var(--ink-soft);margin-top:6px;}
+.profile-card dd{margin:0;}
+.profile-card .card-actions{margin-top:12px;display:flex;gap:8px;}
+
+/* ============================================================
+   ORG CHART
+   ============================================================ */
+.org-wrap{display:flex;gap:22px;flex-wrap:wrap;align-items:flex-start;}
+.org-chart{flex:1;min-width:280px;overflow-x:auto;padding:10px 4px 20px;}
+.org-level{display:flex;justify-content:center;gap:14px;margin-bottom:26px;flex-wrap:wrap;position:relative;}
+.org-level::before{
+  content:"";position:absolute;top:-14px;left:50%;transform:translateX(-50%);
+  width:2px;height:14px;background:var(--line-strong);
+}
+.org-level:first-child::before{display:none;}
+.org-node{
+  background:#fff;border:1.5px solid var(--line-strong);border-radius:var(--radius-s);
+  padding:10px 14px;min-width:150px;text-align:center;cursor:pointer;
+  box-shadow:var(--shadow);transition:border-color .15s ease;
+}
+.org-node:hover{border-color:var(--red);}
+.org-node.selected{border-color:var(--red);background:var(--danger-bg);}
+.org-node .pos{font-weight:700;font-size:.82rem;}
+.org-node .nm{font-size:.78rem;color:var(--ink-soft);}
+.org-node .ar{font-size:.7rem;color:var(--red-dark);}
+.org-detail{
+  width:280px;flex-shrink:0;background:var(--panel);border:1px solid var(--line);
+  border-radius:var(--radius-m);padding:16px 18px;box-shadow:var(--shadow);
+}
+.org-detail h4{font-size:.95rem;margin-bottom:6px;}
+.org-detail p{font-size:.83rem;}
+
+/* ============================================================
+   MODAL
+   ============================================================ */
+.modal-backdrop{
+  position:fixed;inset:0;background:rgba(30,27,21,.55);display:none;
+  align-items:flex-start;justify-content:center;padding:40px 16px;z-index:100;overflow-y:auto;
+}
+.modal-backdrop.open{display:flex;}
+.modal{
+  background:#fff;border-radius:var(--radius-l);max-width:640px;width:100%;
+  box-shadow:0 20px 60px rgba(0,0,0,.3);animation:pop .15s ease;
+}
+@keyframes pop{from{transform:translateY(8px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+.modal-head{display:flex;justify-content:space-between;align-items:center;padding:18px 22px;border-bottom:1px solid var(--line);}
+.modal-head h3{margin:0;font-size:1.05rem;}
+.modal-close{background:none;border:none;font-size:1.3rem;color:var(--ink-soft);line-height:1;padding:4px;}
+.modal-body{padding:20px 22px;max-height:65vh;overflow-y:auto;}
+.modal-foot{padding:16px 22px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:10px;}
+
+/* ============================================================
+   TOASTS
+   ============================================================ */
+.toast-stack{position:fixed;bottom:20px;right:20px;z-index:200;display:flex;flex-direction:column;gap:10px;max-width:320px;}
+.toast{
+  background:#232019;color:#fff;padding:12px 16px;border-radius:var(--radius-m);
+  font-size:.85rem;box-shadow:0 8px 24px rgba(0,0,0,.25);border-left:4px solid var(--ok);
+  animation:slidein .2s ease;
+}
+.toast.warn{border-left-color:var(--warn);}
+.toast.danger{border-left-color:var(--danger);}
+@keyframes slidein{from{transform:translateX(20px);opacity:0;}to{transform:translateX(0);opacity:1;}}
+
+/* ============================================================
+   MISC
+   ============================================================ */
+.matrix-note{font-size:.8rem;color:var(--ink-soft);margin-top:8px;}
+.history-table td, .history-table th{font-size:.82rem;}
+.top-actions{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px;}
+.divider{height:1px;background:var(--line);margin:22px 0;}
+.save-indicator{font-size:.74rem;color:var(--ink-soft);display:flex;align-items:center;gap:6px;}
+.save-indicator .dot{width:8px;height:8px;border-radius:50%;background:var(--ok);}
+footer.app-footer{padding:26px 32px 60px;color:var(--ink-soft);font-size:.78rem;border-top:1px solid var(--line);}
+
+/* ============================================================
+   PRINT
+   ============================================================ */
+@media print{
+  .sidebar,.topbar,.btn-row,.table-toolbar,.row-actions,.hamburger,
+  .toast-stack,.modal-backdrop,.no-print,.pagination{display:none !important;}
+  .app-shell{display:block;}
+  .main{width:100%;}
+  .content{padding:0;max-width:100%;}
+  body{background:#fff;}
+  section.panel-section{margin-bottom:26px;page-break-inside:avoid;}
+  .card,.kpi-card,.profile-card,.table-wrap{box-shadow:none;border:1px solid #999;}
+  a{color:inherit;text-decoration:none;}
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width:900px){
+  .sidebar{display:none;}
+  .topbar{display:flex;}
+  .sidebar.mobile-open{
+    display:block;position:fixed;inset:0 20% 0 0;height:100vh;z-index:60;
+  }
+  .doc-header{padding:18px 18px;}
+  .content{padding:20px 16px 70px;}
+  .notice-band{padding:8px 16px;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">
+    <span class="arch-mark" aria-hidden="true">
+      <svg viewBox="0 0 48 48"><path d="M6 40 C6 20, 14 6, 24 6 C34 6, 42 20, 42 40" fill="none" stroke="#FFC72C" stroke-width="6" stroke-linecap="round"></path></svg>
+    </span>
+    <div class="brand-text"><strong>SGC · Cap. 5</strong><span>Liderazgo</span></div>
+  </div>
+  <button class="hamburger" id="hamburgerBtn" aria-label="Abrir navegación" aria-expanded="false">☰</button>
+</div>
+
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar" aria-label="Navegación del manual">
+    <div class="brand">
+      <span class="arch-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48"><path d="M6 40 C6 20, 14 6, 24 6 C34 6, 42 20, 42 40" fill="none" stroke="#FFC72C" stroke-width="6" stroke-linecap="round"></path></svg>
+      </span>
+      <div class="brand-text"><strong>Manual de Calidad</strong><span>ISO 9001:2015 — Cap. 5</span></div>
+    </div>
+    <ul class="side-nav" id="sideNav">
+      <li><a href="file:///C:/Users/ernes/Downloads/manual_calidad_capitulo_5.html#resumen" data-target="resumen" class=""><span class="num">01</span>Resumen</a></li>
+      <li><a href="file:///C:/Users/ernes/Downloads/manual_calidad_capitulo_5.html#politica" data-target="politica" class="active"><span class="num">02</span>Política de Calidad</a></li>
+      <li><a href="file:///C:/Users/ernes/Downloads/manual_calidad_capitulo_5.html#objetivos" data-target="objetivos" class=""><span class="num">03</span>Objetivos Estratégicos</a></li>
+      <li><a href="file:///C:/Users/ernes/Downloads/manual_calidad_capitulo_5.html#liderazgo" data-target="liderazgo" class=""><span class="num">04</span>Liderazgo y Compromiso</a></li>
+      <li><a href="file:///C:/Users/ernes/Downloads/manual_calidad_capitulo_5.html#cliente" data-target="cliente" class=""><span class="num">05</span>Enfoque al Cliente</a></li>
+      <li><a href="file:///C:/Users/ernes/Downloads/manual_calidad_capitulo_5.html#roles" data-target="roles" class=""><span class="num">06</span>Roles y Responsabilidades</a></li>
+      <li><a href="file:///C:/Users/ernes/Downloads/manual_calidad_capitulo_5.html#organigrama" data-target="organigrama" class=""><span class="num">07</span>Organigrama</a></li>
+      <li><a href="file:///C:/Users/ernes/Downloads/manual_calidad_capitulo_5.html#comunicacion" data-target="comunicacion" class=""><span class="num">08</span>Comunicación</a></li>
+      <li><a href="file:///C:/Users/ernes/Downloads/manual_calidad_capitulo_5.html#evidencias" data-target="evidencias" class=""><span class="num">09</span>Evidencias</a></li>
+      <li><a href="file:///C:/Users/ernes/Downloads/manual_calidad_capitulo_5.html#control" data-target="control" class=""><span class="num">10</span>Control Documental</a></li>
+      <li><a href="file:///C:/Users/ernes/Downloads/manual_calidad_capitulo_5.html#auditoria" data-target="auditoria"><span class="num">11</span>Guía de Auditoría</a></li>
+    </ul>
+    <div class="sidebar-foot">
+      Plantilla editable. Adapte los contenidos a las políticas vigentes de su sucursal.
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="doc-header">
+      <div class="doc-header-top">
+        <div class="doc-titles">
+          <h1>Manual de Calidad</h1>
+          <div class="sub">Capítulo 5 — Liderazgo</div>
+          <div class="branch-name" id="branchNameDisplay">McDonald's — Sucursal Ejemplo</div>
+        </div>
+        <div class="doc-meta">
+          <div>Código: <b id="metaCode">MC-SGC-CAP5</b></div>
+          <div>Versión: <b id="metaVersion">1.0</b></div>
+          <div>Emisión: <b id="metaIssue">01/09/2026</b></div>
+          <div>Estado: <b id="metaStatus">Vigente</b></div>
+        </div>
+      </div>
+    </header>
+    <div class="notice-band">
+      Plantilla de gestión de calidad. Los contenidos deben adaptarse a las políticas corporativas, requisitos legales y estructura organizacional vigente de la sucursal. Todos los nombres y datos mostrados son ejemplos ficticios y editables.
+    </div>
+
+    <div class="content">
+
+      <!-- ============ 01 RESUMEN ============ -->
+      <section class="panel-section" id="resumen">
+        <div class="section-head"><h2>Resumen del Capítulo</h2><span class="req-tag">ISO 9001:2015 · Cláusula 5</span></div>
+        <p class="lede">Panorama del estado documental del liderazgo, la política de calidad y el enfoque al cliente en la sucursal. Los indicadores se recalculan automáticamente a partir de la información registrada en cada módulo.</p>
+
+        <div class="kpi-grid">
+          <div class="kpi-card"><div class="kpi-label">Objetivos definidos</div><div class="kpi-value" id="kpiObjetivosDef">3</div></div>
+          <div class="kpi-card acc-yellow"><div class="kpi-label">Objetivos con indicador</div><div class="kpi-value" id="kpiObjetivosInd">100<small>%</small></div></div>
+          <div class="kpi-card acc-info"><div class="kpi-label">Roles documentados</div><div class="kpi-value" id="kpiRoles">4</div></div>
+          <div class="kpi-card acc-ok"><div class="kpi-label">Evidencias registradas</div><div class="kpi-value" id="kpiEvidencias">2</div></div>
+          <div class="kpi-card"><div class="kpi-label">Estado Política de Calidad</div><div class="kpi-value" id="kpiPolitica" style="font-size:1.1rem;">Vigente</div></div>
+          <div class="kpi-card acc-yellow"><div class="kpi-label">Completitud del Capítulo 5</div><div class="kpi-value" id="kpiCompletitud">100<small>%</small></div></div>
+        </div>
+
+        <div class="progress-block">
+          <div class="lbl"><span>Completitud documental del Capítulo 5</span><span id="progressLabel">100%</span></div>
+          <div class="progress-track"><div class="progress-fill" id="progressFill" style="width: 100%;"></div></div>
+        </div>
+
+        <div class="dash-grid">
+          <div class="mini-card">
+            <h3>Objetivos en riesgo o vencidos</h3>
+            <ul class="mini-list" id="dashRiskList"><li><span>Disminuir incidentes de seguridad e higiene</span><span class="badge badge-en-riesgo">En riesgo</span></li></ul>
+          </div>
+          <div class="mini-card">
+            <h3>Últimas evidencias registradas</h3>
+            <ul class="mini-list" id="dashEvidenceList"><li><span>Encuesta de satisfacción a clientes del mes de agosto</span><span>30/08/2026</span></li><li><span>Junta gerencial mensual de revisión de indicadores</span><span>28/08/2026</span></li></ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 02 POLÍTICA DE CALIDAD ============ -->
+      <section class="panel-section" id="politica">
+        <div class="section-head"><h2>Política de Calidad</h2><span class="req-tag">5.2.1 / 5.2.2</span></div>
+        <p class="lede">Documente, apruebe y comunique la política de calidad de la sucursal. Debe ser adecuada al propósito y contexto del restaurante, e incluir un compromiso con la satisfacción del cliente y la mejora continua.</p>
+
+        <form class="card" id="policyForm" novalidate="">
+          <div class="form-grid">
+            <div class="field" data-field="branchName">
+              <label for="p_branchName">Nombre de la sucursal <span class="req">*</span></label>
+              <input type="text" id="p_branchName" required="" disabled="">
+              <span class="err-msg">Este campo es obligatorio para completar el registro.</span>
+            </div>
+            <div class="field" data-field="approvalDate">
+              <label for="p_approvalDate">Fecha de aprobación <span class="req">*</span></label>
+              <input type="date" id="p_approvalDate" required="" disabled="">
+              <span class="err-msg">Indique una fecha válida.</span>
+            </div>
+            <div class="field" data-field="approver">
+              <label for="p_approver">Responsable de aprobación <span class="req">*</span></label>
+              <input type="text" id="p_approver" required="" disabled="">
+              <span class="err-msg">Este campo es obligatorio para completar el registro.</span>
+            </div>
+            <div class="field" data-field="version">
+              <label for="p_version">Versión <span class="req">*</span></label>
+              <input type="text" id="p_version" required="" placeholder="Ej. 1.0" disabled="">
+              <span class="err-msg">Indique un número de versión.</span>
+            </div>
+            <div class="field" data-field="status">
+              <label for="p_status">Estado <span class="req">*</span></label>
+              <select id="p_status" required="" disabled="">
+                <option value="">Seleccione…</option>
+                <option>Vigente</option>
+                <option>Borrador</option>
+                <option>En revisión</option>
+                <option>Obsoleto</option>
+              </select>
+              <span class="err-msg">Seleccione un estado.</span>
+            </div>
+            <div class="field" data-field="reviewDate">
+              <label for="p_reviewDate">Fecha de revisión</label>
+              <input type="date" id="p_reviewDate" disabled="">
+              <span class="err-msg">Indique una fecha válida.</span>
+            </div>
+            <div class="field" data-field="reviewer">
+              <label for="p_reviewer">Responsable de revisión</label>
+              <input type="text" id="p_reviewer" disabled="">
+            </div>
+            <div class="field" data-field="commMethod">
+              <label for="p_commMethod">Forma de comunicación de la política</label>
+              <input type="text" id="p_commMethod" placeholder="Ej. Carteleras, inducción, juntas de turno" disabled="">
+            </div>
+            <div class="field span-2" data-field="policyText">
+              <label for="p_policyText">Política de Calidad <span class="req">*</span></label>
+              <textarea id="p_policyText" rows="6" required="" placeholder="Redacte aquí el compromiso general de la sucursal con la calidad…" disabled=""></textarea>
+              <span class="err-msg">Este campo es obligatorio para completar el registro.</span>
+            </div>
+            <div class="field span-2" data-field="custCommit">
+              <label for="p_custCommit">Compromiso con el cliente</label>
+              <textarea id="p_custCommit" rows="3" disabled=""></textarea>
+            </div>
+            <div class="field span-2" data-field="complianceCommit">
+              <label for="p_complianceCommit">Compromiso con el cumplimiento de requisitos aplicables</label>
+              <textarea id="p_complianceCommit" rows="3" disabled=""></textarea>
+            </div>
+            <div class="field span-2" data-field="improveCommit">
+              <label for="p_improveCommit">Compromiso con la mejora continua</label>
+              <textarea id="p_improveCommit" rows="3" disabled=""></textarea>
+            </div>
+          </div>
+          <div class="btn-row">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button type="button" class="btn" id="policyEditBtn">Editar</button>
+            <button type="button" class="btn" id="policyValidateBtn">Validar</button>
+            <button type="button" class="btn btn-ghost" id="policyClearBtn">Limpiar</button>
+            <button type="button" class="btn btn-danger" id="policyResetBtn">Restablecer</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- ============ 03 OBJETIVOS ============ -->
+      <section class="panel-section" id="objetivos">
+        <div class="section-head"><h2>Objetivos Estratégicos de Calidad</h2><span class="req-tag">5.1.1 / 5.2</span></div>
+        <p class="lede">Registre objetivos de calidad medibles, alineados a la política, con indicador, meta, responsable y frecuencia de seguimiento.</p>
+        <div class="top-actions"><button class="btn btn-primary" id="addObjectiveBtn">+ Agregar objetivo</button></div>
+        <div class="table-toolbar">
+          <input type="search" id="objSearch" placeholder="Buscar objetivo…" aria-label="Buscar objetivo">
+          <div class="filters">
+            <select id="objFilterEstado" aria-label="Filtrar por estado">
+              <option value="">Todos los estados</option>
+              <option>No iniciado</option><option>En proceso</option><option>Cumplido</option><option>En riesgo</option><option>Vencido</option>
+            </select>
+            <select id="objFilterPerspectiva" aria-label="Filtrar por perspectiva">
+              <option value="">Todas las perspectivas</option>
+              <option>Cliente</option><option>Operación</option><option>Calidad</option><option>Personas</option><option>Seguridad</option><option>Mejora continua</option>
+            </select>
+          </div>
+          <span class="count-pill" id="objCount">3 registros</span>
+        </div>
+        <div class="table-wrap"><table class="data-table" id="objTable">
+          <thead><tr><th>ID</th><th>Objetivo</th><th>Perspectiva</th><th>Indicador</th><th>Meta</th><th>Unidad</th><th>Responsable</th><th>Fecha objetivo</th><th>Frecuencia</th><th>Estado</th><th>Acciones</th></tr></thead>
+          <tbody id="objTbody"><tr data-id="obj-fbgjj"><td>fbgjj</td><td>Reducir el tiempo promedio de servicio en ventanilla</td><td>Operación</td><td>Tiempo promedio de servicio</td><td>90</td><td>segundos</td><td>Gerente de Turno (ejemplo)</td><td>31/12/2026</td><td>Mensual</td><td><span class="badge badge-en-proceso">En proceso</span></td><td><div class="row-actions"><button class="btn btn-sm act-edit" type="button">Editar</button><button class="btn btn-sm btn-danger act-del" type="button">Eliminar</button></div></td></tr><tr data-id="obj-fkkwn"><td>fkkwn</td><td>Mejorar la satisfacción del cliente en encuestas de servicio</td><td>Cliente</td><td>% satisfacción en encuesta</td><td>90</td><td>%</td><td>Gerente de Restaurante (ejemplo)</td><td>30/11/2026</td><td>Mensual</td><td><span class="badge badge-no-iniciado">No iniciado</span></td><td><div class="row-actions"><button class="btn btn-sm act-edit" type="button">Editar</button><button class="btn btn-sm btn-danger act-del" type="button">Eliminar</button></div></td></tr><tr data-id="obj-dv9ck"><td>dv9ck</td><td>Disminuir incidentes de seguridad e higiene</td><td>Seguridad</td><td>Número de incidentes reportados</td><td>0</td><td>incidentes</td><td>Líder de Área (ejemplo)</td><td>31/10/2026</td><td>Semanal</td><td><span class="badge badge-en-riesgo">En riesgo</span></td><td><div class="row-actions"><button class="btn btn-sm act-edit" type="button">Editar</button><button class="btn btn-sm btn-danger act-del" type="button">Eliminar</button></div></td></tr></tbody>
+        </table></div>
+        <div class="pagination" id="objPagination"></div>
+      </section>
+
+      <!-- ============ 04 LIDERAZGO Y COMPROMISO ============ -->
+      <section class="panel-section" id="liderazgo">
+        <div class="section-head"><h2>Liderazgo y Compromiso</h2><span class="req-tag">5.1.1</span></div>
+        <p class="lede">Matriz de prácticas mediante las cuales la dirección de la sucursal demuestra liderazgo y compromiso con el sistema de gestión de la calidad.</p>
+        <div class="top-actions"><button class="btn btn-primary" id="addLeadershipBtn">+ Agregar práctica</button></div>
+        <div class="table-toolbar">
+          <input type="search" id="leadSearch" placeholder="Buscar práctica…" aria-label="Buscar práctica">
+          <span class="count-pill" id="leadCount">3 registros</span>
+        </div>
+        <div class="table-wrap"><table class="data-table" id="leadTable">
+          <thead><tr><th>Requisito / práctica</th><th>Evidencia</th><th>Responsable</th><th>Frecuencia</th><th>Estado</th><th>Acciones</th></tr></thead>
+          <tbody id="leadTbody"><tr data-idx="0"><td>Promoción del enfoque al cliente en el equipo</td><td>Minutas de junta de turno</td><td>Gerente de Restaurante (ejemplo)</td><td>Semanal</td><td><span class="badge badge-en-proceso">En proceso</span></td><td><div class="row-actions"><button class="btn btn-sm act-edit" type="button">Editar</button><button class="btn btn-sm btn-danger act-del" type="button">Eliminar</button></div></td></tr><tr data-idx="1"><td>Comunicación de la importancia del SGC al personal</td><td>Registro de inducción</td><td>Gerente de Turno (ejemplo)</td><td>Mensual</td><td><span class="badge badge-cumplido">Cumplido</span></td><td><div class="row-actions"><button class="btn btn-sm act-edit" type="button">Editar</button><button class="btn btn-sm btn-danger act-del" type="button">Eliminar</button></div></td></tr><tr data-idx="2"><td>Disponibilidad de recursos para la operación</td><td>Solicitudes de insumos atendidas</td><td>Gerente de Restaurante (ejemplo)</td><td>Continua</td><td><span class="badge badge-en-proceso">En proceso</span></td><td><div class="row-actions"><button class="btn btn-sm act-edit" type="button">Editar</button><button class="btn btn-sm btn-danger act-del" type="button">Eliminar</button></div></td></tr></tbody>
+        </table></div>
+      </section>
+
+      <!-- ============ 05 ENFOQUE AL CLIENTE ============ -->
+      <section class="panel-section" id="cliente">
+        <div class="section-head"><h2>Enfoque al Cliente</h2><span class="req-tag">5.1.2</span></div>
+        <p class="lede">Evidencia del liderazgo respecto a la comprensión de necesidades, requisitos aplicables y satisfacción del cliente.</p>
+        <div class="top-actions"><button class="btn btn-primary" id="addCustomerBtn">+ Agregar registro</button></div>
+        <div class="table-toolbar">
+          <input type="search" id="custSearch" placeholder="Buscar registro…" aria-label="Buscar registro de enfoque al cliente">
+          <span class="count-pill" id="custCount">1 registro</span>
+        </div>
+        <div class="table-wrap"><table class="data-table" id="custTable">
+          <thead><tr><th>Necesidad / expectativa</th><th>Requisito aplicable</th><th>Indicador de satisfacción</th><th>Quejas / comentarios</th><th>Acción derivada</th><th>Responsable</th><th>Fecha revisión</th><th>Evidencia</th><th>Acciones</th></tr></thead>
+          <tbody id="custTbody"><tr data-idx="0"><td>Tiempo de espera reducido en el servicio</td><td>Estándar de tiempo de servicio corporativo</td><td>Tiempo promedio de espera</td><td>2 quejas registradas este mes</td><td>Reforzar capacitación en punto de venta</td><td>Gerente de Turno (ejemplo)</td><td>05/09/2026</td><td>Bitácora de quejas</td><td><div class="row-actions"><button class="btn btn-sm act-edit" type="button">Editar</button><button class="btn btn-sm btn-danger act-del" type="button">Eliminar</button></div></td></tr></tbody>
+        </table></div>
+      </section>
+
+      <!-- ============ 06 ROLES ============ -->
+      <section class="panel-section" id="roles">
+        <div class="section-head"><h2>Roles, Responsabilidades y Autoridades</h2><span class="req-tag">5.3</span></div>
+        <p class="lede">Estructura de puestos de la sucursal con sus responsabilidades, autoridad y sustituto designado. El nivel jerárquico alimenta el organigrama de la sección 07.</p>
+        <div class="top-actions"><button class="btn btn-primary" id="addRoleBtn">+ Agregar rol</button></div>
+        <div class="table-toolbar">
+          <input type="search" id="roleSearch" placeholder="Buscar por puesto o nombre…" aria-label="Buscar rol">
+          <div class="filters">
+            <select id="roleFilterArea" aria-label="Filtrar por área"><option value="">Todas las áreas</option><option>Dirección</option><option>Operación</option><option>Cocina</option><option>Atención al Cliente</option></select>
+          </div>
+          <span class="count-pill" id="roleCount">4 registros</span>
+        </div>
+        <div class="table-wrap"><table class="data-table" id="roleTable">
+          <thead><tr><th>ID</th><th>Puesto</th><th>Nombre</th><th>Área</th><th>Nivel</th><th>Responsabilidades</th><th>Autoridad</th><th>Sustituto</th><th>Estado</th><th>Acciones</th></tr></thead>
+          <tbody id="roleTbody"><tr data-id="rol-8254v"><td>8254v</td><td>Gerente de Restaurante</td><td>María López (ejemplo)</td><td>Dirección</td><td>1</td><td>Liderar el SGC de la sucursal, asegurar recursos y resultados.</td><td>Aprobar política, objetivos y presupuesto operativo.</td><td>Gerente de Turno Senior</td><td><span class="badge badge-activo">Activo</span></td><td><div class="row-actions"><button class="btn btn-sm act-edit" type="button">Editar</button><button class="btn btn-sm btn-danger act-del" type="button">Eliminar</button></div></td></tr><tr data-id="rol-trd72"><td>trd72</td><td>Gerente de Turno</td><td>Carlos Ramírez (ejemplo)</td><td>Operación</td><td>2</td><td>Supervisar la operación del turno y cumplimiento de estándares.</td><td>Reasignar personal durante el turno.</td><td>Líder de Área</td><td><span class="badge badge-activo">Activo</span></td><td><div class="row-actions"><button class="btn btn-sm act-edit" type="button">Editar</button><button class="btn btn-sm btn-danger act-del" type="button">Eliminar</button></div></td></tr><tr data-id="rol-td2lm"><td>td2lm</td><td>Líder de Área — Cocina</td><td>Ana Torres (ejemplo)</td><td>Cocina</td><td>3</td><td>Supervisar preparación e higiene en cocina.</td><td>Detener producción ante riesgo de inocuidad.</td><td>Personal de Cocina Senior</td><td><span class="badge badge-activo">Activo</span></td><td><div class="row-actions"><button class="btn btn-sm act-edit" type="button">Editar</button><button class="btn btn-sm btn-danger act-del" type="button">Eliminar</button></div></td></tr><tr data-id="rol-1froi"><td>1froi</td><td>Personal de Servicio</td><td>Equipo de mostrador (ejemplo)</td><td>Atención al Cliente</td><td>4</td><td>Atender al cliente y procesar pedidos.</td><td>Aplicar protocolo de recuperación de servicio.</td><td>Personal rotativo</td><td><span class="badge badge-activo">Activo</span></td><td><div class="row-actions"><button class="btn btn-sm act-edit" type="button">Editar</button><button class="btn btn-sm btn-danger act-del" type="button">Eliminar</button></div></td></tr></tbody>
+        </table></div>
+
+        <div class="divider"></div>
+        <h3>Perfiles clave</h3>
+        <p class="lede">Vista de tarjetas para los perfiles marcados como clave en la tabla anterior.</p>
+        <div class="profile-grid" id="profileGrid"><div class="profile-card"><div class="avatar">ML</div><h4>María López (ejemplo)</h4><div class="role-line">Gerente de Restaurante · Dirección</div><dl><dt>Responsabilidades</dt><dd>Liderar el SGC de la sucursal, asegurar recursos y resultados.</dd><dt>Autoridad</dt><dd>Aprobar política, objetivos y presupuesto operativo.</dd><dt>Sustituto</dt><dd>Gerente de Turno Senior</dd></dl><div class="card-actions"><button class="btn btn-sm profile-edit" data-id="rol-8254v">Editar</button></div></div><div class="profile-card"><div class="avatar">CR</div><h4>Carlos Ramírez (ejemplo)</h4><div class="role-line">Gerente de Turno · Operación</div><dl><dt>Responsabilidades</dt><dd>Supervisar la operación del turno y cumplimiento de estándares.</dd><dt>Autoridad</dt><dd>Reasignar personal durante el turno.</dd><dt>Sustituto</dt><dd>Líder de Área</dd></dl><div class="card-actions"><button class="btn btn-sm profile-edit" data-id="rol-trd72">Editar</button></div></div></div>
+      </section>
+
+      <!-- ============ 07 ORGANIGRAMA ============ -->
+      <section class="panel-section" id="organigrama">
+        <div class="section-head"><h2>Organigrama Interactivo</h2><span class="req-tag">5.3</span></div>
+        <p class="lede">Estructura jerárquica generada a partir del nivel asignado a cada rol. Haga clic en un nodo para ver sus responsabilidades y autoridad.</p>
+        <div class="org-wrap">
+          <div class="org-chart" id="orgChart"><div class="org-level"><div class="org-node" data-id="rol-8254v" tabindex="0" role="button" aria-label="Ver detalle de Gerente de Restaurante"><div class="pos">Gerente de Restaurante</div><div class="nm">María López (ejemplo)</div><div class="ar">Dirección</div></div></div><div class="org-level"><div class="org-node" data-id="rol-trd72" tabindex="0" role="button" aria-label="Ver detalle de Gerente de Turno"><div class="pos">Gerente de Turno</div><div class="nm">Carlos Ramírez (ejemplo)</div><div class="ar">Operación</div></div></div><div class="org-level"><div class="org-node" data-id="rol-td2lm" tabindex="0" role="button" aria-label="Ver detalle de Líder de Área — Cocina"><div class="pos">Líder de Área — Cocina</div><div class="nm">Ana Torres (ejemplo)</div><div class="ar">Cocina</div></div></div><div class="org-level"><div class="org-node" data-id="rol-1froi" tabindex="0" role="button" aria-label="Ver detalle de Personal de Servicio"><div class="pos">Personal de Servicio</div><div class="nm">Equipo de mostrador (ejemplo)</div><div class="ar">Atención al Cliente</div></div></div></div>
+          <div class="org-detail" id="orgDetail">
+            <h4>Selecciona un nodo</h4>
+            <p>Haz clic en cualquier puesto del organigrama para ver sus responsabilidades y autoridad.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 08 COMUNICACIÓN ============ -->
+      <section class="panel-section" id="comunicacion">
+        <div class="section-head"><h2>Comunicación de la Política</h2><span class="req-tag">5.2.2</span></div>
+        <p class="lede">Matriz de canales, públicos y frecuencia utilizados para comunicar la política de calidad dentro de la sucursal.</p>
+        <div class="top-actions"><button class="btn btn-primary" id="addCommBtn">+ Agregar canal</button></div>
+        <div class="table-toolbar">
+          <input type="search" id="commSearch" placeholder="Buscar canal o público…" aria-label="Buscar comunicación">
+          <span class="count-pill" id="commCount">2 registros</span>
+        </div>
+        <div class="table-wrap"><table class="data-table" id="commTable">
+          <thead><tr><th>Público objetivo</th><th>Mensaje</th><th>Medio</th><th>Responsable</th><th>Frecuencia</th><th>Evidencia</th><th>Fecha</th><th>Estado</th><th>Acciones</th></tr></thead>
+          <tbody id="commTbody"><tr data-idx="0"><td>Todo el personal</td><td>Difusión de la política de calidad</td><td>Carteleras</td><td>Gerente de Restaurante (ejemplo)</td><td>Permanente</td><td>Fotografía de cartelera</td><td>01/09/2026</td><td><span class="badge badge-vigente">Vigente</span></td><td><div class="row-actions"><button class="btn btn-sm act-edit" type="button">Editar</button><button class="btn btn-sm btn-danger act-del" type="button">Eliminar</button></div></td></tr><tr data-idx="1"><td>Personal de nuevo ingreso</td><td>Inducción al SGC y política de calidad</td><td>Inducción</td><td>Gerente de Turno (ejemplo)</td><td>Cada ingreso</td><td>Formato de inducción firmado</td><td>01/09/2026</td><td><span class="badge badge-vigente">Vigente</span></td><td><div class="row-actions"><button class="btn btn-sm act-edit" type="button">Editar</button><button class="btn btn-sm btn-danger act-del" type="button">Eliminar</button></div></td></tr></tbody>
+        </table></div>
+      </section>
+
+      <!-- ============ 09 EVIDENCIAS ============ -->
+      <section class="panel-section" id="evidencias">
+        <div class="section-head"><h2>Evidencias de Liderazgo</h2><span class="req-tag">Trazabilidad 5.1–5.3</span></div>
+        <p class="lede">Registro central de evidencias documentales para auditoría: reuniones, capacitaciones, indicadores, encuestas y acciones de mejora.</p>
+        <div class="top-actions"><button class="btn btn-primary" id="addEvidenceBtn">+ Agregar evidencia</button></div>
+        <div class="table-toolbar">
+          <input type="search" id="evSearch" placeholder="Buscar evidencia…" aria-label="Buscar evidencia">
+          <div class="filters">
+            <select id="evFilterTipo" aria-label="Filtrar por tipo">
+              <option value="">Todos los tipos</option>
+              <option>Reunión</option><option>Capacitación</option><option>Indicador</option><option>Auditoría</option><option>Encuesta</option><option>Queja</option><option>Acción de mejora</option><option>Revisión gerencial</option><option>Comunicación</option>
+            </select>
+          </div>
+          <span class="count-pill" id="evCount">2 registros</span>
+        </div>
+        <div class="table-wrap"><table class="data-table" id="evTable">
+          <thead><tr><th>ID</th><th>Tipo</th><th>Descripción</th><th>Fecha</th><th>Responsable</th><th>Ubicación / referencia</th><th>Requisito relacionado</th><th>Estado</th><th>Acciones</th></tr></thead>
+          <tbody id="evTbody"><tr data-id="ev-t0mpu"><td>t0mpu</td><td>Reunión</td><td>Junta gerencial mensual de revisión de indicadores</td><td>28/08/2026</td><td>Gerente de Restaurante (ejemplo)</td><td>Carpeta física — Oficina gerencia</td><td>5.1.1 Liderazgo y compromiso</td><td><span class="badge badge-completado">Completado</span></td><td><div class="row-actions"><button class="btn btn-sm act-edit" type="button">Editar</button><button class="btn btn-sm btn-danger act-del" type="button">Eliminar</button></div></td></tr><tr data-id="ev-0ytas"><td>0ytas</td><td>Encuesta</td><td>Encuesta de satisfacción a clientes del mes de agosto</td><td>30/08/2026</td><td>Gerente de Turno (ejemplo)</td><td>Carpeta digital — Servicio al cliente</td><td>5.1.2 Enfoque al cliente</td><td><span class="badge badge-completado">Completado</span></td><td><div class="row-actions"><button class="btn btn-sm act-edit" type="button">Editar</button><button class="btn btn-sm btn-danger act-del" type="button">Eliminar</button></div></td></tr></tbody>
+        </table></div>
+      </section>
+
+      <!-- ============ 10 CONTROL DOCUMENTAL ============ -->
+      <section class="panel-section" id="control">
+        <div class="section-head"><h2>Control Documental</h2></div>
+        <div class="card">
+          <div class="form-grid">
+            <div class="field"><label for="c_code">Código</label><input type="text" id="c_code"></div>
+            <div class="field"><label for="c_title">Título</label><input type="text" id="c_title"></div>
+            <div class="field"><label for="c_version">Versión</label><input type="text" id="c_version"></div>
+            <div class="field"><label for="c_issueDate">Fecha de emisión</label><input type="date" id="c_issueDate"></div>
+            <div class="field"><label for="c_reviewDate">Fecha de revisión</label><input type="date" id="c_reviewDate"></div>
+            <div class="field"><label for="c_elaboro">Elaboró</label><input type="text" id="c_elaboro"></div>
+            <div class="field"><label for="c_reviso">Revisó</label><input type="text" id="c_reviso"></div>
+            <div class="field"><label for="c_aprobo">Aprobó</label><input type="text" id="c_aprobo"></div>
+            <div class="field"><label for="c_status">Estado</label>
+              <select id="c_status"><option>Vigente</option><option>Borrador</option><option>En revisión</option><option>Obsoleto</option></select>
+            </div>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-primary" id="saveDocControlBtn">Guardar</button>
+            <button class="btn" id="addHistoryBtn">+ Agregar versión al historial</button>
+          </div>
+        </div>
+
+        <h3>Historial de versiones</h3>
+        <div class="table-wrap"><table class="data-table history-table" id="historyTable">
+          <thead><tr><th>Versión</th><th>Fecha</th><th>Descripción del cambio</th><th>Responsable</th><th>Acciones</th></tr></thead>
+          <tbody id="historyTbody"><tr data-idx="0"><td>1.0</td><td>01/09/2026</td><td>Emisión inicial del capítulo 5 — Liderazgo.</td><td>Gerente de Calidad (ejemplo)</td><td><button class="btn btn-sm btn-danger act-del-hist" type="button">Eliminar</button></td></tr></tbody>
+        </table></div>
+
+        <div class="divider"></div>
+        <h3>Datos y respaldo</h3>
+        <p class="lede">Toda la información se guarda automáticamente en este navegador (localStorage). Use estas opciones para respaldar, transferir o reiniciar los datos.</p>
+        <div class="btn-row">
+          <button class="btn btn-primary" id="exportJsonBtn">Exportar datos (JSON)</button>
+          <button class="btn" id="importJsonBtn">Importar datos (JSON)</button>
+          <input type="file" id="importJsonInput" accept="application/json" class="sr-only">
+          <button class="btn btn-accent" id="printBtn">Exportar / Imprimir</button>
+          <button class="btn btn-danger" id="resetAllBtn">Restablecer todos los datos</button>
+        </div>
+        <div class="save-indicator" style="margin-top:10px;"><span class="dot"></span><span id="saveIndicatorText">Todos los cambios se guardan automáticamente.</span></div>
+      </section>
+
+      <!-- ============ 11 AUDITORÍA ============ -->
+      <section class="panel-section" id="auditoria">
+        <div class="section-head"><h2>Guía de Evidencias para Auditoría</h2></div>
+        <p class="lede">Referencia rápida de lo que un auditor de ISO 9001:2015 esperaría verificar en el Capítulo 5, y dónde encontrar la evidencia dentro de este documento.</p>
+        <div class="table-wrap"><table class="data-table" id="auditTable">
+          <thead><tr><th>Tema</th><th>Qué debe demostrar la sucursal</th><th>Evidencia sugerida</th></tr></thead>
+          <tbody>
+            <tr><td>Liderazgo y compromiso</td><td>La dirección asume la responsabilidad de la eficacia del SGC y se involucra activamente en su operación.</td><td>Matriz de la sección 04, minutas de junta gerencial, seguimiento de resultados.</td></tr>
+            <tr><td>Enfoque al cliente</td><td>Se identifican y cumplen los requisitos del cliente, gestionando riesgos que afecten su satisfacción.</td><td>Registros de la sección 05, encuestas de satisfacción, seguimiento de quejas.</td></tr>
+            <tr><td>Política de calidad</td><td>Existe una política adecuada al propósito de la sucursal, documentada y disponible.</td><td>Formulario de la sección 02, versión aprobada y vigente.</td></tr>
+            <tr><td>Comunicación de la política</td><td>La política es comunicada, entendida y aplicada dentro de la organización.</td><td>Matriz de la sección 08, evidencia de capacitación e inducción.</td></tr>
+            <tr><td>Objetivos de calidad</td><td>Los objetivos son medibles, coherentes con la política y se les da seguimiento.</td><td>Tabla de objetivos de la sección 03 con indicadores y metas.</td></tr>
+            <tr><td>Roles y autoridades</td><td>Las responsabilidades y autoridades están asignadas, comunicadas y entendidas.</td><td>Tabla de roles y organigrama de las secciones 06 y 07.</td></tr>
+            <tr><td>Seguimiento</td><td>Existen mecanismos para dar seguimiento periódico a los compromisos de liderazgo.</td><td>Campos de frecuencia y estado en las matrices de liderazgo y comunicación.</td></tr>
+            <tr><td>Mejora</td><td>La dirección promueve la mejora continua a partir de los resultados obtenidos.</td><td>Registro de evidencias tipo "Acción de mejora" en la sección 09.</td></tr>
+          </tbody>
+        </table></div>
+      </section>
+
+    </div>
+
+    <footer class="app-footer">
+      Manual de Calidad — Plantilla interactiva para Capítulo 5 (Liderazgo) de ISO 9001:2015. Contenido genérico y editable; no representa documentación oficial de McDonald's Corporation. Adapte cada sección a la realidad y políticas vigentes de su sucursal antes de usarla en una auditoría real.
+    </footer>
+  </div>
+</div>
+
+<!-- ============ GENERIC MODAL ============ -->
+<div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="modalTitle">Título</h3>
+      <button class="modal-close" id="modalCloseBtn" aria-label="Cerrar">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-foot">
+      <button class="btn" id="modalCancelBtn">Cancelar</button>
+      <button class="btn btn-primary" id="modalSaveBtn">Guardar registro</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-stack" id="toastStack" aria-live="polite"></div>
+
+<script>
+(function(){
+"use strict";
+
+/* ============================================================
+   0. STATE / STORAGE
+   ============================================================ */
+const STORAGE_KEY = "mcQMS_cap5_v1";
+
+function uid(prefix){ return prefix + "-" + Math.random().toString(36).slice(2,7); }
+function esc(str){
+  if(str===undefined || str===null) return "";
+  return String(str).replace(/[&<>"']/g, function(ch){
+    return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch];
+  });
+}
+function todayISO(){ return new Date().toISOString().slice(0,10); }
+function fmtDate(d){
+  if(!d) return "—";
+  const parts = d.split("-");
+  if(parts.length!==3) return d;
+  return parts[2]+"/"+parts[1]+"/"+parts[0];
+}
+function slug(s){ return String(s).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-"); }
+
+function defaultData(){
+  return {
+    docControl:{
+      code:"MC-SGC-CAP5", title:"Manual de Calidad — Capítulo 5 Liderazgo", version:"1.0",
+      issueDate:"2026-09-01", reviewDate:"2027-03-01", elaboro:"Gerente de Calidad (ejemplo)",
+      reviso:"Gerente de Restaurante (ejemplo)", aprobo:"Dirección Regional (ejemplo)", status:"Vigente"
+    },
+    history:[
+      {version:"1.0", date:"2026-09-01", change:"Emisión inicial del capítulo 5 — Liderazgo.", owner:"Gerente de Calidad (ejemplo)"}
+    ],
+    policy:{
+      branchName:"McDonald's — Sucursal Ejemplo", approvalDate:"2026-08-15", approver:"María López (ejemplo)",
+      version:"1.0", status:"Vigente",
+      policyText:"En esta sucursal nos comprometemos a ofrecer un servicio rápido, seguro e higiénico, cumpliendo los requisitos aplicables y buscando la mejora continua de nuestros procesos para superar las expectativas de nuestros clientes y colaboradores.",
+      custCommit:"Escuchar y responder a las necesidades de nuestros clientes en cada visita.",
+      complianceCommit:"Cumplir la normativa sanitaria, de seguridad alimentaria y los estándares operativos aplicables.",
+      improveCommit:"Revisar periódicamente nuestros indicadores y actuar sobre las oportunidades de mejora detectadas.",
+      commMethod:"Carteleras internas, inducción de nuevo personal, juntas de turno mensuales.",
+      reviewDate:"2027-02-01", reviewer:"Gerente de Restaurante (ejemplo)"
+    },
+    objectives:[
+      {id:uid("obj"), name:"Reducir el tiempo promedio de servicio en ventanilla", perspective:"Operación", indicator:"Tiempo promedio de servicio", target:"90", unit:"segundos", owner:"Gerente de Turno (ejemplo)", dueDate:"2026-12-31", frequency:"Mensual", status:"En proceso"},
+      {id:uid("obj"), name:"Mejorar la satisfacción del cliente en encuestas de servicio", perspective:"Cliente", indicator:"% satisfacción en encuesta", target:"90", unit:"%", owner:"Gerente de Restaurante (ejemplo)", dueDate:"2026-11-30", frequency:"Mensual", status:"No iniciado"},
+      {id:uid("obj"), name:"Disminuir incidentes de seguridad e higiene", perspective:"Seguridad", indicator:"Número de incidentes reportados", target:"0", unit:"incidentes", owner:"Líder de Área (ejemplo)", dueDate:"2026-10-31", frequency:"Semanal", status:"En riesgo"}
+    ],
+    leadership:[
+      {practice:"Promoción del enfoque al cliente en el equipo", evidence:"Minutas de junta de turno", owner:"Gerente de Restaurante (ejemplo)", frequency:"Semanal", status:"En proceso"},
+      {practice:"Comunicación de la importancia del SGC al personal", evidence:"Registro de inducción", owner:"Gerente de Turno (ejemplo)", frequency:"Mensual", status:"Cumplido"},
+      {practice:"Disponibilidad de recursos para la operación", evidence:"Solicitudes de insumos atendidas", owner:"Gerente de Restaurante (ejemplo)", frequency:"Continua", status:"En proceso"}
+    ],
+    customerFocus:[
+      {need:"Tiempo de espera reducido en el servicio", requirement:"Estándar de tiempo de servicio corporativo", indicator:"Tiempo promedio de espera", complaints:"2 quejas registradas este mes", action:"Reforzar capacitación en punto de venta", owner:"Gerente de Turno (ejemplo)", reviewDate:"2026-09-05", evidence:"Bitácora de quejas"}
+    ],
+    roles:[
+      {id:uid("rol"), position:"Gerente de Restaurante", name:"María López (ejemplo)", area:"Dirección", level:"1", responsibilities:"Liderar el SGC de la sucursal, asegurar recursos y resultados.", authority:"Aprobar política, objetivos y presupuesto operativo.", substitute:"Gerente de Turno Senior", status:"Activo", key:true},
+      {id:uid("rol"), position:"Gerente de Turno", name:"Carlos Ramírez (ejemplo)", area:"Operación", level:"2", responsibilities:"Supervisar la operación del turno y cumplimiento de estándares.", authority:"Reasignar personal durante el turno.", substitute:"Líder de Área", status:"Activo", key:true},
+      {id:uid("rol"), position:"Líder de Área — Cocina", name:"Ana Torres (ejemplo)", area:"Cocina", level:"3", responsibilities:"Supervisar preparación e higiene en cocina.", authority:"Detener producción ante riesgo de inocuidad.", substitute:"Personal de Cocina Senior", status:"Activo", key:false},
+      {id:uid("rol"), position:"Personal de Servicio", name:"Equipo de mostrador (ejemplo)", area:"Atención al Cliente", level:"4", responsibilities:"Atender al cliente y procesar pedidos.", authority:"Aplicar protocolo de recuperación de servicio.", substitute:"Personal rotativo", status:"Activo", key:false}
+    ],
+    communication:[
+      {audience:"Todo el personal", message:"Difusión de la política de calidad", channel:"Carteleras", owner:"Gerente de Restaurante (ejemplo)", frequency:"Permanente", evidence:"Fotografía de cartelera", date:"2026-09-01", status:"Vigente"},
+      {audience:"Personal de nuevo ingreso", message:"Inducción al SGC y política de calidad", channel:"Inducción", owner:"Gerente de Turno (ejemplo)", frequency:"Cada ingreso", evidence:"Formato de inducción firmado", date:"2026-09-01", status:"Vigente"}
+    ],
+    evidence:[
+      {id:uid("ev"), type:"Reunión", description:"Junta gerencial mensual de revisión de indicadores", date:"2026-08-28", owner:"Gerente de Restaurante (ejemplo)", location:"Carpeta física — Oficina gerencia", requirement:"5.1.1 Liderazgo y compromiso", status:"Completado"},
+      {id:uid("ev"), type:"Encuesta", description:"Encuesta de satisfacción a clientes del mes de agosto", date:"2026-08-30", owner:"Gerente de Turno (ejemplo)", location:"Carpeta digital — Servicio al cliente", requirement:"5.1.2 Enfoque al cliente", status:"Completado"}
+    ]
+  };
+}
+
+let DATA = null;
+
+function loadData(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(raw){ DATA = JSON.parse(raw); }
+    else { DATA = defaultData(); saveData(false); }
+  }catch(e){
+    console.error("Error leyendo localStorage, usando datos por defecto.", e);
+    DATA = defaultData();
+  }
+  // backfill in case of older/imported partial data
+  const d = defaultData();
+  Object.keys(d).forEach(function(k){ if(!(k in DATA)) DATA[k] = d[k]; });
+}
+
+function saveData(showToast){
+  try{
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(DATA));
+    if(showToast!==false){ /* silent by default on auto-save */ }
+  }catch(e){
+    console.error("No se pudo guardar en localStorage.", e);
+    toast("No se pudieron guardar los datos en este navegador.", "danger");
+  }
+}
+
+/* ============================================================
+   1. TOASTS
+   ============================================================ */
+function toast(msg, type){
+  const stack = document.getElementById("toastStack");
+  const el = document.createElement("div");
+  el.className = "toast" + (type ? " "+type : "");
+  el.textContent = msg;
+  stack.appendChild(el);
+  setTimeout(function(){ el.style.opacity="0"; el.style.transition="opacity .3s"; setTimeout(function(){ el.remove(); }, 300); }, 3200);
+}
+
+/* ============================================================
+   2. NAVIGATION
+   ============================================================ */
+function initNav(){
+  const links = document.querySelectorAll("#sideNav a");
+  const sections = Array.from(document.querySelectorAll("section.panel-section"));
+
+  links.forEach(function(link){
+    link.addEventListener("click", function(){
+      document.getElementById("sidebar").classList.remove("mobile-open");
+      document.getElementById("hamburgerBtn").setAttribute("aria-expanded","false");
+    });
+  });
+
+  function onScroll(){
+    let currentId = sections[0] && sections[0].id;
+    const scrollPos = window.scrollY + 120;
+    sections.forEach(function(sec){
+      if(sec.offsetTop <= scrollPos) currentId = sec.id;
+    });
+    links.forEach(function(l){
+      l.classList.toggle("active", l.dataset.target===currentId);
+    });
+  }
+  document.addEventListener("scroll", onScroll, {passive:true});
+  onScroll();
+
+  const hamb = document.getElementById("hamburgerBtn");
+  hamb.addEventListener("click", function(){
+    const sb = document.getElementById("sidebar");
+    const open = sb.classList.toggle("mobile-open");
+    hamb.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+}
+
+/* ============================================================
+   3. VALIDATION HELPERS
+   ============================================================ */
+function markInvalid(fieldEl, invalid){
+  fieldEl.classList.toggle("invalid", !!invalid);
+}
+function validateRequiredField(inputEl){
+  const fieldEl = inputEl.closest(".field");
+  const invalid = !inputEl.value || !inputEl.value.trim();
+  markInvalid(fieldEl, invalid);
+  return !invalid;
+}
+
+/* ============================================================
+   4. MODAL ENGINE (generic, reused by CRUD tables)
+   ============================================================ */
+const Modal = {
+  backdrop: null, title:null, body:null, saveBtn:null, cancelBtn:null, closeBtn:null,
+  onSave:null,
+  init(){
+    this.backdrop = document.getElementById("modalBackdrop");
+    this.title = document.getElementById("modalTitle");
+    this.body = document.getElementById("modalBody");
+    this.saveBtn = document.getElementById("modalSaveBtn");
+    this.cancelBtn = document.getElementById("modalCancelBtn");
+    this.closeBtn = document.getElementById("modalCloseBtn");
+    const self = this;
+    this.cancelBtn.addEventListener("click", function(){ self.close(); });
+    this.closeBtn.addEventListener("click", function(){ self.close(); });
+    this.backdrop.addEventListener("click", function(e){ if(e.target===self.backdrop) self.close(); });
+    document.addEventListener("keydown", function(e){ if(e.key==="Escape" && self.backdrop.classList.contains("open")) self.close(); });
+    this.saveBtn.addEventListener("click", function(){ if(self.onSave) self.onSave(); });
+  },
+  open(titleText, bodyHtml, saveLabel, onSave){
+    this.title.textContent = titleText;
+    this.body.innerHTML = bodyHtml;
+    this.saveBtn.textContent = saveLabel || "Guardar registro";
+    this.onSave = onSave;
+    this.backdrop.classList.add("open");
+    const firstInput = this.body.querySelector("input,select,textarea");
+    if(firstInput) setTimeout(function(){ firstInput.focus(); }, 30);
+  },
+  close(){ this.backdrop.classList.remove("open"); this.onSave=null; }
+};
+
+function fieldHtml(opts){
+  // opts: {id,label,type,required,value,options,span2,placeholder}
+  const req = opts.required ? ' <span class="req">*</span>' : '';
+  const spanCls = opts.span2 ? ' span-2' : '';
+  let control = "";
+  const val = opts.value!==undefined && opts.value!==null ? opts.value : "";
+  if(opts.type==="select"){
+    control = '<select id="'+opts.id+'"'+(opts.required?' required':'')+'>';
+    control += '<option value="">Seleccione…</option>';
+    (opts.options||[]).forEach(function(o){
+      control += '<option value="'+esc(o)+'"'+(String(val)===o?" selected":"")+'>'+esc(o)+'</option>';
+    });
+    control += '</select>';
+  } else if(opts.type==="textarea"){
+    control = '<textarea id="'+opts.id+'" rows="'+(opts.rows||3)+'"'+(opts.required?' required':'')+' placeholder="'+esc(opts.placeholder||"")+'">'+esc(val)+'</textarea>';
+  } else {
+    control = '<input type="'+(opts.type||"text")+'" id="'+opts.id+'" value="'+esc(val)+'"'+(opts.required?' required':'')+' placeholder="'+esc(opts.placeholder||"")+'">';
+  }
+  return '<div class="field'+spanCls+'" data-field="'+opts.id+'"><label for="'+opts.id+'">'+esc(opts.label)+req+'</label>'+control+'<span class="err-msg">Este campo es obligatorio para completar el registro.</span></div>';
+}
+
+function validateModalRequired(ids){
+  let ok = true;
+  ids.forEach(function(id){
+    const el = document.getElementById(id);
+    if(!el) return;
+    const fieldEl = el.closest(".field");
+    const invalid = !el.value || !el.value.trim();
+    markInvalid(fieldEl, invalid);
+    if(invalid) ok = false;
+  });
+  return ok;
+}
+
+/* ============================================================
+   5. GENERIC TABLE / CRUD HELPERS
+   ============================================================ */
+function badge(status){
+  const cls = "badge-" + slug(status||"pendiente");
+  return '<span class="badge '+cls+'">'+esc(status||"—")+'</span>';
+}
+function actionButtons(editFn, delFn){
+  return '<div class="row-actions">'+
+    '<button class="btn btn-sm act-edit" type="button">Editar</button>'+
+    '<button class="btn btn-sm btn-danger act-del" type="button">Eliminar</button>'+
+  '</div>';
+}
+function emptyRow(colspan, msg){
+  return '<tr><td colspan="'+colspan+'"><div class="empty-state"><span class="big">🗂️</span>'+esc(msg||"Aún no hay registros. Use \u201cAgregar\u201d para crear el primero.")+'</div></td></tr>';
+}
+function confirmDelete(msg){
+  return window.confirm(msg || "¿Deseas eliminar este registro? Esta acción no se puede deshacer.");
+}
+
+/* ============================================================
+   6. DASHBOARD
+   ============================================================ */
+function computeCompleteness(){
+  const checks = [];
+  checks.push(DATA.policy.policyText && DATA.policy.status ? 1:0);
+  checks.push(DATA.objectives.length>0 ? 1:0);
+  checks.push(DATA.objectives.every(function(o){return o.indicator;}) && DATA.objectives.length>0 ? 1:0);
+  checks.push(DATA.leadership.length>0 ? 1:0);
+  checks.push(DATA.customerFocus.length>0 ? 1:0);
+  checks.push(DATA.roles.length>0 ? 1:0);
+  checks.push(DATA.communication.length>0 ? 1:0);
+  checks.push(DATA.evidence.length>0 ? 1:0);
+  checks.push(DATA.docControl.code && DATA.docControl.status ? 1:0);
+  const sum = checks.reduce(function(a,b){return a+b;},0);
+  return Math.round((sum/checks.length)*100);
+}
+
+function renderDashboard(){
+  document.getElementById("kpiObjetivosDef").textContent = DATA.objectives.length;
+  const withInd = DATA.objectives.filter(function(o){return o.indicator && o.indicator.trim();}).length;
+  const pctInd = DATA.objectives.length ? Math.round((withInd/DATA.objectives.length)*100) : 0;
+  document.getElementById("kpiObjetivosInd").innerHTML = pctInd + "<small>%</small>";
+  document.getElementById("kpiRoles").textContent = DATA.roles.length;
+  document.getElementById("kpiEvidencias").textContent = DATA.evidence.length;
+  document.getElementById("kpiPolitica").textContent = DATA.policy.status || "Sin definir";
+
+  const completeness = computeCompleteness();
+  document.getElementById("kpiCompletitud").innerHTML = completeness + "<small>%</small>";
+  document.getElementById("progressFill").style.width = completeness + "%";
+  document.getElementById("progressLabel").textContent = completeness + "%";
+
+  const riskList = document.getElementById("dashRiskList");
+  const risky = DATA.objectives.filter(function(o){ return o.status==="En riesgo" || o.status==="Vencido"; });
+  riskList.innerHTML = risky.length ? risky.map(function(o){
+    return '<li><span>'+esc(o.name)+'</span>'+badge(o.status)+'</li>';
+  }).join("") : "<li>No hay objetivos en riesgo o vencidos.</li>";
+
+  const evList = document.getElementById("dashEvidenceList");
+  const lastEv = DATA.evidence.slice().sort(function(a,b){ return (b.date||"").localeCompare(a.date||""); }).slice(0,5);
+  evList.innerHTML = lastEv.length ? lastEv.map(function(e){
+    return '<li><span>'+esc(e.description)+'</span><span>'+fmtDate(e.date)+'</span></li>';
+  }).join("") : "<li>No hay evidencias registradas.</li>";
+
+  document.getElementById("branchNameDisplay").textContent = DATA.policy.branchName || "McDonald's — Sucursal Ejemplo";
+  document.getElementById("metaCode").textContent = DATA.docControl.code || "—";
+  document.getElementById("metaVersion").textContent = DATA.docControl.version || "—";
+  document.getElementById("metaIssue").textContent = fmtDate(DATA.docControl.issueDate);
+  document.getElementById("metaStatus").textContent = DATA.docControl.status || "—";
+}
+
+/* ============================================================
+   7. POLICY FORM
+   ============================================================ */
+const policyFieldMap = {
+  branchName:"p_branchName", approvalDate:"p_approvalDate", approver:"p_approver", version:"p_version",
+  status:"p_status", reviewDate:"p_reviewDate", reviewer:"p_reviewer", commMethod:"p_commMethod",
+  policyText:"p_policyText", custCommit:"p_custCommit", complianceCommit:"p_complianceCommit", improveCommit:"p_improveCommit"
+};
+function fillPolicyForm(){
+  Object.keys(policyFieldMap).forEach(function(key){
+    const el = document.getElementById(policyFieldMap[key]);
+    if(el) el.value = DATA.policy[key] || "";
+  });
+}
+function setPolicyFormDisabled(disabled){
+  Object.keys(policyFieldMap).forEach(function(key){
+    const el = document.getElementById(policyFieldMap[key]);
+    if(el) el.disabled = disabled;
+  });
+}
+function validatePolicyForm(){
+  const required = ["p_branchName","p_approvalDate","p_approver","p_version","p_status","p_policyText"];
+  let ok = true;
+  required.forEach(function(id){
+    const el = document.getElementById(id);
+    const valid = validateRequiredField(el);
+    if(!valid) ok = false;
+  });
+  return ok;
+}
+function initPolicySection(){
+  fillPolicyForm();
+  setPolicyFormDisabled(true);
+  const form = document.getElementById("policyForm");
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    if(!validatePolicyForm()){ toast("Revisa los campos obligatorios de la política.", "danger"); return; }
+    Object.keys(policyFieldMap).forEach(function(key){
+      DATA.policy[key] = document.getElementById(policyFieldMap[key]).value.trim();
+    });
+    saveData();
+    setPolicyFormDisabled(true);
+    renderDashboard();
+    toast("Política de calidad guardada correctamente.");
+  });
+  document.getElementById("policyEditBtn").addEventListener("click", function(){
+    setPolicyFormDisabled(false);
+    document.getElementById("p_branchName").focus();
+    toast("Modo edición activado. Realiza tus cambios y presiona Guardar.");
+  });
+  document.getElementById("policyValidateBtn").addEventListener("click", function(){
+    if(validatePolicyForm()) toast("La política cumple con los campos obligatorios.");
+    else toast("Existen campos obligatorios sin completar.", "danger");
+  });
+  document.getElementById("policyClearBtn").addEventListener("click", function(){
+    if(!confirmDelete("¿Deseas limpiar el formulario? Se perderán los cambios no guardados.")) return;
+    form.reset();
+    document.querySelectorAll("#policyForm .field").forEach(function(f){ f.classList.remove("invalid"); });
+  });
+  document.getElementById("policyResetBtn").addEventListener("click", function(){
+    if(!confirmDelete("¿Deseas restablecer la política de calidad a los valores originales de ejemplo?")) return;
+    DATA.policy = defaultData().policy;
+    saveData();
+    fillPolicyForm();
+    setPolicyFormDisabled(true);
+    renderDashboard();
+    toast("Política restablecida a los valores de ejemplo.");
+  });
+}
+
+/* ============================================================
+   8. OBJECTIVES TABLE
+   ============================================================ */
+const ObjState = { page:1, pageSize:6 };
+function renderObjectives(){
+  const search = document.getElementById("objSearch").value.trim().toLowerCase();
+  const fEstado = document.getElementById("objFilterEstado").value;
+  const fPersp = document.getElementById("objFilterPerspectiva").value;
+
+  let rows = DATA.objectives.filter(function(o){
+    const matchSearch = !search || (o.name||"").toLowerCase().includes(search) || (o.indicator||"").toLowerCase().includes(search);
+    const matchEstado = !fEstado || o.status===fEstado;
+    const matchPersp = !fPersp || o.perspective===fPersp;
+    return matchSearch && matchEstado && matchPersp;
+  });
+
+  document.getElementById("objCount").textContent = rows.length + " registro" + (rows.length===1?"":"s");
+
+  const totalPages = Math.max(1, Math.ceil(rows.length/ObjState.pageSize));
+  if(ObjState.page>totalPages) ObjState.page = totalPages;
+  const start = (ObjState.page-1)*ObjState.pageSize;
+  const pageRows = rows.slice(start, start+ObjState.pageSize);
+
+  const tbody = document.getElementById("objTbody");
+  if(!pageRows.length){ tbody.innerHTML = emptyRow(11); }
+  else {
+    tbody.innerHTML = pageRows.map(function(o){
+      return '<tr data-id="'+o.id+'">'+
+        '<td>'+esc(o.id.split("-")[1])+'</td>'+
+        '<td>'+esc(o.name)+'</td>'+
+        '<td>'+esc(o.perspective)+'</td>'+
+        '<td>'+esc(o.indicator)+'</td>'+
+        '<td>'+esc(o.target)+'</td>'+
+        '<td>'+esc(o.unit)+'</td>'+
+        '<td>'+esc(o.owner)+'</td>'+
+        '<td>'+fmtDate(o.dueDate)+'</td>'+
+        '<td>'+esc(o.frequency)+'</td>'+
+        '<td>'+badge(o.status)+'</td>'+
+        '<td>'+actionButtons()+'</td>'+
+      '</tr>';
+    }).join("");
+  }
+
+  const pag = document.getElementById("objPagination");
+  pag.innerHTML = "";
+  if(totalPages>1){
+    for(let i=1;i<=totalPages;i++){
+      const b = document.createElement("button");
+      b.textContent = i;
+      if(i===ObjState.page) b.classList.add("active");
+      b.addEventListener("click", function(){ ObjState.page=i; renderObjectives(); });
+      pag.appendChild(b);
+    }
+  }
+
+  tbody.querySelectorAll(".act-edit").forEach(function(btn){
+    btn.addEventListener("click", function(){ openObjectiveModal(btn.closest("tr").dataset.id); });
+  });
+  tbody.querySelectorAll(".act-del").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      const id = btn.closest("tr").dataset.id;
+      if(!confirmDelete("¿Deseas eliminar este objetivo de calidad?")) return;
+      DATA.objectives = DATA.objectives.filter(function(o){ return o.id!==id; });
+      saveData(); renderObjectives(); renderDashboard();
+      toast("Objetivo eliminado.");
+    });
+  });
+}
+
+function openObjectiveModal(id){
+  const existing = id ? DATA.objectives.find(function(o){return o.id===id;}) : null;
+  const body =
+    fieldHtml({id:"m_name", label:"Objetivo", required:true, value:existing&&existing.name, span2:true}) +
+    '<div class="form-grid">' +
+    fieldHtml({id:"m_perspective", label:"Perspectiva", type:"select", required:true, value:existing&&existing.perspective,
+      options:["Cliente","Operación","Calidad","Personas","Seguridad","Mejora continua"]}) +
+    fieldHtml({id:"m_indicator", label:"Indicador/KPI", required:true, value:existing&&existing.indicator}) +
+    fieldHtml({id:"m_target", label:"Meta", required:true, value:existing&&existing.target}) +
+    fieldHtml({id:"m_unit", label:"Unidad", value:existing&&existing.unit}) +
+    fieldHtml({id:"m_owner", label:"Responsable", required:true, value:existing&&existing.owner}) +
+    fieldHtml({id:"m_dueDate", label:"Fecha objetivo", type:"date", required:true, value:existing&&existing.dueDate}) +
+    fieldHtml({id:"m_frequency", label:"Frecuencia de seguimiento", type:"select", value:existing&&existing.frequency,
+      options:["Semanal","Quincenal","Mensual","Trimestral","Semestral","Anual"]}) +
+    fieldHtml({id:"m_status", label:"Estado", type:"select", required:true, value:existing&&existing.status,
+      options:["No iniciado","En proceso","Cumplido","En riesgo","Vencido"]}) +
+    '</div>';
+
+  Modal.open(existing?"Editar objetivo":"Agregar objetivo", body, "Guardar objetivo", function(){
+    const ok = validateModalRequired(["m_name","m_perspective","m_indicator","m_target","m_owner","m_dueDate","m_status"]);
+    if(!ok){ toast("Completa los campos obligatorios del objetivo.", "danger"); return; }
+    const record = {
+      id: existing ? existing.id : uid("obj"),
+      name: document.getElementById("m_name").value.trim(),
+      perspective: document.getElementById("m_perspective").value,
+      indicator: document.getElementById("m_indicator").value.trim(),
+      target: document.getElementById("m_target").value.trim(),
+      unit: document.getElementById("m_unit").value.trim(),
+      owner: document.getElementById("m_owner").value.trim(),
+      dueDate: document.getElementById("m_dueDate").value,
+      frequency: document.getElementById("m_frequency").value,
+      status: document.getElementById("m_status").value
+    };
+    if(existing){
+      const idx = DATA.objectives.findIndex(function(o){return o.id===existing.id;});
+      DATA.objectives[idx] = record;
+      toast("Objetivo actualizado correctamente.");
+    } else {
+      DATA.objectives.push(record);
+      toast("Objetivo agregado correctamente.");
+    }
+    saveData(); Modal.close(); renderObjectives(); renderDashboard();
+  });
+}
+
+/* ============================================================
+   9. LEADERSHIP MATRIX
+   ============================================================ */
+function renderLeadership(){
+  const search = document.getElementById("leadSearch").value.trim().toLowerCase();
+  const rows = DATA.leadership.filter(function(l){ return !search || (l.practice||"").toLowerCase().includes(search); });
+  document.getElementById("leadCount").textContent = rows.length + " registro"+(rows.length===1?"":"s");
+  const tbody = document.getElementById("leadTbody");
+  tbody.innerHTML = rows.length ? rows.map(function(l, i){
+    return '<tr data-idx="'+DATA.leadership.indexOf(l)+'">'+
+      '<td>'+esc(l.practice)+'</td><td>'+esc(l.evidence)+'</td><td>'+esc(l.owner)+'</td><td>'+esc(l.frequency)+'</td>'+
+      '<td>'+badge(l.status)+'</td><td>'+actionButtons()+'</td></tr>';
+  }).join("") : emptyRow(6);
+
+  tbody.querySelectorAll(".act-edit").forEach(function(btn){
+    btn.addEventListener("click", function(){ openLeadershipModal(parseInt(btn.closest("tr").dataset.idx,10)); });
+  });
+  tbody.querySelectorAll(".act-del").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      if(!confirmDelete("¿Deseas eliminar esta práctica de liderazgo?")) return;
+      DATA.leadership.splice(parseInt(btn.closest("tr").dataset.idx,10),1);
+      saveData(); renderLeadership(); renderDashboard();
+      toast("Registro eliminado.");
+    });
+  });
+}
+function openLeadershipModal(idx){
+  const existing = (idx!==undefined && idx>=0) ? DATA.leadership[idx] : null;
+  const body =
+    fieldHtml({id:"m_practice", label:"Requisito / práctica", required:true, value:existing&&existing.practice, span2:true}) +
+    '<div class="form-grid">' +
+    fieldHtml({id:"m_evidence", label:"Evidencia", required:true, value:existing&&existing.evidence}) +
+    fieldHtml({id:"m_owner", label:"Responsable", required:true, value:existing&&existing.owner}) +
+    fieldHtml({id:"m_frequency", label:"Frecuencia", value:existing&&existing.frequency}) +
+    fieldHtml({id:"m_status", label:"Estado", type:"select", required:true, value:existing&&existing.status,
+      options:["No iniciado","En proceso","Cumplido","En riesgo","Vencido"]}) +
+    '</div>';
+  Modal.open(existing?"Editar práctica":"Agregar práctica", body, "Guardar práctica", function(){
+    if(!validateModalRequired(["m_practice","m_evidence","m_owner","m_status"])){ toast("Completa los campos obligatorios.", "danger"); return; }
+    const record = {
+      practice: document.getElementById("m_practice").value.trim(),
+      evidence: document.getElementById("m_evidence").value.trim(),
+      owner: document.getElementById("m_owner").value.trim(),
+      frequency: document.getElementById("m_frequency").value.trim(),
+      status: document.getElementById("m_status").value
+    };
+    if(existing) DATA.leadership[idx] = record; else DATA.leadership.push(record);
+    saveData(); Modal.close(); renderLeadership(); renderDashboard();
+    toast(existing?"Práctica actualizada.":"Práctica agregada.");
+  });
+}
+
+/* ============================================================
+   10. CUSTOMER FOCUS
+   ============================================================ */
+function renderCustomerFocus(){
+  const search = document.getElementById("custSearch").value.trim().toLowerCase();
+  const rows = DATA.customerFocus.filter(function(c){ return !search || (c.need||"").toLowerCase().includes(search); });
+  document.getElementById("custCount").textContent = rows.length + " registro"+(rows.length===1?"":"s");
+  const tbody = document.getElementById("custTbody");
+  tbody.innerHTML = rows.length ? rows.map(function(c){
+    return '<tr data-idx="'+DATA.customerFocus.indexOf(c)+'">'+
+      '<td>'+esc(c.need)+'</td><td>'+esc(c.requirement)+'</td><td>'+esc(c.indicator)+'</td>'+
+      '<td>'+esc(c.complaints)+'</td><td>'+esc(c.action)+'</td><td>'+esc(c.owner)+'</td>'+
+      '<td>'+fmtDate(c.reviewDate)+'</td><td>'+esc(c.evidence)+'</td><td>'+actionButtons()+'</td></tr>';
+  }).join("") : emptyRow(9);
+  tbody.querySelectorAll(".act-edit").forEach(function(btn){
+    btn.addEventListener("click", function(){ openCustomerModal(parseInt(btn.closest("tr").dataset.idx,10)); });
+  });
+  tbody.querySelectorAll(".act-del").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      if(!confirmDelete("¿Deseas eliminar este registro de enfoque al cliente?")) return;
+      DATA.customerFocus.splice(parseInt(btn.closest("tr").dataset.idx,10),1);
+      saveData(); renderCustomerFocus(); renderDashboard();
+      toast("Registro eliminado.");
+    });
+  });
+}
+function openCustomerModal(idx){
+  const existing = (idx!==undefined && idx>=0) ? DATA.customerFocus[idx] : null;
+  const body = '<div class="form-grid">' +
+    fieldHtml({id:"m_need", label:"Necesidad / expectativa", required:true, value:existing&&existing.need, span2:true}) +
+    fieldHtml({id:"m_requirement", label:"Requisito aplicable", value:existing&&existing.requirement}) +
+    fieldHtml({id:"m_indicator", label:"Indicador de satisfacción", value:existing&&existing.indicator}) +
+    fieldHtml({id:"m_complaints", label:"Quejas / comentarios", value:existing&&existing.complaints, span2:true, type:"textarea"}) +
+    fieldHtml({id:"m_action", label:"Acción derivada", value:existing&&existing.action, span2:true, type:"textarea"}) +
+    fieldHtml({id:"m_owner", label:"Responsable", required:true, value:existing&&existing.owner}) +
+    fieldHtml({id:"m_reviewDate", label:"Fecha de revisión", type:"date", value:existing&&existing.reviewDate}) +
+    fieldHtml({id:"m_evidence", label:"Evidencia", value:existing&&existing.evidence}) +
+    '</div>';
+  Modal.open(existing?"Editar registro":"Agregar registro", body, "Guardar registro", function(){
+    if(!validateModalRequired(["m_need","m_owner"])){ toast("Completa los campos obligatorios.", "danger"); return; }
+    const record = {
+      need: document.getElementById("m_need").value.trim(),
+      requirement: document.getElementById("m_requirement").value.trim(),
+      indicator: document.getElementById("m_indicator").value.trim(),
+      complaints: document.getElementById("m_complaints").value.trim(),
+      action: document.getElementById("m_action").value.trim(),
+      owner: document.getElementById("m_owner").value.trim(),
+      reviewDate: document.getElementById("m_reviewDate").value,
+      evidence: document.getElementById("m_evidence").value.trim()
+    };
+    if(existing) DATA.customerFocus[idx] = record; else DATA.customerFocus.push(record);
+    saveData(); Modal.close(); renderCustomerFocus(); renderDashboard();
+    toast(existing?"Registro actualizado.":"Registro agregado.");
+  });
+}
+
+/* ============================================================
+   11. ROLES + PROFILES + ORG CHART
+   ============================================================ */
+function refreshAreaFilter(){
+  const sel = document.getElementById("roleFilterArea");
+  const current = sel.value;
+  const areas = Array.from(new Set(DATA.roles.map(function(r){return r.area;}).filter(Boolean)));
+  sel.innerHTML = '<option value="">Todas las áreas</option>' + areas.map(function(a){ return '<option'+(a===current?' selected':'')+'>'+esc(a)+'</option>'; }).join("");
+}
+
+function renderRoles(){
+  refreshAreaFilter();
+  const search = document.getElementById("roleSearch").value.trim().toLowerCase();
+  const fArea = document.getElementById("roleFilterArea").value;
+  const rows = DATA.roles.filter(function(r){
+    const matchSearch = !search || (r.position||"").toLowerCase().includes(search) || (r.name||"").toLowerCase().includes(search);
+    const matchArea = !fArea || r.area===fArea;
+    return matchSearch && matchArea;
+  });
+  document.getElementById("roleCount").textContent = rows.length + " registro"+(rows.length===1?"":"s");
+  const tbody = document.getElementById("roleTbody");
+  tbody.innerHTML = rows.length ? rows.map(function(r){
+    return '<tr data-id="'+r.id+'">'+
+      '<td>'+esc(r.id.split("-")[1])+'</td><td>'+esc(r.position)+'</td><td>'+esc(r.name)+'</td><td>'+esc(r.area)+'</td>'+
+      '<td>'+esc(r.level)+'</td><td>'+esc(r.responsibilities)+'</td><td>'+esc(r.authority)+'</td><td>'+esc(r.substitute)+'</td>'+
+      '<td>'+badge(r.status)+'</td><td>'+actionButtons()+'</td></tr>';
+  }).join("") : emptyRow(10);
+
+  tbody.querySelectorAll(".act-edit").forEach(function(btn){
+    btn.addEventListener("click", function(){ openRoleModal(btn.closest("tr").dataset.id); });
+  });
+  tbody.querySelectorAll(".act-del").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      const id = btn.closest("tr").dataset.id;
+      if(!confirmDelete("¿Deseas eliminar este rol? También se quitará del organigrama y perfiles clave.")) return;
+      DATA.roles = DATA.roles.filter(function(r){ return r.id!==id; });
+      saveData(); renderRoles(); renderProfiles(); renderOrgChart(); renderDashboard();
+      toast("Rol eliminado.");
+    });
+  });
+}
+
+function openRoleModal(id){
+  const existing = id ? DATA.roles.find(function(r){return r.id===id;}) : null;
+  const body = '<div class="form-grid">' +
+    fieldHtml({id:"m_position", label:"Puesto", required:true, value:existing&&existing.position}) +
+    fieldHtml({id:"m_name", label:"Nombre", required:true, value:existing&&existing.name}) +
+    fieldHtml({id:"m_area", label:"Área", required:true, value:existing&&existing.area}) +
+    fieldHtml({id:"m_level", label:"Nivel jerárquico", type:"select", required:true, value:existing&&existing.level,
+      options:["1","2","3","4"]}) +
+    fieldHtml({id:"m_responsibilities", label:"Responsabilidades", type:"textarea", value:existing&&existing.responsibilities, span2:true}) +
+    fieldHtml({id:"m_authority", label:"Autoridad", type:"textarea", value:existing&&existing.authority, span2:true}) +
+    fieldHtml({id:"m_substitute", label:"Sustituto", value:existing&&existing.substitute}) +
+    fieldHtml({id:"m_status", label:"Estado", type:"select", required:true, value:existing&&existing.status, options:["Activo","Inactivo"]}) +
+    fieldHtml({id:"m_key", label:"¿Perfil clave?", type:"select", value: existing ? (existing.key?"Sí":"No") : "No", options:["Sí","No"]}) +
+    '</div>';
+  Modal.open(existing?"Editar rol":"Agregar rol", body, "Guardar rol", function(){
+    if(!validateModalRequired(["m_position","m_name","m_area","m_level","m_status"])){ toast("Completa los campos obligatorios del rol.", "danger"); return; }
+    const record = {
+      id: existing ? existing.id : uid("rol"),
+      position: document.getElementById("m_position").value.trim(),
+      name: document.getElementById("m_name").value.trim(),
+      area: document.getElementById("m_area").value.trim(),
+      level: document.getElementById("m_level").value,
+      responsibilities: document.getElementById("m_responsibilities").value.trim(),
+      authority: document.getElementById("m_authority").value.trim(),
+      substitute: document.getElementById("m_substitute").value.trim(),
+      status: document.getElementById("m_status").value,
+      key: document.getElementById("m_key").value === "Sí"
+    };
+    if(existing){
+      const idx = DATA.roles.findIndex(function(r){return r.id===existing.id;});
+      DATA.roles[idx] = record;
+      toast("Rol actualizado correctamente.");
+    } else {
+      DATA.roles.push(record);
+      toast("Rol agregado correctamente.");
+    }
+    saveData(); Modal.close(); renderRoles(); renderProfiles(); renderOrgChart(); renderDashboard();
+  });
+}
+
+function renderProfiles(){
+  const grid = document.getElementById("profileGrid");
+  const keyRoles = DATA.roles.filter(function(r){ return r.key; });
+  if(!keyRoles.length){
+    grid.innerHTML = '<div class="empty-state"><span class="big">👤</span>Marca roles como "perfil clave" para mostrarlos aquí.</div>';
+    return;
+  }
+  grid.innerHTML = keyRoles.map(function(r){
+    const initials = (r.name||"?").split(" ").map(function(w){return w[0];}).slice(0,2).join("").toUpperCase();
+    return '<div class="profile-card">'+
+      '<div class="avatar">'+esc(initials)+'</div>'+
+      '<h4>'+esc(r.name)+'</h4>'+
+      '<div class="role-line">'+esc(r.position)+' · '+esc(r.area)+'</div>'+
+      '<dl>'+
+        '<dt>Responsabilidades</dt><dd>'+esc(r.responsibilities||"—")+'</dd>'+
+        '<dt>Autoridad</dt><dd>'+esc(r.authority||"—")+'</dd>'+
+        '<dt>Sustituto</dt><dd>'+esc(r.substitute||"—")+'</dd>'+
+      '</dl>'+
+      '<div class="card-actions"><button class="btn btn-sm profile-edit" data-id="'+r.id+'">Editar</button></div>'+
+    '</div>';
+  }).join("");
+  grid.querySelectorAll(".profile-edit").forEach(function(btn){
+    btn.addEventListener("click", function(){ openRoleModal(btn.dataset.id); });
+  });
+}
+
+function renderOrgChart(){
+  const chart = document.getElementById("orgChart");
+  const levels = {"1":[], "2":[], "3":[], "4":[]};
+  DATA.roles.forEach(function(r){ if(levels[r.level]) levels[r.level].push(r); else if(r.level) { levels[r.level]=levels[r.level]||[]; levels[r.level].push(r);} });
+  const levelKeys = Object.keys(levels).sort();
+  let html = "";
+  levelKeys.forEach(function(lv){
+    if(!levels[lv].length) return;
+    html += '<div class="org-level">' + levels[lv].map(function(r){
+      return '<div class="org-node" data-id="'+r.id+'" tabindex="0" role="button" aria-label="Ver detalle de '+esc(r.position)+'">'+
+        '<div class="pos">'+esc(r.position)+'</div><div class="nm">'+esc(r.name)+'</div><div class="ar">'+esc(r.area)+'</div>'+
+      '</div>';
+    }).join("") + '</div>';
+  });
+  chart.innerHTML = html || '<div class="empty-state"><span class="big">🏢</span>Agrega roles con un nivel jerárquico (sección 06) para construir el organigrama.</div>';
+
+  chart.querySelectorAll(".org-node").forEach(function(node){
+    function select(){
+      chart.querySelectorAll(".org-node").forEach(function(n){ n.classList.remove("selected"); });
+      node.classList.add("selected");
+      const r = DATA.roles.find(function(rr){return rr.id===node.dataset.id;});
+      const detail = document.getElementById("orgDetail");
+      if(r){
+        detail.innerHTML = '<h4>'+esc(r.position)+'</h4><p><b>'+esc(r.name)+'</b> · '+esc(r.area)+'</p>'+
+          '<p><b>Responsabilidades:</b> '+esc(r.responsibilities||"—")+'</p>'+
+          '<p><b>Autoridad:</b> '+esc(r.authority||"—")+'</p>'+
+          '<p><b>Sustituto:</b> '+esc(r.substitute||"—")+'</p>';
+      }
+    }
+    node.addEventListener("click", select);
+    node.addEventListener("keydown", function(e){ if(e.key==="Enter" || e.key===" "){ e.preventDefault(); select(); } });
+  });
+}
+
+/* ============================================================
+   12. COMMUNICATION MATRIX
+   ============================================================ */
+function renderCommunication(){
+  const search = document.getElementById("commSearch").value.trim().toLowerCase();
+  const rows = DATA.communication.filter(function(c){ return !search || (c.audience||"").toLowerCase().includes(search) || (c.channel||"").toLowerCase().includes(search); });
+  document.getElementById("commCount").textContent = rows.length + " registro"+(rows.length===1?"":"s");
+  const tbody = document.getElementById("commTbody");
+  tbody.innerHTML = rows.length ? rows.map(function(c){
+    return '<tr data-idx="'+DATA.communication.indexOf(c)+'">'+
+      '<td>'+esc(c.audience)+'</td><td>'+esc(c.message)+'</td><td>'+esc(c.channel)+'</td><td>'+esc(c.owner)+'</td>'+
+      '<td>'+esc(c.frequency)+'</td><td>'+esc(c.evidence)+'</td><td>'+fmtDate(c.date)+'</td><td>'+badge(c.status)+'</td>'+
+      '<td>'+actionButtons()+'</td></tr>';
+  }).join("") : emptyRow(9);
+  tbody.querySelectorAll(".act-edit").forEach(function(btn){
+    btn.addEventListener("click", function(){ openCommModal(parseInt(btn.closest("tr").dataset.idx,10)); });
+  });
+  tbody.querySelectorAll(".act-del").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      if(!confirmDelete("¿Deseas eliminar este canal de comunicación?")) return;
+      DATA.communication.splice(parseInt(btn.closest("tr").dataset.idx,10),1);
+      saveData(); renderCommunication(); renderDashboard();
+      toast("Registro eliminado.");
+    });
+  });
+}
+function openCommModal(idx){
+  const existing = (idx!==undefined && idx>=0) ? DATA.communication[idx] : null;
+  const body = '<div class="form-grid">' +
+    fieldHtml({id:"m_audience", label:"Público objetivo", required:true, value:existing&&existing.audience}) +
+    fieldHtml({id:"m_channel", label:"Medio de comunicación", type:"select", required:true, value:existing&&existing.channel,
+      options:["Reuniones de turno","Carteleras","Capacitación","Inducción","Comunicación interna","Reuniones gerenciales","Otro"]}) +
+    fieldHtml({id:"m_message", label:"Mensaje", type:"textarea", required:true, value:existing&&existing.message, span2:true}) +
+    fieldHtml({id:"m_owner", label:"Responsable", required:true, value:existing&&existing.owner}) +
+    fieldHtml({id:"m_frequency", label:"Frecuencia", value:existing&&existing.frequency}) +
+    fieldHtml({id:"m_evidence", label:"Evidencia", value:existing&&existing.evidence}) +
+    fieldHtml({id:"m_date", label:"Fecha", type:"date", value:existing&&existing.date}) +
+    fieldHtml({id:"m_status", label:"Estado", type:"select", required:true, value:existing&&existing.status, options:["Vigente","Borrador","Obsoleto"]}) +
+    '</div>';
+  Modal.open(existing?"Editar canal":"Agregar canal", body, "Guardar canal", function(){
+    if(!validateModalRequired(["m_audience","m_channel","m_message","m_owner","m_status"])){ toast("Completa los campos obligatorios.", "danger"); return; }
+    const record = {
+      audience: document.getElementById("m_audience").value.trim(),
+      channel: document.getElementById("m_channel").value,
+      message: document.getElementById("m_message").value.trim(),
+      owner: document.getElementById("m_owner").value.trim(),
+      frequency: document.getElementById("m_frequency").value.trim(),
+      evidence: document.getElementById("m_evidence").value.trim(),
+      date: document.getElementById("m_date").value,
+      status: document.getElementById("m_status").value
+    };
+    if(existing) DATA.communication[idx] = record; else DATA.communication.push(record);
+    saveData(); Modal.close(); renderCommunication(); renderDashboard();
+    toast(existing?"Canal actualizado.":"Canal agregado.");
+  });
+}
+
+/* ============================================================
+   13. EVIDENCE REGISTRY
+   ============================================================ */
+function renderEvidence(){
+  const search = document.getElementById("evSearch").value.trim().toLowerCase();
+  const fTipo = document.getElementById("evFilterTipo").value;
+  const rows = DATA.evidence.filter(function(e){
+    const matchSearch = !search || (e.description||"").toLowerCase().includes(search);
+    const matchTipo = !fTipo || e.type===fTipo;
+    return matchSearch && matchTipo;
+  });
+  document.getElementById("evCount").textContent = rows.length + " registro"+(rows.length===1?"":"s");
+  const tbody = document.getElementById("evTbody");
+  tbody.innerHTML = rows.length ? rows.map(function(e){
+    return '<tr data-id="'+e.id+'">'+
+      '<td>'+esc(e.id.split("-")[1])+'</td><td>'+esc(e.type)+'</td><td>'+esc(e.description)+'</td><td>'+fmtDate(e.date)+'</td>'+
+      '<td>'+esc(e.owner)+'</td><td>'+esc(e.location)+'</td><td>'+esc(e.requirement)+'</td><td>'+badge(e.status)+'</td>'+
+      '<td>'+actionButtons()+'</td></tr>';
+  }).join("") : emptyRow(9);
+  tbody.querySelectorAll(".act-edit").forEach(function(btn){
+    btn.addEventListener("click", function(){ openEvidenceModal(btn.closest("tr").dataset.id); });
+  });
+  tbody.querySelectorAll(".act-del").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      const id = btn.closest("tr").dataset.id;
+      if(!confirmDelete("¿Deseas eliminar esta evidencia?")) return;
+      DATA.evidence = DATA.evidence.filter(function(e){ return e.id!==id; });
+      saveData(); renderEvidence(); renderDashboard();
+      toast("Evidencia eliminada.");
+    });
+  });
+}
+function openEvidenceModal(id){
+  const existing = id ? DATA.evidence.find(function(e){return e.id===id;}) : null;
+  const body = '<div class="form-grid">' +
+    fieldHtml({id:"m_type", label:"Tipo de evidencia", type:"select", required:true, value:existing&&existing.type,
+      options:["Reunión","Capacitación","Indicador","Auditoría","Encuesta","Queja","Acción de mejora","Revisión gerencial","Comunicación"]}) +
+    fieldHtml({id:"m_date", label:"Fecha", type:"date", required:true, value:existing&&existing.date}) +
+    fieldHtml({id:"m_description", label:"Descripción", type:"textarea", required:true, value:existing&&existing.description, span2:true}) +
+    fieldHtml({id:"m_owner", label:"Responsable", required:true, value:existing&&existing.owner}) +
+    fieldHtml({id:"m_location", label:"Ubicación / referencia", value:existing&&existing.location}) +
+    fieldHtml({id:"m_requirement", label:"Relación con requisito", value:existing&&existing.requirement, span2:true}) +
+    fieldHtml({id:"m_status", label:"Estado", type:"select", required:true, value:existing&&existing.status, options:["Completado","En proceso","Pendiente"]}) +
+    '</div>';
+  Modal.open(existing?"Editar evidencia":"Agregar evidencia", body, "Guardar evidencia", function(){
+    if(!validateModalRequired(["m_type","m_date","m_description","m_owner","m_status"])){ toast("Completa los campos obligatorios.", "danger"); return; }
+    const record = {
+      id: existing ? existing.id : uid("ev"),
+      type: document.getElementById("m_type").value,
+      date: document.getElementById("m_date").value,
+      description: document.getElementById("m_description").value.trim(),
+      owner: document.getElementById("m_owner").value.trim(),
+      location: document.getElementById("m_location").value.trim(),
+      requirement: document.getElementById("m_requirement").value.trim(),
+      status: document.getElementById("m_status").value
+    };
+    if(existing){
+      const idx = DATA.evidence.findIndex(function(e){return e.id===existing.id;});
+      DATA.evidence[idx] = record;
+    } else {
+      DATA.evidence.push(record);
+    }
+    saveData(); Modal.close(); renderEvidence(); renderDashboard();
+    toast(existing?"Evidencia actualizada.":"Evidencia agregada.");
+  });
+}
+
+/* ============================================================
+   14. DOCUMENT CONTROL + HISTORY
+   ============================================================ */
+const docFieldMap = {
+  code:"c_code", title:"c_title", version:"c_version", issueDate:"c_issueDate",
+  reviewDate:"c_reviewDate", elaboro:"c_elaboro", reviso:"c_reviso", aprobo:"c_aprobo", status:"c_status"
+};
+function fillDocControl(){
+  Object.keys(docFieldMap).forEach(function(key){
+    const el = document.getElementById(docFieldMap[key]);
+    if(el) el.value = DATA.docControl[key] || "";
+  });
+}
+function renderHistory(){
+  const tbody = document.getElementById("historyTbody");
+  tbody.innerHTML = DATA.history.length ? DATA.history.map(function(h, i){
+    return '<tr data-idx="'+i+'"><td>'+esc(h.version)+'</td><td>'+fmtDate(h.date)+'</td><td>'+esc(h.change)+'</td><td>'+esc(h.owner)+'</td>'+
+      '<td><button class="btn btn-sm btn-danger act-del-hist" type="button">Eliminar</button></td></tr>';
+  }).join("") : emptyRow(5, "Sin historial de versiones registrado.");
+  tbody.querySelectorAll(".act-del-hist").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      if(!confirmDelete("¿Deseas eliminar esta entrada del historial de versiones?")) return;
+      DATA.history.splice(parseInt(btn.closest("tr").dataset.idx,10),1);
+      saveData(); renderHistory();
+      toast("Entrada de historial eliminada.");
+    });
+  });
+}
+function initDocControl(){
+  fillDocControl();
+  renderHistory();
+  document.getElementById("saveDocControlBtn").addEventListener("click", function(){
+    const required = ["c_code","c_title","c_version"];
+    let ok = true;
+    required.forEach(function(id){ if(!validateRequiredField(document.getElementById(id))) ok=false; });
+    if(!ok){ toast("Completa código, título y versión del documento.", "danger"); return; }
+    Object.keys(docFieldMap).forEach(function(key){
+      DATA.docControl[key] = document.getElementById(docFieldMap[key]).value.trim();
+    });
+    saveData(); renderDashboard();
+    toast("Datos de control documental guardados.");
+  });
+  document.getElementById("addHistoryBtn").addEventListener("click", function(){
+    const body = '<div class="form-grid">' +
+      fieldHtml({id:"m_version", label:"Versión", required:true}) +
+      fieldHtml({id:"m_date", label:"Fecha", type:"date", required:true, value:todayISO()}) +
+      fieldHtml({id:"m_owner", label:"Responsable", required:true}) +
+      fieldHtml({id:"m_change", label:"Descripción del cambio", type:"textarea", required:true, span2:true}) +
+      '</div>';
+    Modal.open("Agregar versión al historial", body, "Guardar versión", function(){
+      if(!validateModalRequired(["m_version","m_date","m_owner","m_change"])){ toast("Completa todos los campos.", "danger"); return; }
+      DATA.history.unshift({
+        version: document.getElementById("m_version").value.trim(),
+        date: document.getElementById("m_date").value,
+        owner: document.getElementById("m_owner").value.trim(),
+        change: document.getElementById("m_change").value.trim()
+      });
+      saveData(); Modal.close(); renderHistory();
+      toast("Historial actualizado.");
+    });
+  });
+}
+
+/* ============================================================
+   15. IMPORT / EXPORT / RESET / PRINT
+   ============================================================ */
+function initDataOps(){
+  document.getElementById("exportJsonBtn").addEventListener("click", function(){
+    const blob = new Blob([JSON.stringify(DATA, null, 2)], {type:"application/json"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = "manual_calidad_cap5_datos.json";
+    document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(url);
+    toast("Datos exportados como archivo JSON.");
+  });
+
+  const importInput = document.getElementById("importJsonInput");
+  document.getElementById("importJsonBtn").addEventListener("click", function(){ importInput.click(); });
+  importInput.addEventListener("change", function(){
+    const file = importInput.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = function(){
+      try{
+        const parsed = JSON.parse(reader.result);
+        if(typeof parsed !== "object" || parsed===null) throw new Error("Formato inválido");
+        const d = defaultData();
+        Object.keys(d).forEach(function(k){ if(!(k in parsed)) parsed[k]=d[k]; });
+        DATA = parsed;
+        saveData();
+        renderAll();
+        toast("Datos importados correctamente.");
+      }catch(err){
+        console.error(err);
+        toast("El archivo seleccionado no es un JSON válido.", "danger");
+      }
+      importInput.value = "";
+    };
+    reader.readAsText(file);
+  });
+
+  document.getElementById("printBtn").addEventListener("click", function(){ window.print(); });
+
+  document.getElementById("resetAllBtn").addEventListener("click", function(){
+    if(!confirmDelete("¿Deseas restablecer TODOS los datos del documento a los valores de ejemplo? Esta acción no se puede deshacer.")) return;
+    DATA = defaultData();
+    saveData();
+    renderAll();
+    toast("Todos los datos fueron restablecidos.", "warn");
+  });
+}
+
+/* ============================================================
+   16. ADD BUTTONS + LIVE FILTER LISTENERS
+   ============================================================ */
+function initAddButtons(){
+  document.getElementById("addObjectiveBtn").addEventListener("click", function(){ openObjectiveModal(null); });
+  document.getElementById("addLeadershipBtn").addEventListener("click", function(){ openLeadershipModal(-1); });
+  document.getElementById("addCustomerBtn").addEventListener("click", function(){ openCustomerModal(-1); });
+  document.getElementById("addRoleBtn").addEventListener("click", function(){ openRoleModal(null); });
+  document.getElementById("addCommBtn").addEventListener("click", function(){ openCommModal(-1); });
+  document.getElementById("addEvidenceBtn").addEventListener("click", function(){ openEvidenceModal(null); });
+}
+function initFilters(){
+  ["objSearch","objFilterEstado","objFilterPerspectiva"].forEach(function(id){
+    document.getElementById(id).addEventListener("input", function(){ ObjState.page=1; renderObjectives(); });
+    document.getElementById(id).addEventListener("change", function(){ ObjState.page=1; renderObjectives(); });
+  });
+  document.getElementById("leadSearch").addEventListener("input", renderLeadership);
+  document.getElementById("custSearch").addEventListener("input", renderCustomerFocus);
+  ["roleSearch","roleFilterArea"].forEach(function(id){
+    document.getElementById(id).addEventListener("input", renderRoles);
+    document.getElementById(id).addEventListener("change", renderRoles);
+  });
+  document.getElementById("commSearch").addEventListener("input", renderCommunication);
+  ["evSearch","evFilterTipo"].forEach(function(id){
+    document.getElementById(id).addEventListener("input", renderEvidence);
+    document.getElementById(id).addEventListener("change", renderEvidence);
+  });
+}
+
+/* ============================================================
+   17. RENDER ALL / INIT
+   ============================================================ */
+function renderAll(){
+  fillPolicyForm(); setPolicyFormDisabled(true);
+  renderObjectives();
+  renderLeadership();
+  renderCustomerFocus();
+  renderRoles();
+  renderProfiles();
+  renderOrgChart();
+  renderCommunication();
+  renderEvidence();
+  fillDocControl();
+  renderHistory();
+  renderDashboard();
+}
+
+document.addEventListener("DOMContentLoaded", function(){
+  loadData();
+  Modal.init();
+  initNav();
+  initPolicySection();
+  initAddButtons();
+  initFilters();
+  initDocControl();
+  initDataOps();
+  renderObjectives();
+  renderLeadership();
+  renderCustomerFocus();
+  renderRoles();
+  renderProfiles();
+  renderOrgChart();
+  renderCommunication();
+  renderEvidence();
+  renderDashboard();
+});
+
+})();
+</script>
+
+
+</body></html>
